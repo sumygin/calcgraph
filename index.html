@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>calcgraph</title>
+<meta name="description" content="calcgraph: interactive calculus lecture notes with hands-on labs.">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<link rel="stylesheet" href="styles.css">
+<script src="theme.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <a class="topbar-brand" href="#home" aria-label="calcgraph home">
+    <img class="topbar-logo" src="assets/logo.png" alt="" width="40" height="40">
+    <span class="topbar-name">calcgraph</span>
+  </a>
+  <span class="topbar-by">by makxyak</span>
+  <button class="theme-toggle" type="button" aria-label="Toggle dark mode" title="Toggle light / dark">
+    <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 1.5v2.5M12 20v2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M1.5 12H4M20 12h2.5M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8"/></svg>
+  </button>
+</header>
+<div class="shell"><nav class="rail" aria-label="Chapters"><p class="sub">Interactive lecture notes</p><a class="n" href="#home"><i></i>Start here</a><h6>Before the course</h6><a class="n" href="#why"><i>2</i>Why calculus?</a><h6>Part I · Preliminaries</h6><a class="n" href="#sets"><i>3</i>Sets</a><a class="n" href="#proofs"><i>4</i>Proofs</a><h6>Part II · Foundations of analysis</h6><a class="n" href="#sequences"><i>5</i>Sequences</a><a class="n" href="#continuity"><i>6</i>Continuous functions</a><a class="n" href="#integration"><i>7</i>Integration</a><a class="n" href="#series"><i>8</i>Series</a><a class="n" href="#differentiation"><i>9</i>Differentiation</a><a class="n" href="#power-series"><i>10</i>Power series</a><a class="n" href="#multivariate"><i>11</i>Multivariate calculus</a><a class="n" href="#numerical"><i>12</i>Numerical methods</a><a class="n" href="#metric"><i>13</i>Metric spaces</a><a class="n" href="#vectors"><i>14</i>Vector derivatives</a><a class="n" href="#epilogue"><i>15</i>Epilogue</a></nav>
+<main><section class="ch" id="ch-home" data-t="Start">
+<header>
+<p class="eyebrow">Imperial College London · Department of Computing · first-year Calculus</p>
+<h1>Calculus, made visible</h1>
+<p class="lede">The whole module, from sets and proofs to backpropagation, rebuilt as a notebook you can operate. Every definition, theorem and worked example from the lecture notes is here, and next to each idea there is a lab: a graph or diagram with sliders that shows the idea happening.</p>
+</header>
+
+<h3>How to use this page</h3>
+<ul>
+<li><b>Read, then move something.</b> Panels marked <b>Lab</b> are interactive. Change a slider, drag a point, pick another example. Each lab ends with a line on what to notice.</li>
+<li><b>Coloured boxes</b> carry the formal content, numbered as in the notes: <span class="ad c1">Definition</span> blue, <span class="ad c2">Theorem / Lemma</span> orange, <span class="ad c4">Example</span> green.</li>
+<li><b>Proofs</b> sit in fold-away panels, open by default. <b>Exercises</b> are folded shut; open one to see a hint or solution sketch.</li>
+<li>Sections tagged <span class="ad">Additional material</span> are in the notes but are not examinable.</li>
+<li>Chapters 2 to 4 are preliminary reading (they overlap with Discrete Mathematics). The calculus course proper starts at Chapter 5, Sequences.</li>
+</ul>
+
+<h3>The chapters</h3>
+<div class="cards">
+<a class="card" href="#why"><i>2</i><b>Why calculus?</b><span>Pebbles, Newton's apple, the Industrial Revolution and AlphaGo. Why a computer scientist still needs rates of change.</span></a>
+<a class="card" href="#sets"><i>3</i><b>Sets</b><span>Membership, union, intersection, De Morgan, images and preimages, and counting infinite sets.</span></a>
+<a class="card" href="#proofs"><i>4</i><b>Proofs</b><span>Implication, contradiction, counterexamples, quantifiers $\forall,\exists$ and induction.</span></a>
+<a class="card" href="#sequences"><i>5</i><b>Sequences</b><span>The $\epsilon$–$N$ definition of a limit, Cauchy sequences, sandwich and ratio tests, completeness of $\mathbb R$.</span></a>
+<a class="card" href="#continuity"><i>6</i><b>Continuous functions</b><span>Limits with $\epsilon$–$\delta$, continuity, attained maxima, intermediate values, uniform continuity.</span></a>
+<a class="card" href="#integration"><i>7</i><b>Integration</b><span>Partitions, lower and upper sums, the Riemann integral, improper integrals.</span></a>
+<a class="card" href="#series"><i>8</i><b>Series</b><span>Partial sums, geometric and harmonic series, every convergence test, absolute convergence, $\limsup$.</span></a>
+<a class="card" href="#differentiation"><i>9</i><b>Differentiation</b><span>Difference quotients, rules, the mean value theorem, Taylor's theorem, L'Hôpital, the fundamental theorem.</span></a>
+<a class="card" href="#power-series"><i>10</i><b>Power series</b><span>Radius of convergence, Maclaurin and Taylor series, solving an ODE with a series.</span></a>
+<a class="card" href="#multivariate"><i>11</i><b>Multivariate calculus</b><span>Partial derivatives, gradient, chain rule, minima, maxima, saddles and the Hessian.</span></a>
+<a class="card" href="#numerical"><i>12</i><b>Numerical methods</b><span>Iterating functions, Newton's method and why it is fast, the secant method, gradient descent.</span></a>
+<a class="card" href="#metric"><i>13</i><b>Metric spaces</b><span>What distance really is: three axioms, many metrics, open balls and limits.</span></a>
+<a class="card" href="#vectors"><i>14</i><b>Vector derivatives</b><span>Gradients in vector form, linear regression solved exactly, backpropagation on a computational graph.</span></a>
+<a class="card" href="#epilogue"><i>15</i><b>Epilogue</b><span>How the story of the perceptron and AlphaGo ends.</span></a>
+</div>
+
+<h3>One thread runs through all of it</h3>
+<p>The course keeps asking the same question in new settings: <i>what does it mean to get arbitrarily close?</i></p>
+<ol>
+<li>A <a href="#sequences">sequence</a> converges when its terms eventually stay within any tolerance $\epsilon$ of a limit.</li>
+<li>A function is <a href="#continuity">continuous</a> when nearby inputs give nearby outputs. That is the same idea with $\delta$ playing the role of $N$.</li>
+<li>An <a href="#integration">integral</a> is the number squeezed between lower and upper sums as the partition gets finer.</li>
+<li>A <a href="#series">series</a> is the limit of its sequence of partial sums.</li>
+<li>A <a href="#differentiation">derivative</a> is the limit of difference quotients, and a <a href="#power-series">power series</a> is a function written as the limit of polynomials.</li>
+<li>With several variables the derivative becomes the <a href="#multivariate">gradient</a>, which <a href="#numerical">numerical methods</a> follow downhill, one term of a sequence at a time.</li>
+<li><a href="#metric">Metric spaces</a> strip the idea of closeness down to three axioms, and <a href="#vectors">vector derivatives</a> apply everything to train a model.</li>
+</ol>
+<p style="color:var(--mute);font-size:14px">Source: <i>Calculus</i> lecture notes, Abbas Edalat, Department of Computing, Imperial College London, version of 6 November 2026 (originally based on Jeremy Bradley's 2014/15 material). The explanations between the numbered results and the short solution sketches for exercises are written for this page.</p>
+</section>
+<section class="ch" id="ch-why" data-t="Why calculus?">
+<header>
+<p class="eyebrow">Chapter 2 · preliminary reading</p>
+<h2>Why study calculus in the 21st century?</h2>
+<p class="lede">Gilbert Strang's essay <i>Too Much Calculus</i> argues that linear algebra is the language of the digital world. The notes answer: the machines that now learn do so by calculus.</p>
+</header>
+
+<h3>Pebbles and apples</h3>
+<p>Ancient accountants moved pebbles in columns on a sand tray; the dent a pebble leaves behind is thought to be the origin of our symbol for zero. <i>Calculus</i> is Latin for "pebble". Today the word means any systematic way of calculating, but since <b>Isaac Newton</b> (1642–1726/27) invented the differential and integral calculus it almost always means this one: the calculus of <b>differentiating and integrating</b>.</p>
+<p>The first Apple logo (Ronald Wayne, 1976) showed Newton under an apple tree with the line "A Mind Forever Voyaging Through Strange Seas of Thought… Alone." William Stukeley recorded Newton's own account: why should the apple "always descend perpendicularly to the ground… Why should it not go sideways, or upwards? but constantly to the earth's centre?"</p>
+
+<h3>Two machines that learned</h3>
+<p><b>8 July 1958.</b> The New York Times reports "New Navy Device Learns By Doing": Frank Rosenblatt's <b>Perceptron</b>, run on a two-million-dollar IBM 704, learned to tell left from right after fifty attempts. The Navy expected a machine that would "walk, talk, see, write, reproduce itself and be conscious of its existence", finished in about a year.</p>
+<p><b>9 March 2016, Seoul.</b> Lee Sedol, winner of 18 world championships, sits down against <b>AlphaGo</b>. Go is played on a $19\times19$ grid and has about $2.1\times10^{170}$ legal positions, against roughly $10^{80}$ atoms in the observable universe. In 1965 I. J. Good wrote that programming a reasonable game of Go would be even harder than chess, because its principles "depend more on judgment". Deep Blue had beaten Kasparov at chess in 1997. Sedol predicted a landslide. At the 102nd stone his confidence began to evaporate. (The <a href="#epilogue">epilogue</a> tells how it ended.)</p>
+
+<h3>From simple machines to Principia</h3>
+<p>Renaissance scientists listed six classical simple machines: the <b>wedge</b> (found among 2.6-million-year-old tools), the <b>inclined plane</b>, the <b>lever</b> ("Give me a place to stand on, and I will move the Earth", said Archimedes), the <b>wheel and axle</b>, the <b>pulley</b> and the <b>screw</b>. Leonardo da Vinci (1452–1519) designed machines by observation and experience. This early work was <i>empirical</i>.</p>
+<p>On <b>5 July 1687</b> Newton published <i>Philosophiæ Naturalis Principia Mathematica</i>, which set out the laws of motion and brought the <b>infinitesimal calculus</b>, the mathematical study of continuous change, to the study of machines. Calculus studies <b>functions</b>, rules that associate each element of a set $A$ with a single element of a set $B$. For example $f(t)=t^2$ sends $0\mapsto0$, $1\mapsto1$, $2\mapsto4$, $3\mapsto9$. Its graph is a <b>parabola</b>; a ball thrown through the air traces an upturned one.</p>
+<p>Calculus asks for the <b>rate of change</b> of $f$. Take a small change $\Delta t$ and see what happens:</p>
+$$\frac{\Delta f}{\Delta t}=\frac{f(t+\Delta t)-f(t)}{\Delta t}=\frac{(t+\Delta t)^2-t^2}{\Delta t}=\frac{2t\,\Delta t+\Delta t^2}{\Delta t}=2t+\Delta t .$$
+<p>As $\Delta t$ shrinks towards a limit it vanishes, and the rate of change becomes the <b>derivative</b> $\dfrac{df}{dt}(t)=2t$, the slope of the parabola at $t$. The notation $\frac{df}{dt}$ is due to <b>Leibniz</b> (1646–1716), who developed calculus independently; who was first became the "priority dispute".</p>
+
+<figure class="lab" data-lab="dq">
+<h4>The first derivative you ever take</h4>
+<p>The line through the points at $t$ and $t+\Delta t$ on $f(t)=t^2$ has slope $2t+\Delta t$. Shrink $\Delta t$.</p>
+<p class="note">The slope never jumps. It slides smoothly to $2t$ as $\Delta t\to0$, and the secant line settles onto the tangent. The whole of <a href="#differentiation">Chapter 9</a> grows from this picture.</p>
+</figure>
+
+<h3>The revolutions that followed</h3>
+<ul>
+<li><b>Industrial Revolution.</b> Newcomen's steam engine (1712), improved by Watt (1776); Wilkinson's boring machine made its cylinders. Britain became "the workshop of the world" (Disraeli, 1838). The Great Exhibition opened in Hyde Park on 1 May 1851, in Paxton's Crystal Palace. Exhibition Road, beside Imperial's South Kensington campus, is named after it. Historians quoted in the notes argue that Newtonian mechanics "provided the intellectual basis for the First Industrial Revolution".</li>
+<li><b>Electrification.</b> Faraday discovered the principle of the electromagnetic generator in 1831–32, opening the era of Edison and Tesla.</li>
+<li><b>Digital Revolution.</b> The shift from mechanical and analogue to digital electronics in the second half of the 20th century. Its language is linear algebra, which is Strang's point.</li>
+<li><b>Deep Learning Revolution.</b> Neural networks are trained by following derivatives downhill. That is calculus again, and it is where this course ends (<a href="#numerical">gradient descent</a>, <a href="#vectors">backpropagation</a>).</li>
+</ul>
+
+<h3>Attitude for success</h3>
+<p>Asked how he made his discoveries, Newton replied "by always thinking unto them", and elsewhere: "I keep the subject constantly before me, and wait till the first dawnings open slowly, little by little, into a full and clear light." He credited "nothing but industry and patient thought".</p>
+<blockquote>I have been but as a child playing on the sea-shore, now finding some pebble rather more polished, and now some shell rather more agreeably variegated than another, while the immense ocean of truth extended itself unexplored before me.</blockquote>
+</section>
+<section class="ch" id="ch-sets" data-t="Sets">
+<header>
+<p class="eyebrow">Chapter 3 · Part I Preliminaries</p>
+<h2>Sets</h2>
+<p class="lede">Set theory is the language the rest of mathematics is written in. This chapter fixes the vocabulary: membership, subsets, operations, functions, and what it means for two infinite sets to have the same size.</p>
+</header>
+
+<h3>Basic definitions</h3>
+<div class="b def"><b class="t">Definition 1</b>A <b>set</b> is a collection of objects, called its <b>members</b> or <b>elements</b>.</div>
+<p>You can describe a set by listing its elements in curly brackets, or by a rule:</p>
+<ul>
+<li>$\{1,3,5\}$; $\{\text{John},\text{cat},3.57\}$; $\{1,\{2\}\}$, which has two elements, the number $1$ and the set $\{2\}$.</li>
+<li>$\{x \mid x \text{ a real number},\ x^2\lt 2\}$, read "the set of all $x$ such that $x$ is real and $x^2\lt2$". The bar means "such that".</li>
+<li>The <b>empty set</b> $\emptyset$ has no elements at all.</li>
+</ul>
+<div class="b def"><b class="t">Definition 2 · membership</b>If $s$ is an element of $S$ we write $s\in S$; if $t$ is not, $t\notin S$.</div>
+<div class="b ex"><b class="t">Example 2</b>$1\in\{1,3,5\}$ but $2\notin\{1,3,5\}$. &nbsp; $\{2\}\in\{1,\{2\}\}$ but $2\notin\{1,\{2\}\}$. &nbsp; $1\notin\emptyset$.</div>
+<div class="b def"><b class="t">Definition 3 · equality</b>Two sets are <b>equal</b> when they have exactly the same elements. Order and repetition do not matter: $\{1,3,5\}=\{3,5,1\}=\{1,5,1,3\}$. Also $\{x\mid x\in\mathbb R,\ x^2-2x+1=0\}=\{1\}$ and $\{x \mid x\in\mathbb R,\ x^2+1=0\}=\emptyset$.</div>
+<div class="b def"><b class="t">Definition 4 · subset</b>$T$ is a <b>subset</b> of $S$, written $T\subseteq S$, if every element of $T$ also belongs to $S$. Otherwise $T\nsubseteq S$. By convention $\emptyset$ is a subset of every set. If $S\subseteq T$ but $S\neq T$, then $S$ is a <b>proper subset</b>.</div>
+<div class="b ex"><b class="t">Example 4</b>If $S=\{1,\{2\},\text{cat}\}$ then $\{\text{cat}\}\subseteq S$ and $\{\{2\}\}\subseteq S$, but $\{2\}\nsubseteq S$. The subsets of $\{1,2\}$ are $\{1,2\},\{1\},\{2\},\emptyset$.</div>
+<p>The standard way to prove two sets equal: $S=T$ iff $S\subseteq T$ and $T\subseteq S$. ("iff" means "if and only if".)</p>
+
+<h3>Russell's paradox</h3>
+<p>Call a set <b>normal</b> if it is not a member of itself, and <b>abnormal</b> if it is. The set of all squares in the plane is not a square, so it is normal. The set of everything that is <i>not</i> a square is itself not a square, so it contains itself and is abnormal.</p>
+<p>Now let $R$ be the set of all normal sets. If $R$ is normal, it belongs to the set of normal sets, which is $R$ itself, so it is abnormal. If $R$ is abnormal, it is a member of itself, so it is one of the normal sets. Either way we get a contradiction.</p>
+<p>Because "a set is any collection" admits this paradox, the theory of this chapter is called <b>naïve set theory</b>. It is enough for everyday mathematics.</p>
+
+<h3>Operations on sets</h3>
+<div class="b def"><b class="t">Definitions 5–7</b>
+<ul>
+<li><b>Union</b> $S\cup T$: elements in at least one of $S$, $T$. For a family, $\bigcup_\alpha S_\alpha$.</li>
+<li><b>Intersection</b> $S\cap T$: elements in both. For a family, $\bigcap_\alpha S_\alpha$. Example: (even numbers) $\cap$ (multiples of 3) = multiples of 6.</li>
+<li>$S$ and $T$ are <b>disjoint</b> if $S\cap T=\emptyset$. A family is <b>pairwise disjoint</b> if every pair in it is.</li>
+<li><b>Difference</b> $S\setminus T$: elements of $S$ not in $T$ (it is not assumed that $T\subseteq S$).</li>
+<li><b>Symmetric difference</b> $S\,\triangle\,T=(S\setminus T)\cup(T\setminus S)$.</li>
+<li><b>Complement</b> $\overline S=R\setminus S$ when all sets live inside an underlying set $R$.</li>
+</ul></div>
+<p>$\cup$ and $\cap$ are <b>commutative</b> and <b>associative</b>, and they satisfy two <b>distributive laws</b>:</p>
+$$(S\cup T)\cap U=(S\cap U)\cup(T\cap U),\qquad (S\cap T)\cup U=(S\cup U)\cap(T\cup U).$$
+<div class="b thm"><b class="t">De Morgan's laws</b>$$\overline{\bigcup_\alpha S_\alpha}=\bigcap_\alpha\overline{S_\alpha},\qquad \overline{\bigcap_\alpha S_\alpha}=\bigcup_\alpha\overline{S_\alpha}.$$In particular $\overline{S\cup T}=\overline S\cap\overline T$ and $\overline{S\cap T}=\overline S\cup\overline T$. The complement of a union is the intersection of the complements, and the complement of an intersection is the union of the complements.</div>
+
+<figure class="lab" data-lab="venn">
+<h4>Venn diagram machine</h4>
+<p>The numbers 1 to 12 are sorted into $S$ = even numbers, $T$ = multiples of 3 and $U=\{1,\dots,6\}$. Pick an expression and see which region it shades and which numbers it collects.</p>
+<p class="note">Choose a law (distributive or De Morgan). The two sides are computed separately and always shade the same region. That is what the element-chasing proofs below establish for every possible set.</p>
+</figure>
+
+<details class="pf" open><summary>Proof of $(S\cup T)\cap U=(S\cap U)\cup(T\cap U)$ (the first proof of the course)</summary><div>
+<p>Take $x$ in the left side. Then $x\in U$ and $x$ is in at least one of $S,T$. So $x$ is in at least one of $S\cap U$, $T\cap U$, which puts it in the right side.</p>
+<p>Conversely take $x\in(S\cap U)\cup(T\cap U)$. Then $x$ is in at least one of $S\cap U$ and $T\cap U$, so $x\in U$ and $x$ is in at least one of $S$, $T$. Hence $x\in(S\cup T)\cap U$. Each side is a subset of the other, so they are equal.</p></div></details>
+<details class="pf" open><summary>Proof of De Morgan's first law</summary><div>
+<p>If $x\in R\setminus\bigcup_\alpha S_\alpha$ then $x$ is in none of the $S_\alpha$, so $x$ is in every complement $R\setminus S_\alpha$, i.e. $x\in\bigcap_\alpha\overline{S_\alpha}$. Conversely, if $x$ is in every $R\setminus S_\alpha$ then it is in no $S_\alpha$, so it is not in the union.</p></div></details>
+
+<h3>Functions, images and preimages</h3>
+<p>A rule that gives a unique element $b=f(a)\in T$ for each $a\in S$ defines a <b>function</b> $f$ on $S$ (a <b>mapping</b> of $S$ into $T$; $S$ is the <b>domain</b>).</p>
+<ul>
+<li>$b=f(a)$ is the <b>image</b> of $a$; every $a$ with $f(a)=b$ is a <b>preimage</b> of $b$. An element of $T$ may have several preimages, or none.</li>
+<li>For $A\subseteq S$, the image is $f(A)=\{f(a)\mid a\in A\}$. For $B\subseteq T$, the preimage is $f^{-1}(B)=\{a\in S\mid f(a)\in B\}$.</li>
+<li>$f$ maps $S$ <b>into</b> $T$ always; it maps <b>onto</b> $T$ if $f(S)=T$.</li>
+<li>If $f$ is onto and every $b\in T$ has a unique preimage, $f$ is <b>one-to-one</b>, a <b>one-to-one correspondence</b> (<b>bijection</b>), and $b\mapsto f^{-1}(b)$ is the <b>inverse</b> of $f$.</li>
+</ul>
+<div class="b thm"><b class="t">Theorems 2, 3, 4</b>
+$$f^{-1}(A\cup B)=f^{-1}(A)\cup f^{-1}(B),\qquad f^{-1}(A\cap B)=f^{-1}(A)\cap f^{-1}(B),$$$$f(A\cup B)=f(A)\cup f(B).$$
+These also hold for unions and intersections of arbitrarily many sets (Remark 2).</div>
+<details class="pf" open><summary>Proofs</summary><div>
+<p><b>Thm 2.</b> $x\in f^{-1}(A\cup B)$ iff $f(x)\in A\cup B$ iff $f(x)$ is in at least one of $A,B$ iff $x$ is in at least one of $f^{-1}(A),f^{-1}(B)$.</p>
+<p><b>Thm 3.</b> The same with "both" in place of "at least one".</p>
+<p><b>Thm 4.</b> $y\in f(A\cup B)$ iff $y=f(x)$ with $x$ in at least one of $A,B$ iff $y$ is in at least one of $f(A),f(B)$.</p>
+<p>The symbol $\square$ (the "halmos", after Paul Halmos) marks the end of a proof, replacing Q.E.D., <i>quod erat demonstrandum</i>.</p></div></details>
+<div class="b warn"><b class="t">Remark 1 · the one that fails</b>The image of an intersection need <b>not</b> equal the intersection of the images. Project the plane onto the $x$-axis, $(x,y)\mapsto(x,0)$. The segments $0\le x\le1,\ y=0$ and $0\le x\le1,\ y=1$ do not meet, yet their images coincide.</div>
+
+<figure class="lab" data-lab="fmap">
+<h4>Images and preimages</h4>
+<p>A function from $\{1,\dots,6\}$ to $\{a,b,c,d\}$. Click a number on the left to cycle it through: in neither set, in $A$, in $B$, in both.</p>
+<p class="note">$f(A\cup B)=f(A)\cup f(B)$ survives every choice. $f(A\cap B)=f(A)\cap f(B)$ breaks as soon as two different inputs, one only in $A$ and one only in $B$, share an output. The function is not onto ($d$ has no preimage) and not one-to-one.</p>
+</figure>
+
+<h3>Finite and infinite sets</h3>
+<p>The vertices of a polyhedron, the primes below a given number, the residents of London: each has a definite number of elements, so these sets are <b>finite</b>. The positive integers, the points on a line, the circles in the plane: remove one element, then two, then three, and elements always remain. These sets are <b>infinite</b>.</p>
+<p>To compare two finite sets you can count each. Or you can pair them off: if every student in a hall can sit with no seat left empty, there are as many students as seats, and nobody had to count. <b>Counting only works for finite sets. Pairing off, a one-to-one correspondence, works for infinite sets too.</b></p>
+
+<h3>Countable sets</h3>
+<p>The simplest infinite set is $\mathbb N=\{1,2,3,\dots\}$. An infinite set is <b>countable</b> if its elements can be put in one-to-one correspondence with $\mathbb N$, that is, listed as $a_1,a_2,a_3,\dots$. An infinite set that cannot is <b>uncountable</b>.</p>
+<div class="b ex"><b class="t">Examples 5–8</b>
+<ul>
+<li>$\mathbb Z$ is countable: list $0,-1,1,-2,2,\dots$, i.e. $n\leftrightarrow 2n+1$ for $n\ge0$ and $n\leftrightarrow2|n|$ for $n\lt0$.</li>
+<li>The positive even numbers: $n\leftrightarrow2n$. The powers of two: $n\leftrightarrow2^n$.</li>
+<li>$\mathbb Q$ is countable. Write each rational in lowest terms $p/q$ with $q\gt0$ and call $|p|+q$ its <b>height</b>. Height 1: $\frac01$. Height 2: $\frac{-1}1,\frac11$. Height 3: $\frac{-2}1,\frac{-1}2,\frac12,\frac21$. Each height has finitely many rationals, so list them height by height.</li>
+</ul></div>
+<div class="b thm"><b class="t">Theorem 5</b>Every subset of a countable set is countable (or finite).</div>
+<div class="b thm"><b class="t">Theorem 6</b>The union of a finite or countable number of countable sets is countable.</div>
+<details class="pf" open><summary>Proofs</summary><div>
+<p><b>Thm 5.</b> List $S$ as $s_1,s_2,\dots$ and let $s_{n_1},s_{n_2},\dots$ be those lying in $A$. If the indices $n_i$ have a largest member, $A$ is finite; otherwise $i\leftrightarrow s_{n_i}$ counts $A$.</p>
+<p><b>Thm 6.</b> Make the sets disjoint by replacing them with $A_1,\ A_2\setminus A_1,\ A_3\setminus(A_1\cup A_2),\dots$ (countable by Thm 5, same union). Write the elements of $A_i$ along row $i$ of an infinite table and count along the diagonals: $a_{11},a_{12},a_{21},a_{31},a_{22},a_{13},\dots$ Every entry is reached after finitely many steps.</p></div></details>
+
+<figure class="lab" data-lab="count">
+<h4>Counting an infinite set</h4>
+<p>Three ways of listing an infinite set so that every element gets a natural number. Advance the counter.</p>
+<p class="note">In each case nothing is skipped and nothing is counted twice, so the set is in one-to-one correspondence with $\mathbb N$. The diagonal walk is the reason a countable union of countable sets is countable.</p>
+</figure>
+
+<h3>Historical remarks</h3>
+<p><b>Georg Cantor</b> (1845–1918) founded modern set theory. Kronecker saw "no mathematics there"; Wittgenstein later called it "utter nonsense". Hilbert answered: "No one shall expel us from the paradise that Cantor has created." The Royal Society gave Cantor its Sylvester Medal in 1904.</p>
+<p>Set theory's success fed <b>logicism</b>, the belief that mathematics reduces to logic (Frege, Dedekind, Peano, Russell and Whitehead), and <b>Hilbert's programme</b>: find a finite, complete set of axioms for all mathematics and prove them consistent. Russell found his paradox in 1901. Zermelo's 1908 axioms, refined by Fraenkel and Skolem, became <b>Zermelo–Fraenkel set theory</b>; with the axiom of choice it is <b>ZFC</b>, the standard foundation today. In 1931 <b>Gödel's incompleteness theorems</b> showed that any consistent system with computable axioms that can express arithmetic contains true statements it cannot prove, and cannot prove its own consistency.</p>
+</section>
+<section class="ch" id="ch-proofs" data-t="Proofs">
+<header>
+<p class="eyebrow">Chapter 4 · Part I Preliminaries</p>
+<h2>Proofs</h2>
+<p class="lede">A proof is "a directed tree of statements, connected by implications, whose end point is the conclusion and whose starting points are either in the data or are generally agreed facts". This chapter collects the shapes a proof can take.</p>
+</header>
+
+<h3>Implication</h3>
+<p>For statements $P$ and $Q$, write $P\Rightarrow Q$ for "$P$ implies $Q$". The same thing is said by "if $P$ then $Q$", "$Q$ if $P$" and "$P$ only if $Q$". Examples: $x=2\Rightarrow x^2\lt6$; it is raining $\Rightarrow$ the sky is cloudy.</p>
+<ul>
+<li>$P\Rightarrow Q$ does <b>not</b> give $Q\Rightarrow P$: $x^2\lt6\nRightarrow x=2$.</li>
+<li>If both directions hold, write $P\Leftrightarrow Q$, "$P$ if and only if $Q$". Example: $x=2\Leftrightarrow x^3=8$.</li>
+<li>The <b>negation</b> of $P$ is "not $P$", written $\overline P$. If $P\Rightarrow Q$ then $\overline Q\Rightarrow\overline P$ (the contrapositive): $x^2\ge6\Rightarrow x\ne2$, and "not cloudy $\Rightarrow$ not raining".</li>
+</ul>
+<figure class="lab" data-lab="implies">
+<h4>What can you deduce?</h4>
+<p>You know that $P\Rightarrow Q$ is true. Pick what else you are told and see whether anything follows.</p>
+<p class="note">Only two of the four cases give a deduction: knowing $P$, and knowing not-$Q$. Knowing $Q$, or knowing not-$P$, tells you nothing. Most false "proofs" use one of those two dead ends.</p>
+</figure>
+
+<h3>Direct proof</h3>
+<div class="b thm"><b class="t">Proposition 7</b>The square of an odd integer is odd.</div>
+<details class="pf" open><summary>Proof (direct)</summary><div><p>Let $n$ be odd, so $n=1+2m$ for some integer $m$. Then $n^2=1+4m+4m^2=1+4(m+m^2)$, which is one more than an even number. As a chain: $n\text{ odd}\Rightarrow n=1+2m\Rightarrow n^2=1+4(m+m^2)\Rightarrow n^2\text{ odd}$. The proof shows more than was asked: an odd square is always of the form $1+4k$.</p></div></details>
+
+<h3>Proof by contradiction</h3>
+<p>To prove $P$, assume $\overline P$ and deduce something plainly false, $Q$ (say "$0=1$"). You have shown $\overline P\Rightarrow Q$, hence $\overline Q\Rightarrow P$. Since $\overline Q$ is true, so is $P$.</p>
+<div class="b thm"><b class="t">Proposition 8</b>If $n$ is an integer and $n^2$ is a multiple of 3, then $n$ is a multiple of 3.</div>
+<details class="pf" open><summary>Proof</summary><div><p>Suppose not. Then $n=1+3k$ or $n=2+3k$. In the first case $n^2=1+3(2k+3k^2)$; in the second $n^2=4+12k+9k^2=1+3(1+4k+3k^2)$. Either way $n^2$ is one more than a multiple of 3, which contradicts the assumption.</p></div></details>
+<div class="b thm"><b class="t">Proposition 9</b>No real number has square equal to $-1$.</div>
+<details class="pf" open><summary>Proof</summary><div><p>Suppose $x^2=-1$ for a real $x$. Squares of reals are $\ge0$, so $-1\ge0$. Contradiction.</p></div></details>
+<div class="b thm"><b class="t">Proposition 10</b>$\sqrt2+\sqrt6\lt\sqrt{15}$.</div>
+<div class="b warn"><b class="t">A non-proof</b>$\sqrt2+\sqrt6\lt\sqrt{15}\Rightarrow(\sqrt2+\sqrt6)^2\lt15\Rightarrow8+2\sqrt{12}\lt15\Rightarrow2\sqrt{12}\lt7\Rightarrow48\lt49$. The last line is true, but the arrows run the wrong way: we showed $P\Rightarrow Q$ with $Q$ true, which says nothing about $P$.</div>
+<details class="pf" open><summary>Proof (by contradiction)</summary><div><p>Assume $\sqrt2+\sqrt6\ge\sqrt{15}$. Squaring, $8+2\sqrt{12}\ge15\Rightarrow2\sqrt{12}\ge7\Rightarrow48\ge49$, which is false. So the assumption fails.</p></div></details>
+
+<h3>Disproof by counterexample</h3>
+<div class="b ex"><b class="t">Example 9</b>"All swans are white" is disproved by exhibiting one black swan. "Every positive integer is the sum of two integer squares" is disproved by the number 3. To disprove a "for all" statement you do not examine every case. One counterexample is enough.</div>
+<figure class="lab" data-lab="twosq">
+<h4>Hunting counterexamples</h4>
+<p>The integers 1 to 100. Filled cells can be written as a sum of squares ($0,1,4,9,\dots$) in the way selected; hollow cells cannot.</p>
+<p class="note">3 is the first number that is not a sum of two squares, and 7 is the first that is not a sum of three. Each is a single cell that sinks a statement about all positive integers.</p>
+</figure>
+
+<h3>Quantifiers</h3>
+<p>$\exists$ ("there exists") is the <b>existential quantifier</b>; $\forall$ ("for all") is the <b>universal quantifier</b>.</p>
+<ul>
+<li>$\exists n\in\mathbb Z$ such that $n^3=-27$. True: $n=-3$. One witness proves an existence statement.</li>
+<li>$\exists x\in\mathbb Z$ such that $x^2=-1$. False.</li>
+<li>$\exists x\in\mathbb Z$, $x\gt0$, not a sum of three integer squares. True: $x=7$.</li>
+<li>$\forall n\in\mathbb Z,\ n^2\ge0$. True, by a general argument.</li>
+<li>$\forall n\in\mathbb Z,\ n^3\gt0$. False: one counterexample, e.g. $n=-1$.</li>
+<li>$\forall x\in\mathbb Z,\ \exists m,n\in\mathbb Z$ with $m\gt0,n\gt0$ and $x=m-n$. True.</li>
+</ul>
+<div class="b warn"><b class="t">Order matters</b>"$\forall a\in\mathbb Z,\ \exists b\in\mathbb Z$ such that $a+b=0$" is true (take $b=-a$). "$\exists b\in\mathbb Z$ such that $\forall a\in\mathbb Z,\ a+b=0$" claims a single $b$ works for every $a$, and is false.</div>
+<div class="b def"><b class="t">Negating quantifiers</b>Swap $\exists$ and $\forall$, then negate the conclusion.
+<ul><li>not ($\exists n\in\mathbb Z:\ n^3=-27$) is $\forall n\in\mathbb Z,\ n^3\ne-27$.</li>
+<li>not ($\forall n\in\mathbb Z,\ n^3\gt0$) is $\exists n\in\mathbb Z:\ n^3\le0$.</li>
+<li>not ($\forall x\,\forall y\,\exists z:\ x^2+y^2=z^2$) is $\exists x\,\exists y$ such that $\forall z,\ x^2+y^2\ne z^2$. The negation is the true one: $x=y=1$ gives $2$, which is not a square.</li></ul></div>
+<div class="b rem"><b class="t">The empty set</b>Let $E=\{x\in\mathbb R\mid x^2+1=0\}=\emptyset$. Then "$\forall a\in E,\ a^{17}-72a^{12}+39=0$" is <b>true</b>: there is no element to fail. But "$\exists b\in E$ with $b^2\ge0$" is <b>false</b>: there is no element at all.</div>
+
+<h3>Induction</h3>
+<div class="b def"><b class="t">Definitions 8 and 9 · Principle of Mathematical Induction</b>Let $P(n)$ be a statement for each integer $n\ge k$ (usually $k=1$). If <b>(a)</b> $P(k)$ is true, and <b>(b)</b> for all $n\ge k$, $P(n)\Rightarrow P(n+1)$, then $P(n)$ is true for all $n\ge k$.</div>
+<p>Why it works: (a) gives $P(k)$; (b) turns that into $P(k+1)$, then $P(k+2)$, and so on, like a row of dominoes.</p>
+<div class="b ex"><b class="t">Example 10</b>$1+3+5+\dots+(2n-1)=n^2$. <b>(a)</b> $1=1^2$. <b>(b)</b> If the sum up to $2n-1$ is $n^2$, add $2n+1$ to both sides: the new sum is $n^2+2n+1=(n+1)^2$.</div>
+<figure class="lab" data-lab="oddsq">
+<h4>The induction step you can see</h4>
+<p>Each new odd number is an L-shaped border that grows an $n\times n$ square into an $(n+1)\times(n+1)$ square.</p>
+<p class="note">The border added at step $n+1$ has $n+n+1=2n+1$ cells: exactly the next odd number. That is step (b) of the induction, drawn.</p>
+</figure>
+<div class="b ex"><b class="t">Example 11 · Bernoulli's inequality</b>If $p\gt-1$ then $(1+p)^n\ge1+np$. <b>(a)</b> $1+p\ge1+p$. <b>(b)</b> Multiply $(1+p)^n\ge1+np$ by $1+p\gt0$: $(1+p)^{n+1}\ge(1+np)(1+p)=1+(n+1)p+np^2\ge1+(n+1)p$ because $np^2\ge0$.</div>
+<figure class="lab" data-lab="bern">
+<h4>Bernoulli's inequality</h4>
+<p>The curve $(1+p)^n$ and the straight line $1+np$, as functions of $p$.</p>
+<p class="note">The line is the tangent to the curve at $p=0$, and the curve never dips below it for $p\gt-1$. The gap is the discarded term $np^2$ and its relatives.</p>
+</figure>
+<div class="b ex"><b class="t">Example 12 · starting at $k=3$</b>The interior angles of an $n$-sided polygon sum to $(n-2)\pi$. <b>(a)</b> A triangle has angle sum $\pi$. <b>(b)</b> In an $(n+1)$-gon $A_1A_2\dots A_{n+1}$ draw the line $A_1A_3$. It cuts off the triangle $A_1A_2A_3$ and leaves an $n$-gon, so the angles sum to $(n-2)\pi+\pi=((n+1)-2)\pi$.</div>
+<figure class="lab" data-lab="poly">
+<h4>Cutting off a triangle</h4>
+<p>The diagonal $A_1A_3$ splits the polygon into one triangle and a polygon with one side fewer.</p>
+<p class="note">Repeating the cut leaves $n-2$ triangles, each contributing $\pi$. The induction is this picture read from the smallest polygon upwards.</p>
+</figure>
+
+<h3>Historical remarks</h3>
+<p>Proof began with the ancient Greeks, who turned mathematics from an experimental science into an intellectual one. <b>Thales of Miletus</b> is credited with the first proof: that a diameter divides a circle into two equal parts.</p>
+</section>
+<section class="ch" id="ch-sequences" data-t="Sequences">
+<header>
+<p class="eyebrow">Chapter 5 · Part II Foundations of analysis</p>
+<h2>Sequences</h2>
+<p class="lede">The calculus course proper starts here. A sequence is a list of numbers indexed by $1,2,3,\dots$, and the single most important idea of the course is what it means for such a list to converge to a limit.</p>
+</header>
+
+<h3>Relations and functions</h3>
+<p>A <b>binary relation</b> over sets $A$ and $B$ is a subset of the Cartesian product $A\times B$, a set of ordered pairs $(a,b)$. Example: "divides" between primes and integers contains $(2,-4),(2,0),(2,6),(3,9)$ but not $(2,1)$ or $(3,4)$. Other relations: "is greater than", "is congruent to", "is adjacent to", "is orthogonal to". An $n$-ary relation is a subset of $A_1\times\dots\times A_n$.</p>
+<p>A <b>function</b> $f:A\to B$ associates to every $a\in A$ a <b>unique</b> $f(a)\in B$, so functions are special binary relations. $f(x)=x+1$ is a function $\mathbb N\to\mathbb N$. The rule sending $x$ to both $x$ and $-x$ is not. "Divides" is not a function (2 is related to both 4 and 6); "equals" is one, the identity function. The graph of $f:\mathbb R\to\mathbb R,\ x\mapsto x^2$ is a parabola.</p>
+<p><b>Functions in programming</b> look similar:</p>
+<pre><code>def square(x):
+    return x * x        # square(3) gives 9
+
+def add(x, y):          # type R × R → R
+    return x + y
+
+def greet(name):
+    print('Hello,', name)   # a side effect</code></pre>
+<p>Programs can have <b>side effects</b> (printing, writing to a database). A mathematical function cannot: only input and output matter.</p>
+
+<h3>What a sequence is</h3>
+<div class="b def"><b class="t">Definition 10 · sequence</b>A <b>sequence</b> is a function $f:\mathbb N^+\to\mathbb R$ from the positive natural numbers to the reals. We write $(a_n)_{n\ge1}$ with $a_n=f(n)$; the $a_n$ are its <b>terms</b>. The index is a bound variable: $(a_n)_{n\ge1}$ and $(a_i)_{i\ge1}$ are the same sequence.</div>
+<div class="b ex"><b class="t">Examples 13–16</b>
+<ul>
+<li>$(1)_{n\ge1}$: $1,1,1,\dots$ &nbsp; $(\frac1n)_{n\ge1}$: $1,\frac12,\frac13,\dots$ &nbsp; $(n^2-n)_{n\ge1}$: $0,2,6,12,20,\dots$ &nbsp; $((-1)^n)_{n\ge1}$: $-1,1,-1,1,\dots$</li>
+<li>$f(n)=10^{-6}$ if $n$ is prime, $\frac1n$ otherwise: $1,10^{-6},10^{-6},\frac14,10^{-6},\frac16,\dots$</li>
+<li><b>Arithmetic sequence</b>: $a_n=a_1+(n-1)d$ with common difference $d$; in general $f(n)=f(m)+(n-m)d$. Writing the sum forwards and backwards and adding cancels every $d$: $2S_n=n(a_1+a_n)$, so $S_n=\frac n2(a_1+a_n)$.</li>
+<li><b>Geometric sequence</b>: $a_n=ar^{n-1}$ with common ratio $r$, so $a_n=ra_{n-1}$. Multiplying $S_n=a+ar+\dots+ar^{n-1}$ by $(1-r)$ telescopes to $a-ar^n$, so for $r\ne1$: $S_n=\dfrac{a(1-r^n)}{1-r}$.</li>
+<li><b>Fibonacci</b> (defined recursively): $f(1)=0,\ f(2)=1,\ f(n)=f(n-1)+f(n-2)$: $0,1,1,2,3,5,8,13,21,34,\dots$ (OEIS A000045).</li>
+</ul></div>
+<div class="b def"><b class="t">Definition 11 · monotonic</b>$(a_n)$ is <b>increasing</b> if $a_{n+1}\ge a_n$ for all $n$, <b>decreasing</b> if $a_{n+1}\le a_n$, and <b>monotonic</b> if it is one or the other. <b>Strictly</b> increasing/decreasing use $\gt$ and $\lt$. So $(1/n)$ is strictly decreasing, $(n^2-n)$ strictly increasing, and Fibonacci is increasing but not strictly ($1,1$).</div>
+<figure class="lab" data-lab="seqx">
+<h4>Sequence explorer</h4>
+<p>Each dot is one term $a_n$ plotted above its index $n$. The readout gives the first terms, the partial sum, and whether the visible terms are monotonic.</p>
+<p class="note">A sequence is a function whose domain is the integers, so its graph is a row of separate dots. For the arithmetic and geometric sequences, check the sum formulas against the running total.</p>
+</figure>
+
+<h3>Why sequences matter</h3>
+<p>We can solve $2x^2+4x-4=0$ with a formula. For $\cos x=x^3$ there is none, so we use a numerical method such as <a href="#numerical">Newton's method</a> on $f(x)=\cos x-x^3$, with $f'(x)=-\sin x-3x^2$. Starting from $x_0=0.5$ it produces a <b>sequence</b> of approximations:</p>
+<p style="font-variant-numeric:tabular-nums">$x_1=1.112141637097\ldots$, $x_2=0.909672693736\ldots$, $x_3=0.867263818209\ldots$, $x_4=0.865477135298\ldots$, $x_5=0.865474033111\ldots$, $x_6=0.865474033102\ldots$</p>
+<p>A numerical method does not hand over the true solution. It gives a sequence that, we hope, gets closer and closer to it. Training a neural network does the same with weights and biases. Even a decimal expansion $b_0.b_1b_2b_3\ldots$ is a limit: it stands for the "sum to infinity" $b_0+\frac{b_1}{10}+\frac{b_2}{10^2}+\cdots$. To make "closer and closer" precise we need the definition of convergence.</p>
+
+<h3>The bulldozers and the bee</h3>
+<p>Two bulldozers, one mile apart, drive towards each other at 1 mph. A bee starts on the front of one and flies back and forth between them at 2 mph. How far from its starting point is it crushed? The quick answer: the bulldozers meet halfway, so $\frac12$ mile.</p>
+<p>The slow answer follows the bee. If $x_n$ is its distance from the start at its $n$th landing, then $x_1=\frac23$, $x_2=\frac23-\frac29$, and in general</p>
+$$x_n=\frac23-\frac29+\frac2{27}-\dots+(-1)^{n-1}\frac2{3^n}=\frac23\cdot\frac{1-(-\frac13)^n}{1-(-\frac13)}=\frac12\Bigl(1-\bigl(-\tfrac13\bigr)^n\Bigr).$$
+<p>As $n$ grows, $(-\frac13)^n$ gets closer and closer to $0$, so $x_n$ gets closer and closer to $\frac12$. We write $x_n\to\frac12$ as $n\to\infty$.</p>
+<figure class="lab" data-lab="bee">
+<h4>Follow the bee</h4>
+<p>Top: the two bulldozers and the bee along the mile. Bottom: the bee's landing positions $x_1,x_2,\dots$</p>
+<p class="note">The landings jump from side to side of $\frac12$, each time a third as far away as before. Infinitely many landings happen in a finite time (half an hour), and they close in on one point.</p>
+</figure>
+
+<h3>The definition of convergence</h3>
+<div class="b def"><b class="t">Definition 12 · convergence to a limit, divergence</b>
+<ol>
+<li>$(a_n)$ <b>converges to a limit</b> $l\in\mathbb R$ iff <b>for all $\epsilon\gt0$, we can find an $N\in\mathbb N$ such that, for all $n\gt N$: $|a_n-l|\lt\epsilon$.</b> We write $\lim_{n\to\infty}a_n=l$ or $(a_n)\to l$.</li>
+<li>$(a_n)$ <b>converges to $\infty$</b> iff for all $r\in\mathbb R$ there is an $N$ with $a_n\gt r$ for all $n\ge N$.</li>
+<li>$(a_n)$ <b>converges to $-\infty$</b> iff for all $r\in\mathbb R$ there is an $N$ with $a_n\lt r$ for all $n\ge N$.</li>
+<li>$(a_n)$ <b>converges</b> if it converges to a real number, to $\infty$ or to $-\infty$.</li>
+<li>$(a_n)$ <b>diverges</b> if it does not converge.</li>
+</ol></div>
+<p>Read the main statement from the end backwards:</p>
+<ul>
+<li><b>$|a_n-l|\lt\epsilon$</b>, the <i>limit inequality</i>: the $n$th term is less than $\epsilon$ away from the limit.</li>
+<li><b>For all $n\gt N$</b>: there is a point $N$ after which <i>every</i> term is within $\epsilon$.</li>
+<li><b>For all $\epsilon\gt0$</b>: however tiny a tolerance you pick, such an $N$ can still be found.</li>
+</ul>
+<div class="b ex"><b class="t">Example 19</b>$(n)\to\infty$. &nbsp; $(-\ln n)\to-\infty$. &nbsp; $((-1)^n\cdot n)$ grows without bound but keeps jumping between negative and positive values, so it <b>diverges</b>.</div>
+<div class="b rem"><b class="t">How to prove convergence: Refuter and Verifier</b>Think of a <b>Refuter</b> who claims the limit is not $l$ and hands you an $\epsilon$ you do not control. You, the <b>Verifier</b>, must answer with an $N$ that works for that $\epsilon$. You cannot fix $N$ first and let the Refuter choose $\epsilon$ afterwards: $N$ is a function $N(\epsilon)$ of the chosen $\epsilon$.</div>
+<div class="b ex"><b class="t">Worked example · $a_n=1/n\to0$</b>
+Take $\epsilon=0.28$. The limit inequality $|1/n-0|\lt0.28$ means $n\gt1/0.28\approx3.57$. A sequence only lives at integers, so the next integer $N=4$ does the job, and every later term is closer still. For a general $\epsilon$: $\frac1n\lt\epsilon\iff n\gt\frac1\epsilon$, so take $$N(\epsilon)=\lceil 1/\epsilon\rceil .$$ This is a function of type $\mathbb R^+\to\mathbb N$, which is exactly what a convergence proof must produce.</div>
+<figure class="lab" data-lab="epsn">
+<h4>The ε–N game</h4>
+<p>You are the Verifier. The band is $l\pm\epsilon$. The lab searches for the smallest $N$ such that every term after it (as far as it checks, up to $n=4000$) lies inside the band. Terms inside are filled; terms outside are hollow.</p>
+<p class="note">For a convergent sequence, shrinking $\epsilon$ only pushes $N$ to the right. It never makes the game unwinnable. For $(-1)^n$ no $N$ exists once $\epsilon\lt1$, whatever limit you guess: that is Exercise 1, divergence. Try a wrong guess for $l$ as well, and watch a convergent sequence fail against it.</p>
+</figure>
+
+<h3>Common convergent sequences</h3>
+<p>Know these by heart. Each can be proved directly from the definition.</p>
+<ol>
+<li>$\frac1n\to0$, &nbsp; $\frac1{n^2}\to0$, &nbsp; $\frac1{\sqrt n}\to0$.</li>
+<li>In general $\frac1{n^c}\to0$ for any real constant $c\gt0$.</li>
+<li>$\frac1{2^n}\to0$, &nbsp; $\frac1{3^n}\to0$, &nbsp; $\frac1{e^n}\to0$.</li>
+<li>In general $\frac1{c^n}\to0$ whenever $|c|\gt1$; equivalently $c^n\to0$ whenever $|c|\lt1$.</li>
+<li>$\frac1{n!}\to0$.</li>
+<li>$\frac1{\log n}\to0$.</li>
+</ol>
+
+<h3>Combinations of sequences</h3>
+<p>Limits are compositional. If $a_n\to a$ and $b_n\to b$ (both real) and $\lambda$ is a real constant then</p>
+<ol>
+<li>$\lim \lambda a_n=\lambda a$</li>
+<li>$\lim (a_n+b_n)=a+b$</li>
+<li>$\lim (a_n-b_n)=a-b$</li>
+<li>$\lim a_nb_n=ab$</li>
+<li>$\lim \dfrac{a_n}{b_n}=\dfrac ab$ provided $b\ne0$ (and $b_n\ne0$).</li>
+</ol>
+<div class="b thm"><b class="t">Lemma 1 · triangle inequality</b>For any real $a,b$: $\ |a+b|\le|a|+|b|$.</div>
+<details class="pf" open><summary>Proof</summary><div><p>$|a+b|^2=a^2+2ab+b^2\le|a|^2+2|a||b|+|b|^2=(|a|+|b|)^2$, and for non-negative $x,y$ we have $x\le y$ iff $x^2\le y^2$.</p></div></details>
+<details class="pf" open><summary>Proof of rule 2 (Proposition 11): the $\epsilon/2$ trick</summary><div>
+<p>Let $\epsilon\gt0$. Then $\frac\epsilon2\gt0$ too, so there is $N_1$ with $|a_n-a|\lt\frac\epsilon2$ for $n\gt N_1$, and $N_2$ with $|b_n-b|\lt\frac\epsilon2$ for $n\gt N_2$. Put $N=\max\{N_1,N_2\}$. For $n\gt N$ both hold, so by the triangle inequality</p>
+$$|(a_n+b_n)-(a+b)|\le|a_n-a|+|b_n-b|\lt\tfrac\epsilon2+\tfrac\epsilon2=\epsilon.$$</div></details>
+<div class="b ex"><b class="t">Example 20</b>$a_n=\dfrac{3n^2+2n}{6n^2+7n+1}$. Divide top and bottom by $n^2$: $a_n=\dfrac{3+\frac2n}{6+\frac7n+\frac1{n^2}}=\dfrac{b_n}{c_n}$. Since $\frac2n\to0$, rule 2 gives $b_n\to3$; likewise $c_n\to6\ne0$. By rule 5, $a_n\to\frac36=\frac12$. (This sequence is one of the choices in the ε–N game above.)</div>
+<details class="exr"><summary>Exercise 2 — which rules survive if $a_n$ or $b_n$ tends to $\pm\infty$?</summary><div><p>Only the unambiguous cases: e.g. $\infty+\infty=\infty$, $\lambda\cdot\infty=\pm\infty$ for $\lambda\neq0$, $\infty\cdot\infty=\infty$. The forms $\infty-\infty$, $0\cdot\infty$ and $\infty/\infty$ can give anything: $n-n\to0$, $2n-n\to\infty$, $n/n^2\to0$.</p></div></details>
+
+<h3>Bounded sequences</h3>
+<p>A set $A\subset\mathbb R$ is <b>bounded</b> if there is $k\gt0$ with $|a|\le k$ for all $a\in A$. A sequence is bounded if $|a_n|\le k$ for all $n$.</p>
+<div class="b thm"><b class="t">Proposition 12</b>If $(a_n)$ converges to a real number $a$, then it is bounded.</div>
+<details class="pf" open><summary>Proof</summary><div><p>Use $\epsilon=1$: there is $N$ with $|a_n-a|\lt1$ for $n\gt N$, so $|a_n|\le|a|+|a_n-a|\lt|a|+1$ for those $n$. Only finitely many terms remain, so $k=\max\{|a_1|,\dots,|a_N|,|a|+1\}$ bounds everything.</p></div></details>
+<details class="exr"><summary>Exercise 3 — prove rules 3, 4 and 5</summary><div><p>Rule 3: as rule 2. Rule 4: $|a_nb_n-ab|\le|a_n||b_n-b|+|b||a_n-a|$; $(a_n)$ is bounded by some $k$, so make $|b_n-b|\lt\epsilon/(2k)$ and $|a_n-a|\lt\epsilon/(2|b|+1)$. Rule 5: since $b_n\to b\ne0$, eventually $|b_n|\gt|b|/2$, so $(1/b_n)$ is bounded and $|1/b_n-1/b|=|b-b_n|/(|b_n||b|)\le 2|b-b_n|/b^2\to0$; then apply rule 4.</p></div></details>
+
+<h3>Cauchy sequences</h3>
+<p>The definition of convergence leaves two questions. Could a sequence have two limits? And must we always <i>guess</i> the limit before we can prove convergence?</p>
+<details class="exr"><summary>Exercise 4 — limits are unique</summary><div><p>If $a_n\to l$ and $a_n\to l'$ with $l\ne l'$, take $\epsilon=|l-l'|/2$. Beyond some $N$ every term is within $\epsilon$ of both, so $|l-l'|\le|l-a_n|+|a_n-l'|\lt2\epsilon=|l-l'|$, a contradiction.</p></div></details>
+<div class="b def"><b class="t">Definition 13 · Cauchy sequence</b>$(a_n)$ is a <b>Cauchy sequence</b> iff for all $\epsilon\gt0$ there is some $N$ such that for all $n,m\gt N$: $|a_n-a_m|\lt\epsilon$.</div>
+<p>The roles of $\epsilon$ and $N$ are as before, but the limit $l$ has gone: after $a_N$, all terms are within $\epsilon$ <b>of each other</b>.</p>
+<div class="b warn"><b class="t">Remark 4 · consecutive terms are not enough</b>For $a_n=\sqrt n$: $a_{n+1}-a_n=\dfrac1{\sqrt{n+1}+\sqrt n}\lt\dfrac1{2\sqrt n}\to0$. Yet the terms grow without bound: for any $n$ and any $d$, every $m\gt(\sqrt n+d)^2$ has $a_m-a_n\gt d$. So $(\sqrt n)$ is not Cauchy.</div>
+<figure class="lab" data-lab="cauchy">
+<h4>Is the tail tight?</h4>
+<p>The shaded box covers every term after $N$ (out to $n=3000$). Its height is the largest gap $|a_n-a_m|$ in the tail. A sequence is Cauchy when you can make that height smaller than any $\epsilon$ by moving $N$ right.</p>
+<p class="note">For $\sqrt n$ the step from one term to the next shrinks to nothing, but the tail box never gets small: it grows with the horizon. For the convergent sequences the box collapses onto a single value, without anyone telling you what that value is.</p>
+</figure>
+<details class="exr"><summary>Exercises 5 and 6 — convergent ⇒ Cauchy; $(1/n)$ is Cauchy</summary><div><p>If $a_n\to l$, choose $N$ with $|a_n-l|\lt\epsilon/2$ for $n\gt N$. Then for $n,m\gt N$: $|a_n-a_m|\le|a_n-l|+|l-a_m|\lt\epsilon$. This fails for a sequence tending to $\pm\infty$ (e.g. $a_n=n$ has $|a_n-a_m|\ge1$). For $1/n$: if $n,m\gt N=\lceil1/\epsilon\rceil$ then $|1/n-1/m|\lt\max(1/n,1/m)\lt\epsilon$.</p></div></details>
+<div class="b ex"><b class="t">Example 21 (hard)</b>$a_1=1$, $a_{n+1}=\frac12\bigl(a_n+\frac2{a_n}\bigr)$ is a sequence of <b>rational</b> numbers that converges to $\sqrt2$. It is Cauchy, but by uniqueness of limits it has no limit inside $\mathbb Q$.</div>
+<figure class="lab" data-lab="heron">
+<h4>A Cauchy sequence of fractions with nowhere to land</h4>
+<p>The iteration $a_{n+1}=\frac12(a_n+2/a_n)$, computed with exact fractions.</p>
+<p class="note">Every term is a ratio of two whole numbers, and the terms agree with each other to more and more digits. The number they are closing in on, $\sqrt2$, is not a fraction. Within $\mathbb Q$ the sequence is Cauchy and has no limit.</p>
+</figure>
+<div class="b def"><b class="t">Definition 14 · complete</b>A subset $A\subset\mathbb R$ is <b>complete</b> if every Cauchy sequence in $A$ converges to a limit in $A$. So $\mathbb Q$ is <b>not</b> complete; $\mathbb R$ is (Theorem 18 below). Cauchy sequences also make sense for vectors, with a metric in place of $|\cdot|$ (see <a href="#metric">Chapter 13</a>).</div>
+
+<h3>The sandwich theorem</h3>
+<div class="b thm"><b class="t">Theorem 13 · sandwich theorem</b>Let $l_n\to l$ and $u_n\to l$ for the same real $l$. If there is some $N$ such that $l_n\le a_n\le u_n$ for all $n\ge N$, then $a_n\to l$ as well.</div>
+<div class="b ex"><b class="t">Example 22</b>$a_n=\dfrac{\sin n}n$ oscillates around $0$. Take $l_n=-\frac1n$ and $u_n=\frac1n$, both tending to $0$. Then $-\frac1n\le\frac{\sin n}n\le\frac1n\iff-1\le\sin n\le1$, which is true for all $n$. Hence $\frac{\sin n}n\to0$.</div>
+<figure class="lab" data-lab="sandwich">
+<h4>Squeezed between two sequences</h4>
+<p>The middle sequence is trapped between a lower and an upper sequence that share a limit.</p>
+<p class="note">You never need a formula for where the middle terms are. Once both envelopes are inside the $\epsilon$-band, everything between them is inside too, which is the whole proof.</p>
+</figure>
+<details class="pf" open><summary>Proof</summary><div><p>Given $\epsilon\gt0$ find $N_1,N_2$ with $|l_n-l|\lt\epsilon$ for $n\gt N_1$ and $|u_n-l|\lt\epsilon$ for $n\gt N_2$; let $N'=\max(N_1,N_2)$. For $n\gt\max(N,N')$:</p>
+$$l-\epsilon\lt l_n\le a_n\le u_n\lt l+\epsilon\ \Rightarrow\ |a_n-l|\lt\epsilon.$$</div></details>
+
+<h3>Ratio tests for sequences</h3>
+<div class="b thm"><b class="t">Ratio test for sequences</b>Let $0\le c\lt1$. If there is some $N$ such that $\left|\dfrac{a_{n+1}}{a_n}\right|\le c$ for all $n\ge N$, then $\lim a_n=0$.</div>
+<div class="b thm"><b class="t">Limit ratio test</b>Suppose $r=\lim_{n\to\infty}\left|\dfrac{a_{n+1}}{a_n}\right|$ exists. If $r\lt1$, then $a_n\to0$.</div>
+<p>The tests detect convergence to $0$. To show $b_n\to l\ne0$, apply them to $a_n=b_n-l$.</p>
+<div class="b ex"><b class="t">Examples 23, 24</b>$a_n=3^{-n}$: the ratio is $\frac13$ for every $n$, so $c=\frac13$, $N=1$ works. &nbsp; $a_n=\frac1{n!}$: the ratio is $\frac1{n+1}\le\frac12$, so $c=\frac12$, $N=1$ works; or by the limit test, $\frac1{n+1}\to0=r\lt1$.</div>
+<figure class="lab" data-lab="ratioseq">
+<h4>Watching the ratio</h4>
+<p>Left: the terms $|a_n|$ on a logarithmic scale. Right: the ratio $|a_{n+1}/a_n|$ of consecutive terms, with the line $1$.</p>
+<p class="note">A ratio that stays below some fixed $c\lt1$ forces the terms under a decaying geometric sequence $kc^n$ (a straight line going down on the log plot). For $1/n$ the ratio creeps up to $1$ and no fixed $c\lt1$ works: the test says nothing, even though $1/n\to0$.</p>
+</figure>
+<details class="pf" open><summary>Proofs (for understanding; you are not expected to reproduce these in an exam)</summary><div>
+<p><b>Ratio test.</b> From $|a_{n+1}|\le c|a_n|$ for $n\ge N$, chain the inequalities: $|a_n|\le c|a_{n-1}|\le\dots\le c^{n-N}|a_N|=kc^n$ with $k=|a_N|/c^N$. Since $c\lt1$, $kc^n\to0$, and $-kc^n\le a_n\le kc^n$, so the sandwich theorem gives $a_n\to0$.</p>
+<p><b>Limit ratio test.</b> Let $b_n=|a_{n+1}/a_n|\to r\lt1$ and take $\epsilon=\frac{1-r}2\gt0$. Beyond some $N$, $b_n\lt r+\epsilon=\frac{r+1}2\lt1$. So the ratio test applies with $c=\frac{r+1}2$.</p></div></details>
+
+<h3>Subsequences</h3>
+<p>If $f:\mathbb N\to\mathbb R$ is a sequence and $M\subset\mathbb N$ is infinite, the restriction of $f$ to $M$ is a <b>subsequence</b>: $(a_{n_i})_{i\ge1}$ with $n_1\lt n_2\lt n_3\lt\cdots$. From $a_n=\frac1n$: $a_{n_i}=\frac1{2i}$ picks the even terms; $a_{n_i}=\frac1{3i-2}$ picks $a_1,a_4,a_7,\dots$</p>
+<div class="b thm"><b class="t">Theorem 14</b>Any subsequence of a convergent sequence converges to the limit of the sequence.</div>
+<details class="pf" open><summary>Proof</summary><div><p>If $|a_n-l|\lt\epsilon$ for $n\gt N$, then because $n_i\ge i$ always, $|a_{n_i}-l|\lt\epsilon$ for $i\gt N$.</p></div></details>
+<div class="b thm"><b class="t">Proposition 15</b>Any sequence of real numbers has a monotonic subsequence.</div>
+<details class="pf" open><summary>Proof (the peak argument)</summary><div><p>Call $a_m$ a <b>peak</b> if $a_m\ge a_n$ for all $n\ge m$: nothing later is higher. If there are infinitely many peaks, they form a decreasing subsequence. If there are only finitely many, start just after the last one at $t_1$. Since $a_{t_1}$ is not a peak, some later $a_{t_2}$ is higher; that is not a peak either, so some later $a_{t_3}$ is higher still. This builds an increasing subsequence.</p></div></details>
+<figure class="lab" data-lab="peaks">
+<h4>Peaks and the monotonic subsequence</h4>
+<p>Orange terms are peaks: looking right from a peak, nothing is taller (judged over a long horizon beyond the plot). Violet marks the monotonic subsequence the proof builds.</p>
+<p class="note">Either the peaks go on forever and step downwards, or they run out and from then on you can always climb to a higher term. There is no third case.</p>
+</figure>
+
+<h3>Manipulating absolute values</h3>
+<p>The key decomposition is $|x|\lt a\iff-a\lt x\lt a$. For real $x,y$:</p>
+<ul>
+<li><b>Abs1</b> $|x\cdot y|=|x|\cdot|y|$ &nbsp; <b>Abs2</b> $\left|\frac xy\right|=\frac{|x|}{|y|}$</li>
+<li><b>Abs3</b> $|x+y|\le|x|+|y|$ (triangle inequality) &nbsp; <b>Abs4</b> $|x-y|\ge\bigl||x|-|y|\bigr|$ (reverse triangle inequality)</li>
+</ul>
+<details class="pf" open><summary>Proof of Abs4</summary><div><p>$|y|=|x+(y-x)|\le|x|+|y-x|$ and $|x|\le|y|+|x-y|$. So $|x-y|\ge|y|-|x|$ and $|x-y|\ge|x|-|y|$ (using $|y-x|=|x-y|$ from Abs1). Hence $|x-y|\ge\bigl||x|-|y|\bigr|$.</p></div></details>
+
+<h3>Suprema and the completeness of the reals</h3>
+<p>Both $\mathbb Q$ and $\mathbb R$ are linearly ordered: for any $x,y$ exactly one of $x\lt y$, $y\lt x$, $x=y$ holds.</p>
+<div class="b def"><b class="t">Definition 15 · order theory</b>Let $X$ be a set of real numbers.
+<ul>
+<li>$u$ is an <b>upper bound</b> of $X$ if $x\le u$ for all $x\in X$; $l$ is a <b>lower bound</b> if $l\le x$ for all $x\in X$.</li>
+<li>The <b>least upper bound</b> (<b>supremum</b>, $\sup X$) is an upper bound $s$ with $s\le u$ for every upper bound $u$.</li>
+<li>The <b>greatest lower bound</b> (<b>infimum</b>, $\inf X$) is a lower bound $i$ with $l\le i$ for every lower bound $l$.</li>
+<li>$X$ is <b>bounded above</b> / <b>bounded below</b> if it has an upper / lower bound.</li>
+</ul></div>
+<div class="b thm"><b class="t">Proposition 16</b>The least upper bound of a set is unique if it exists. (If $L,L'$ are both least upper bounds then $L'\le L$ and $L\le L'$.) The same holds for the greatest lower bound.</div>
+<p>Example: $\{x\in\mathbb R\mid x\gt0\}$ has no upper bound, hence no supremum. Its lower bounds are $0$ and all negative numbers, and its infimum is $0$, which is not in the set.</p>
+<div class="b def"><b class="t">Definition 16 · axiom of Dedekind-completeness</b>Every non-empty subset of $\mathbb R$ that is bounded above has a least upper bound.</div>
+<div class="b thm"><b class="t">Theorem 17 · fundamental theorem of analysis</b>Let $(a_n)$ be <b>increasing</b> and <b>bounded above</b>. Then $s=\sup\{a_n\mid n\ge1\}$ exists and is the limit of $(a_n)$. Similarly, a decreasing sequence that is bounded below converges.</div>
+<figure class="lab" data-lab="supmono">
+<h4>An increasing bounded sequence climbs to its supremum</h4>
+<p>Move the candidate bound $u$. If $u$ is below the supremum $s$, some term pokes above it, so $u$ is not an upper bound. The band shows $s-\epsilon$.</p>
+<p class="note">Because $s$ is the <i>least</i> upper bound, $s-\epsilon$ is not an upper bound, so some term $a_N$ exceeds it (Claim 1). Because the sequence is increasing, every later term stays above $a_N$ and below $s$ (Claim 2). That traps the whole tail within $\epsilon$ of $s$.</p>
+</figure>
+<details class="pf" open><summary>Proof of Theorem 17</summary><div>
+<p>The supremum $s$ exists by Definition 16. Let $\epsilon\gt0$.</p>
+<p><b>Claim 1:</b> some $N$ has $|a_N-s|\lt\epsilon$. If not, $s-a_n\ge\epsilon$ for all $n$, so $s-\epsilon$ is an upper bound smaller than the least upper bound. Contradiction.</p>
+<p><b>Claim 2:</b> for all $n\gt N$, $|a_n-s|\lt\epsilon$. Since the sequence is increasing, $a_n\ge a_N$, so $0\le s-a_n\le s-a_N\lt\epsilon$.</p></div></details>
+<div class="b thm"><b class="t">Theorem 18</b>The set of real numbers is complete: every Cauchy sequence of reals converges to a real number.</div>
+<details class="pf" open><summary>Proof</summary><div>
+<p><b>Claim 1: a Cauchy sequence is bounded.</b> With $\epsilon=1$, there is $N$ with $|a_n-a_m|\lt1$ for $n,m\gt N$, so $|a_m|\lt|a_{N+1}|+1$ for $m\gt N$; take $K=1+\max\{|a_1|,\dots,|a_{N+1}|\}$.</p>
+<p><b>Claim 2: it has a convergent subsequence.</b> By Proposition 15 it has a monotonic subsequence $(a_{n_i})$, which is bounded by Claim 1, so by Theorem 17 it converges, say to $l$.</p>
+<p><b>Claim 3: the whole sequence converges to $l$.</b> Choose $N_1$ with $|a_n-a_m|\lt\frac\epsilon2$ beyond it and $N_2$ with $|a_{n_i}-l|\lt\frac\epsilon2$ for $i\gt N_2$. For $n,i\gt\max(N_1,N_2)$: $|a_n-l|\le|a_n-a_{n_i}|+|a_{n_i}-l|\lt\epsilon$.</p></div></details>
+<details class="exr"><summary>Exercise 7 — other complete subsets of $\mathbb R$</summary><div><p>Any closed interval $[a,b]$, $[a,\infty)$, a single point, any finite set, $\mathbb Z$ (a Cauchy sequence of integers is eventually constant). Not complete: $(0,1]$ (the sequence $1/n$), $\mathbb Q$.</p></div></details>
+
+<h3>Axioms for the real numbers <span class="ad">Additional material</span></h3>
+<p>Two rigorous routes to $\mathbb R$: characterise it by axioms, or construct it. In the language $\{+,\cdot,\lt,0,1\}$:</p>
+<div class="b def"><b class="t">Field axioms F1–F10</b>Addition is associative (F1), commutative (F2), has identity $0$ (F3) and inverses (F4). Multiplication is associative (F5), commutative (F6), has identity $1$ (F7), and every $x\ne0$ has an inverse (F8). Multiplication distributes over addition (F9). $0\ne1$ (F10).</div>
+<div class="b def"><b class="t">Order axioms O1–O4</b>(O1) for all $x,y$: $x\lt y$ or $x=y$ or $y\lt x$. (O2) $x\lt y\wedge y\lt z\Rightarrow x\lt z$. (O3) $x\lt y\Rightarrow x+z\lt y+z$. (O4) $x\lt y\wedge0\lt z\Rightarrow x\cdot z\lt y\cdot z$.</div>
+<p>A structure satisfying these fourteen first-order axioms is an <b>ordered field</b>. There are many non-isomorphic ones: $\mathbb Q$, $\mathbb R$, and the rational functions $\mathbb R(t)$.</p>
+<div class="b def"><b class="t">Completeness axiom (C)</b>Every non-empty $S\subseteq\mathbb R$ that is bounded above has a least upper bound. This quantifies over <i>subsets</i>, so it is <b>second-order</b>. A structure satisfying all fifteen is a <b>complete ordered field</b>, and by Dedekind's theorem any two are isomorphic: the axioms pin down $\mathbb R$ uniquely (they are <i>categorical</i>).</div>
+<div class="b def"><b class="t">Dedekind cuts</b>To show such a structure exists, build $\mathbb R$ from $\mathbb Q$. A <b>Dedekind cut</b> is a set $A\subseteq\mathbb Q$ with (1) $A\ne\emptyset$, $A\ne\mathbb Q$; (2) $A$ is downward closed: $a\in A$, $x\lt a\Rightarrow x\in A$; (3) $A$ has no greatest element. Define $\mathbb R$ as the set of all cuts, with $0_{\mathbb R}=\{x\in\mathbb Q:x\lt0\}$, $1_{\mathbb R}=\{x\in\mathbb Q:x\lt1\}$, $A+B=\{a+b\}$, $A\lt B\iff A\subsetneq B$ (and a product defined for non-negative cuts, extended by sign rules).</div>
+<figure class="lab" data-lab="cut">
+<h4>A real number as a cut in the rationals</h4>
+<p>The cut for $\sqrt2$ is $A=\{q\in\mathbb Q: q\lt0\text{ or }q^2\lt2\}$. The dots are rationals with small denominators; move the probe $q=p/d$ along them.</p>
+<p class="note">Every rational falls on one side or the other, and none sits exactly at the boundary. $A$ has no largest element and its complement has no smallest: the cut itself <i>is</i> the number $\sqrt2$.</p>
+</figure>
+<p><b>Why completeness holds for cuts.</b> Given a non-empty set $S$ of cuts that is bounded above, let $U=\bigcup_{A\in S}A$. Then $U$ is downward closed, non-empty, not all of $\mathbb Q$ (a bound $B$ leaves some $q\notin B$ outside), and has no maximum. So $U$ is a cut. It contains every $A\in S$, so it is an upper bound, and any upper bound $V$ contains every $A$ and hence $U$. So $U=\sup S$.</p>
+
+<h3>Historical remarks</h3>
+<p><b>Zeno of Elea</b> (c. 495–430 BCE): Achilles gives a tortoise a 100 m head start. When he reaches where it was, it has moved on a little; when he covers that, it has moved again. He is always still behind. The resolution is that the sum of infinitely many terms need not be infinite. Eudoxus and <b>Archimedes</b> used infinite sequences of approximations (the method of exhaustion) for areas and volumes; Archimedes summed a geometric series. Newton worked with series from 1669. Euler summed even divergent series; Lagrange (1797) and Gauss (1813) demanded rigour. The modern "for any $\epsilon$ there is an $N$" definition is due to <b>Bolzano</b> (1816) and <b>Weierstrass</b> (1870s). Bolzano also saw how to avoid needing the limit in advance, using an idea of <b>Cauchy</b> (1789–1857). The sandwich idea goes back to Archimedes and Eudoxus computing $\pi$.</p>
+</section>
+<section class="ch" id="ch-continuity" data-t="Continuous functions">
+<header>
+<p class="eyebrow">Chapter 6 · Part II Foundations of analysis</p>
+<h2>Continuous functions</h2>
+<p class="lede">A sequence lives on the countable, discrete set $\mathbb N$. A function $f:[a,b]\to\mathbb R$ lives on a continuum of uncountably many points. The idea of a limit carries over, with a distance $\delta$ in the input taking over the job of the index $N$.</p>
+</header>
+
+<h3>Limits of functions</h3>
+<div class="b def"><b class="t">Definition 17 · limit of a function</b>$f:[a,b]\to\mathbb R$ has a <b>limit</b> $l\in\mathbb R$ at $x_0\in[a,b]$ if <b>for all $\epsilon\gt0$ there exists $\delta\gt0$ such that whenever $x\in[a,b]$ and $0\lt|x-x_0|\lt\delta$, then $|f(x)-l|\lt\epsilon$.</b> We write $\lim_{x\to x_0}f(x)=l$. (The domain may equally be $(a,b)$, $[a,b)$, $(a,b]$ or $\mathbb R$.)</div>
+<p>Compare with sequences: the Refuter still picks $\epsilon$, the tolerance on the output. You answer with $\delta$, a tolerance on the input. Note $0\lt|x-x_0|$: the value <i>at</i> $x_0$ plays no part in the limit.</p>
+<div class="b ex"><b class="t">Example 26</b>$f(x)=\sin\frac1x$ for $x\ne0$, $f(0)=0$ on $[0,1]$. At every $x_0\in(0,1]$ the limit exists and equals $\sin\frac1{x_0}$. At $x_0=0$ there is no limit: the function keeps swinging between $-1$ and $1$ however close to $0$ you look.</div>
+<details class="exr"><summary>Exercises 8, 9, 10 — limits at infinity, uniqueness, the sequence criterion</summary><div>
+<p><b>8.</b> $\lim_{x\to\infty}f(x)=l$ iff for all $\epsilon\gt0$ there is $M$ such that $x\gt M\Rightarrow|f(x)-l|\lt\epsilon$; similarly with $x\lt M$ for $-\infty$.</p>
+<p><b>9.</b> As for sequences: two different limits $l\ne l'$ contradict each other with $\epsilon=|l-l'|/2$.</p>
+<p><b>10.</b> $\lim_{x\to x_0}f(x)=l$ iff for <i>every</i> sequence $y_n\to x_0$ (with $y_n\ne x_0$) we have $f(y_n)\to l$. This links function limits back to sequence limits and is the usual way to show a limit does <i>not</i> exist: for $\sin\frac1x$ take $y_n=\frac1{n\pi}$ (values $0$) and $y_n=\frac1{2n\pi+\pi/2}$ (values $1$).</p></div></details>
+<div class="b thm"><b class="t">Proposition 19</b>If $f,g:[a,b]\to\mathbb R$ have limits $k$ and $l$ at $x_0$, then $f\pm g$ has limit $k\pm l$, $f\cdot g$ has limit $kl$, and if $l\ne0$, $f/g$ has limit $k/l$. (Exercise 11 asks which of these extend to infinite limits and to $x\to\infty$; the answer mirrors Exercise 2 for sequences: everything except the indeterminate forms.)</div>
+
+<h3>Continuity</h3>
+<div class="b def"><b class="t">Definition 18 · continuity</b>$f:[a,b]\to\mathbb R$ is <b>continuous at</b> $x_0$ if $\lim_{x\to x_0}f(x)=f(x_0)$. It is <b>continuous in</b> $[a,b]$ iff it is continuous at every $x_0\in[a,b]$.</div>
+<p>So continuity asks two things at once: the limit exists, and it equals the value the function actually takes there.</p>
+<ul>
+<li>$f(x)=x\sin\frac1x$, $f(0)=0$: continuous at $0$ (Exercise 12), because $|x\sin\frac1x|\le|x|$, so $\delta=\epsilon$ works.</li>
+<li>$f(x)=|x|$ is continuous everywhere, including $0$.</li>
+<li>The <b>sign function</b> $\operatorname{sgn}(x)=-1,0,1$ for $x\lt0$, $x=0$, $x\gt0$ is continuous everywhere except $0$ (Exercise 13).</li>
+<li>$f(x)=2+3x$ is continuous everywhere (Exercise 14): $|f(x)-f(x_0)|=3|x-x_0|$, so $\delta=\epsilon/3$.</li>
+</ul>
+<figure class="lab" data-lab="epsdel">
+<h4>The ε–δ game</h4>
+<p>Horizontal band: outputs within $\epsilon$ of $l$. Vertical strip: inputs within $\delta$ of $x_0$. You win if the graph inside the strip (ignoring the point $x_0$ itself) stays inside the band. Red marks where it escapes.</p>
+<p class="note">For a continuous function you can always shrink $\delta$ until the red disappears. For $\operatorname{sgn}$ at $0$ and $\sin(1/x)$ at $0$ no $\delta$ ever works once $\epsilon$ is small. For $x\sin(1/x)$ the wiggles are squeezed by $\pm|x|$ and $\delta=\epsilon$ wins.</p>
+</figure>
+<div class="b thm"><b class="t">Propositions 20, 21</b>If $f,g$ are continuous at $x_0$, so are $f\pm g$, $\lambda f$, $f\cdot g$, and $f/g$ where $g(x_0)\ne0$. If $f$ is continuous at $x_0$ and $g$ is continuous at $f(x_0)$, the <b>composition</b> $g\circ f$ is continuous at $x_0$.</div>
+<div class="b ex"><b class="t">Example 27</b>Constants and all polynomials are continuous. $\sin$ and $\cos$ are continuous on $\mathbb R$. $\tan$ is not continuous at $(2n+1)\pi/2$.</div>
+
+<h3>Maxima and minima</h3>
+<div class="b thm"><b class="t">Theorem 22 · extreme value theorem</b>If $f:[a,b]\to\mathbb R$ is continuous (with $a,b$ real), there exist $r,s\in[a,b]$ with $f(r)=\sup_{x\in[a,b]}f(x)$ and $f(s)=\inf_{x\in[a,b]}f(x)$. That is, $f$ <b>attains</b> a maximum and a minimum on $[a,b]$. In particular $f$ is bounded.</div>
+<details class="pf" open><summary>Proof sketch</summary><div>
+<p><b>Bounded.</b> If not, pick $x_n$ with $f(x_n)\gt n$. The sequence $(x_n)$ is bounded, so it has a convergent subsequence (Prop. 15 + Thm 17); by continuity $f$ of that subsequence converges to a finite value, a contradiction.</p>
+<p><b>Attained.</b> Let $M=\sup f$. For each $n$ choose $x_n$ with $M\ge f(x_n)\gt M-\frac1n$, so $f(x_n)\to M$. Take a convergent subsequence $x_{n_i}\to v_M\in[a,b]$. By continuity, $f(v_M)=\lim f(x_{n_i})=M$. The minimum is the same argument.</p></div></details>
+<div class="b warn"><b class="t">Every hypothesis is needed</b>
+<ul><li>$f(x)=1/x$ on $(0,1]$: no maximum, not even a supremum.</li>
+<li>$g(x)=x$ on $[0,1)$: supremum $1$ exists but is <b>not attained</b>.</li>
+<li>$g(x)=x$ on $[0,\infty)$: unbounded interval, no maximum or supremum.</li></ul></div>
+<figure class="lab" data-lab="evt">
+<h4>Is the maximum attained?</h4>
+<p>Pick a function and an interval. Filled end-points belong to the interval; hollow ones do not.</p>
+<p class="note">On a closed bounded interval the highest and lowest points are always marked on the curve. Open one end and the supremum can slip out of reach: the function gets arbitrarily close to it and never touches it.</p>
+</figure>
+
+<h3>Intermediate value theorem <span class="ad">Additional material</span></h3>
+<div class="b thm"><b class="t">Theorem 23</b>If $f:[a,b]\to\mathbb R$ is continuous and $f(a)\lt s\lt f(b)$, then there exists $c\in(a,b)$ with $f(c)=s$. A continuous function takes every value between any two of its values.</div>
+<details class="pf" open><summary>Proof idea</summary><div><p>Let $A=\{x\in[a,b]:f(x)\le s\}$. It is non-empty and bounded above, so $c=\sup A$ exists. If $f(c)\lt s$, continuity keeps $f\lt s$ a little to the right of $c$, so $c$ was not an upper bound. If $f(c)\gt s$, continuity keeps $f\gt s$ a little to the left, so a smaller upper bound exists. Hence $f(c)=s$.</p></div></details>
+<figure class="lab" data-lab="ivt">
+<h4>Every level gets crossed</h4>
+<p>Slide the level $s$ between $f(a)$ and $f(b)$. The lab finds where the graph crosses it.</p>
+<p class="note">A continuous curve cannot get from one side of the line to the other without crossing it, sometimes more than once. $\tan$ (Exercise 15) breaks at $\pi/2$: on $[\pi/4,3\pi/4]$ it runs from $1$ to $-1$ without taking any value in between, and no value assigned at $\pi/2$ can repair that.</p>
+</figure>
+
+<h3>Uniform continuity</h3>
+<div class="b def"><b class="t">Definition · uniform continuity</b>$f:A\to\mathbb R$ is <b>uniformly continuous</b> on $A$ if for each $\epsilon\gt0$ there exists $\delta\gt0$ such that for <b>all</b> $x,x_0\in A$: $|x-x_0|\lt\delta\Rightarrow|f(x)-f(x_0)|\lt\epsilon$. The point is that one $\delta$ serves every $x_0$ at once.</div>
+<div class="b ex"><b class="t">Example 28</b>$f(x)=x^2$ on $[a,b]$: $|x^2-x_0^2|=|x-x_0||x+x_0|\le2M|x-x_0|$ with $M=\max(|a|,|b|)$. So $\delta=\epsilon/(2M)$ works everywhere.</div>
+<div class="b thm"><b class="t">Theorem 24</b>If $f:[a,b]\to\mathbb R$ is continuous (with $a,b$ real), then it is uniformly continuous on $[a,b]$.</div>
+<details class="pf" open><summary>Proof (by contradiction)</summary><div><p>If not, there is an $\epsilon\gt0$ and, for every $n$, points $x_n,y_n$ with $|x_n-y_n|\lt\frac1n$ but $|f(x_n)-f(y_n)|\ge\epsilon$. A subsequence $x_{n_i}$ converges to some $l\in[a,b]$, and $|l-y_{n_i}|\le|l-x_{n_i}|+\frac1{n_i}$ shows $y_{n_i}\to l$ too. By continuity at $l$, both $f(x_{n_i})$ and $f(y_{n_i})$ tend to $f(l)$, contradicting the gap of at least $\epsilon$.</p></div></details>
+<figure class="lab" data-lab="unif">
+<h4>How big may δ be, as x₀ moves?</h4>
+<p>Left: the function with its $\epsilon$-band at $x_0$ and the widest strip that keeps the graph inside. Right: that largest $\delta$ plotted for every $x_0$.</p>
+<p class="note">For $x^2$ on a closed interval the curve of allowed $\delta$ stays above a positive floor, and that floor is the single $\delta$ that works everywhere. For $1/x$ on $(0,1]$ (Exercise 16) the allowed $\delta$ collapses to $0$ as $x_0\to0$: continuous at each point, but not uniformly.</p>
+</figure>
+</section>
+<section class="ch" id="ch-integration" data-t="Integration">
+<header>
+<p class="eyebrow">Chapter 7 · Part II Foundations of analysis</p>
+<h2>Integration</h2>
+<p class="lede">At school the definite integral is "the area under the curve". Riemann's definition makes that precise by trapping the area between sums of rectangles that lie below the curve and sums that lie above it.</p>
+</header>
+
+<h3>Area, with a sign</h3>
+<p>$\int_0^2x^2\,dx$ is the area under $y=x^2$ between $x=0$ and $x=2$. Where the graph is below the $x$-axis the area counts negatively:</p>
+$$\int_{-1}^1x^3\,dx=\int_{-1}^0x^3\,dx+\int_0^1x^3\,dx=-\tfrac14+\tfrac14=0 .$$
+
+<h3>Partitions, lower sums, upper sums</h3>
+<div class="b def"><b class="t">Definition 19 · partition</b>A <b>partition</b> $P$ of $[a,b]$ is a finite set of points $a=r_0\lt r_1\lt\dots\lt r_n=b$. Each $[r_i,r_{i+1}]$ is a <b>subinterval</b>. The <b>norm</b> $\|P\|=\max_i(r_{i+1}-r_i)$ is the length of the longest subinterval. $P_2$ <b>refines</b> $P_1$ if $P_1\subset P_2$.</div>
+<div class="b def"><b class="t">Definition 20 · lower, upper and Riemann sums</b>
+$$L(f,P)=\sum_{i=0}^{n-1}(r_{i+1}-r_i)\inf_{x\in[r_i,r_{i+1}]}f(x),\qquad U(f,P)=\sum_{i=0}^{n-1}(r_{i+1}-r_i)\sup_{x\in[r_i,r_{i+1}]}f(x).$$
+For any choice of sample points $s_i\in[r_i,r_{i+1}]$, $\ S(f,P,(s_i))=\sum_{i=0}^{n-1}(r_{i+1}-r_i)f(s_i)$ is a <b>Riemann sum</b>. If $f$ is continuous, $\inf$ and $\sup$ become $\min$ and $\max$.</div>
+<p>Always $L(f,P)\le S(f,P,(s_i))\le U(f,P)$. And refining squeezes (Exercise 17): if $P_1\subset P_2$ then</p>
+$$L(f,P_1)\le L(f,P_2)\le U(f,P_2)\le U(f,P_1).$$
+<figure class="lab" data-lab="riemann">
+<h4>Riemann sums</h4>
+<p>Violet rectangles reach up to the infimum on each subinterval (lower sum). Orange outlines reach the supremum (upper sum). Dots are the sample points of the Riemann sum.</p>
+<p class="note">Raise $n$ or press Refine: $L$ only goes up, $U$ only comes down, and for these functions the gap $U-L$ shrinks to zero. The number trapped between them is the integral. For $x^2$ on $[0,2]$ with right end-points the sum is exactly $\frac83+\frac4n+\frac4{3n^2}$ (Example 29).</p>
+</figure>
+
+<h3>The Riemann integral</h3>
+<div class="b def"><b class="t">Definition 21</b>The <b>lower integral</b> is $\sup_PL(f,P)$ and the <b>upper integral</b> is $\inf_PU(f,P)$. $f$ is <b>Riemann integrable</b> if the two are equal; the common value is the <b>Riemann integral</b> $\int_a^bf(x)\,dx$.</div>
+<div class="b thm"><b class="t">Theorem 25</b>A bounded $f:[a,b]\to\mathbb R$ is Riemann integrable with integral $c$
+<ul><li>iff for each $\epsilon\gt0$ there is a partition $P$ with $c-L(f,P)\lt\epsilon$ and $U(f,P)-c\lt\epsilon$;</li>
+<li>iff for each $\epsilon\gt0$ there is $\delta\gt0$ such that every partition with $\|P\|\lt\delta$ and every choice of sample points gives $|S(f,P,(s_i))-c|\lt\epsilon$.</li></ul></div>
+<div class="b thm"><b class="t">Theorem 26</b>Every function continuous on $[a,b]$ is Riemann integrable.</div>
+<details class="pf" open><summary>Proof</summary><div><p>Let $\epsilon\gt0$. $f$ is uniformly continuous on $[a,b]$ (Theorem 24), so there is $\delta\gt0$ with $|f(x)-f(y)|\lt\frac{\epsilon}{2(b-a)}$ whenever $|x-y|\lt\delta$. Take any $P$ with $\|P\|\lt\delta$. On each subinterval $f$ attains a max and a min (Theorem 22), and they differ by less than $\frac{\epsilon}{2(b-a)}$. So</p>
+$$U(f,P)-L(f,P)=\sum_i(r_{i+1}-r_i)\bigl(\max f-\min f\bigr)\lt\frac{\epsilon}{2(b-a)}\sum_i(r_{i+1}-r_i)=\frac\epsilon2 .$$
+<p>The upper and lower integrals lie between $L$ and $U$, so they differ by less than $\epsilon$ for every $\epsilon$. They are equal.</p></div></details>
+<p>More generally, a bounded function with only finitely many discontinuities (Exercise 18), or even countably many, is Riemann integrable. The step function in the lab above is an example: the one bad subinterval contributes at most (jump) × (its width) to $U-L$, and its width shrinks.</p>
+<div class="b ex"><b class="t">Example 29 · an integral from first principles</b>$f(x)=x^2$ on $[0,2]$ with $n$ equal subintervals of width $\Delta_n=\frac2n$ and right end-points $\hat x_i=\frac{2i}n$:
+$$\sum_{i=1}^nf(\hat x_i)\Delta_n=\sum_{i=1}^n\Bigl(\frac{2i}n\Bigr)^2\frac2n=\frac8{n^3}\bigl(1^2+2^2+\dots+n^2\bigr)$$ $$=\frac8{n^3}\cdot\frac{n(n+1)(2n+1)}6=\frac83+\frac4n+\frac4{3n^2}\ \longrightarrow\ \frac83\quad\text{as }n\to\infty.$$
+The limit does not depend on where in the subintervals we sample, so $\int_0^2x^2\,dx=\frac83$.</div>
+<div class="b thm"><b class="t">Theorem 27 · properties</b>
+<ul>
+<li><b>Linearity:</b> $\int_a^b\bigl(sf(x)+tg(x)\bigr)dx=s\int_a^bf(x)\,dx+t\int_a^bg(x)\,dx$.</li>
+<li>$\int_a^bc\,dx=c(b-a)$ for a constant $c$.</li>
+<li><b>Additivity:</b> $\int_a^cf=\int_a^bf+\int_b^cf$ for $a\lt b\lt c$.</li>
+<li><b>Positivity:</b> if $f\ge0$ on $[a,b]$ then $\int_a^bf\ge0$.</li>
+<li>(Exercise 19) $\left|\int_a^bf(x)\,dx\right|\le\int_a^b|f(x)|\,dx$. This follows from $-|f|\le f\le|f|$ and positivity.</li>
+</ul></div>
+
+<h3>Improper Riemann integrals</h3>
+<p>For $f:[a,\infty)\to\mathbb R$ (or $f:[a,b)\to\mathbb R$), the <b>improper integral converges</b> if $\lim_{x\to\infty}\int_a^xf(y)\,dy$ (respectively $\lim_{x\to b}$) exists as a real number. If the limit does not exist or is $\pm\infty$, the improper integral <b>diverges</b>.</p>
+<div class="b ex"><b class="t">Example 30</b>
+<ul>
+<li>$\int_1^\infty\frac1{x^2}dx=1-\lim_{x\to\infty}\frac1x=1$ converges.</li>
+<li>$\int_1^\infty\frac1x\,dx=\lim_{x\to\infty}\ln x=\infty$ diverges.</li>
+<li>$\int_0^1\frac1{\sqrt x}dx=2-2\lim_{x\to0}\sqrt x=2$ converges, although the integrand is unbounded.</li>
+<li>$\int_0^1\frac1x\,dx$ diverges.</li>
+</ul></div>
+<figure class="lab" data-lab="improper">
+<h4>Does the area settle down?</h4>
+<p>Left: the region being integrated, up to a movable cut-off. Right: the area so far, as a function of the cut-off.</p>
+<p class="note">$1/x^2$ and $1/x$ look alike, and both tend to $0$. Only the area under $1/x^2$ levels off (at $1$); the area under $1/x$ grows like $\ln x$ without bound. The same split reappears for series in the next chapter.</p>
+</figure>
+</section>
+<section class="ch" id="ch-series" data-t="Series">
+<header>
+<p class="eyebrow">Chapter 8 · Part II Foundations of analysis</p>
+<h2>Series</h2>
+<p class="lede">A series is a formal infinite sum $\sum_{i=1}^\infty a_i$. Whether such a sum means anything, and what number it represents, is decided by a sequence we already understand: its partial sums.</p>
+</header>
+
+<h3>Partial sums and convergence</h3>
+<p>Given the summands $(a_n)_{n\ge1}$, the $n$th <b>partial sum</b> is $S_n=\sum_{i=1}^na_i$. There are two transformations at work:</p>
+$$(a_n)_{n\ge1}\ \longmapsto\ \sum_{i=1}^\infty a_i\ \longmapsto\ (S_n)_{n\ge1}.$$
+<div class="b def"><b class="t">Definition 22 · convergence of a series</b>The series $\sum_{i=1}^\infty a_i$ <b>converges to</b> $l\in\mathbb R$ iff its sequence of partial sums $(S_n)$ has limit $l$. It <b>diverges</b> if it does not converge to a real number. By this convention, partial sums tending to $\pm\infty$ count as divergence.</div>
+<ul>
+<li><b>Positive terms.</b> If all $a_i\ge0$ then $S_1\le S_2\le S_3\le\cdots$, so by Theorem 17 the series converges exactly when the partial sums are <b>bounded above</b>.</li>
+<li><b>The tail decides.</b> Convergence does not depend on any finite set of initial summands: $\sum_{n=1}^\infty a_n$ converges iff $\sum_{n=N}^\infty a_n$ does, for any $N$. That is why the tests below only need to hold "from some $N$ onward".</li>
+</ul>
+<div class="b thm"><b class="t">Lemma 2 · the terms must tend to zero</b>If $\sum a_i$ converges, then $\lim_{n\to\infty}a_n=0$.</div>
+<details class="pf" open><summary>Two proofs</summary><div>
+<p><b>(i)</b> $a_n=S_n-S_{n-1}$, so $\lim a_n=s-s=0$.</p>
+<p><b>(ii)</b> $(S_n)$ converges, so it is Cauchy: for $n\gt N_0$, $|S_{n+1}-S_n|\lt\epsilon$, i.e. $|a_{n+1}|\lt\epsilon$.</p></div></details>
+<div class="b warn"><b class="t">Necessary, not sufficient</b>$a_n\to0$ does <b>not</b> guarantee convergence: $\frac1n\to0$, yet $\sum\frac1n$ diverges. Lemma 2 is only a test for <i>divergence</i>: if the terms do not tend to $0$, the series diverges.</div>
+<figure class="lab" data-lab="psum">
+<h4>Terms and partial sums</h4>
+<p>Left: the summands $a_n$. Right: the partial sums $S_n$, with the limit as a dashed line when the series converges.</p>
+<p class="note">In every case shown the terms shrink to zero, but only some of the right-hand plots level off. Compare $1/n$ with $1/n^2$, then find the exponent $c$ at which $\sum1/n^c$ changes behaviour. Push the geometric ratio past $\pm1$.</p>
+</figure>
+
+<h3>Geometric series</h3>
+<p>$G(x)=\sum_{n=1}^\infty x^n$ for a real constant $x$. Informally, $G(x)=x+xG(x)$ suggests $G(x)=\frac x{1-x}$, but that assumes the limit exists. Use partial sums instead: $G_n(x)=x+x(G_n(x)-x^n)$ gives</p>
+$$G_n(x)=\frac{x-x^{n+1}}{1-x}=\frac x{1-x}-\frac1{1-x}\cdot x^{n+1}.$$
+<p>So $(G_n)$ converges iff $x^{n+1}$ does, which is iff $|x|\lt1$ (and then $x^{n+1}\to0$). For $x=1$, $G_n=n$ diverges.</p>
+<div class="b thm"><b class="t">Theorem 28</b>$\displaystyle\sum_{i=1}^\infty x^i$ converges iff $|x|\lt1$, in which case its limit is $\dfrac x{1-x}$.</div>
+
+<h3>Harmonic series</h3>
+<p>$S=\sum\frac1n=1+\frac12+\frac13+\frac14+\cdots$ <b>diverges</b>. Group the terms:</p>
+$$S=1+\tfrac12+\underbrace{\bigl(\tfrac13+\tfrac14\bigr)}_{\gt\frac14+\frac14}+\underbrace{\bigl(\tfrac15+\tfrac16+\tfrac17+\tfrac18\bigr)}_{\gt4\cdot\frac18}+\cdots\gt1+\tfrac12+\tfrac12+\tfrac12+\cdots$$
+<p>So $S_{2^n}\ge1+\frac n2$. The increasing sequence of partial sums is not bounded above, and so has no real limit.</p>
+<figure class="lab" data-lab="harm">
+<h4>Each block is worth at least a half</h4>
+<p>Each bar is one group of the harmonic series: the terms from $\frac1{2^{k-1}+1}$ to $\frac1{2^k}$. The dashed line is $\frac12$.</p>
+<p class="note">Every group needs twice as many terms as the one before, and still adds more than $\frac12$. The sum passes any bound you name. It just takes exponentially long to get there, which is why the divergence is invisible on a calculator.</p>
+</figure>
+
+<h3>Series of inverse squares</h3>
+<p>$S=\sum\frac1{i^2}$ <b>converges</b>. First study $T=\sum\frac1{i(i+1)}$. By partial fractions $\frac1{i(i+1)}=\frac1i-\frac1{i+1}$, so the sum telescopes:</p>
+$$T_n=\sum_{i=1}^n\Bigl(\frac1i-\frac1{i+1}\Bigr)=1-\frac1{n+1}\ \to\ 1 .$$
+<p>Now compare term by term: $\frac1{i(i+1)}\lt\frac1{i^2}\lt\frac1{(i-1)i}$ for $i\ge2$. Summing from $i=2$ to $n$ and adding $1$:</p>
+$$\frac32-\frac1{n+1}\lt S_n\lt2-\frac1n\qquad(n\ge2).$$
+<p>$(S_n)$ is increasing and bounded above by $2$, so it converges (Theorem 17), to a limit $l$ with $\frac32\le l\le2$ (Exercise 20). The question of its exact value was posed in 1650; in 1734 <b>Euler</b> showed $l=\frac{\pi^2}6$.</p>
+<figure class="lab" data-lab="invsq">
+<h4>Trapped between two telescoping sums</h4>
+<p>The partial sums $S_n$ of $\sum1/i^2$ with the lower bound $\frac32-\frac1{n+1}$ and the upper bound $2-\frac1n$.</p>
+<p class="note">The bounds do not pin down the limit (they tend to $\frac32$ and $2$). They only need to show that the increasing sequence $S_n$ cannot escape upwards. That is enough for convergence; the value $\pi^2/6\approx1.6449$ needed Euler.</p>
+</figure>
+
+<h3>Common series to know</h3>
+<div class="b thm"><b class="t">Diverging</b>
+<ol><li>Harmonic series $\sum\frac1n$.</li><li>Harmonic primes $\sum_{p\text{ prime}}\frac1p$ (stronger: even the reciprocals of primes alone diverge).</li><li>Geometric series $\sum x^n$ for $|x|\ge1$ (the terms do not tend to $0$).</li></ol></div>
+<div class="b thm"><b class="t">Converging</b>
+<ol><li>Geometric series $\sum_{n\ge1}x^n=\frac x{1-x}$ for $|x|\lt1$.</li><li>Inverse squares $\sum\frac1{n^2}=\frac{\pi^2}6$.</li><li>$\sum\frac1{n^c}$ for every real $c\gt1$.</li></ol></div>
+<details class="exr"><summary>Exercise 21 — the alternating series test</summary><div><p>Let $S=a_1-a_2+a_3-\cdots$ with $a_n\ge0$, $a_{n+1}\le a_n$, $a_n\to0$. (i) $S_{2n+2}-S_{2n}=a_{2n+1}-a_{2n+2}\ge0$, so the even partial sums increase; and $S_{2n}=a_1-(a_2-a_3)-\cdots-a_{2n}\le a_1$, so they are bounded: $S_{2n}\to\ell$. (ii) $S_{2n+1}=S_{2n}+a_{2n+1}\to\ell+0$. (iii) Both halves tend to $\ell$, so $S_n\to\ell$. Hence $1-\frac12+\frac13-\cdots$ converges.</p></div></details>
+
+<h3>Tests for series of positive terms</h3>
+<p>Here all $a_i\gt0$, so $(S_n)$ is strictly increasing: either bounded above (converges) or not ($S_n\to\infty$, diverges). Notation: $\sum c_i$ is a series already known to <b>c</b>onverge, $\sum d_i$ one known to <b>d</b>iverge.</p>
+<div class="b thm"><b class="t">Lemma 3 · comparison test</b>Let $\lambda\gt0$ and $N\in\mathbb N$.
+<ol><li>If $a_i\le\lambda c_i$ for all $i\gt N$, then $\sum a_i$ converges.</li><li>If $a_i\ge\lambda d_i$ for all $i\gt N$, then $\sum a_i$ diverges.</li></ol></div>
+<div class="b thm"><b class="t">Lemma 4 · limit comparison test</b>
+<ol><li>If $\lim_{i\to\infty}\dfrac{a_i}{c_i}$ exists in $\mathbb R$, then $\sum a_i$ converges.</li><li>If $\lim_{i\to\infty}\dfrac{d_i}{a_i}$ exists in $\mathbb R$, then $\sum a_i$ diverges.</li></ol>
+(A finite limit of the quotient means that eventually $a_i\le\lambda c_i$, respectively $d_i\le\lambda a_i$, so this reduces to Lemma 3.)</div>
+<figure class="lab" data-lab="cmp">
+<h4>Comparison test</h4>
+<p>The series to be tested (dots) against $\lambda$ times a series whose behaviour is known (line). Both are on a logarithmic scale.</p>
+<p class="note">To prove convergence you must get <i>under</i> a convergent series from some point on; to prove divergence you must stay <i>above</i> a divergent one. Being under a divergent series, or above a convergent one, proves nothing.</p>
+</figure>
+<div class="b thm"><b class="t">Lemma 5 · D'Alembert's ratio test</b>
+<ol><li>If $\dfrac{a_{i+1}}{a_i}\ge1$ for all $i\ge N$, then $\sum a_i$ diverges.</li><li>If there is $k\lt1$ with $\dfrac{a_{i+1}}{a_i}\le k$ for all $i\ge N$, then $\sum a_i$ converges.</li></ol></div>
+<div class="b thm"><b class="t">Lemma 6 · D'Alembert limit ratio test</b>Suppose $\lim_{i\to\infty}\dfrac{a_{i+1}}{a_i}$ exists. If it is $\gt1$ the series <b>diverges</b>; if it is $\lt1$ the series <b>converges</b>; if it equals $1$ the test is <b>inconclusive</b>.</div>
+<p>The inconclusive case really can go either way: $a_n=1$ has ratio limit $1$ and diverges; $a_n=\frac1{n^2}$ has ratio limit $1$ and converges.</p>
+<details class="pf" open><summary>Proofs of the ratio tests (for understanding, not for reproduction)</summary><div>
+<p><b>Lemma 5.</b> (1) $a_N\le a_{N+1}\le\cdots$ with $a_N\gt0$, so $a_n\not\to0$: diverges by Lemma 2. (2) $a_{N+m}\le k^ma_N$, i.e. $a_n\le\lambda k^n$ with $\lambda=a_N/k^N$. Since $k\lt1$, $\sum k^n$ converges, so the comparison test applies.</p>
+<p><b>Lemma 6.</b> If the limit $l\gt1$, take $\epsilon=l-1$: eventually the ratio exceeds $l-\epsilon=1$, so Lemma 5(1) applies. If $l\lt1$, take $\epsilon=\frac{1-l}2$: eventually the ratio is below $k=\frac{l+1}2\lt1$, so Lemma 5(2) applies.</p></div></details>
+<div class="b thm"><b class="t">Lemma 7 · integral test</b>Let $f$ be continuous, decreasing and positive on $[1,\infty)$ and $a_n=f(n)$. Then $\sum a_i$ converges if $\int_N^\infty f(x)\,dx$ converges, and diverges if it diverges.</div>
+<div class="b ex"><b class="t">Examples</b>$\int_1^\infty\frac1x\,dx=\lim_{b\to\infty}\ln b$ diverges, so the harmonic series diverges. &nbsp; $\int_1^\infty\frac1{x^2}dx=\lim_{b\to\infty}\bigl(1-\frac1b\bigr)=1$ converges, so $\sum\frac1{n^2}$ converges.</div>
+<figure class="lab" data-lab="inttest">
+<h4>Rectangles against the curve</h4>
+<p>Each rectangle has width $1$ and height $a_n=1/n^p$. Drawn to the right of $n$ they cover the curve $1/x^p$; drawn to the left they fit under it.</p>
+<p class="note">Because $f$ is decreasing, the series is caught between two integrals: $\int_1^{N+1}f\le\sum_{n=1}^Na_n\le a_1+\int_1^Nf$. So the sum and the integral are bounded together or unbounded together. The switch happens at $p=1$.</p>
+</figure>
+
+<h3>Absolute convergence</h3>
+<p>With negative terms allowed, partial sums can depend on the <b>order</b> of the summands. The <b>alternating harmonic series</b></p>
+$$1-\tfrac12+\tfrac13-\tfrac14+\cdots=\ln2$$
+<p>converges to $\ln2$ (see <a href="#power-series">Chapter 10</a>). Rearranged as two positive terms followed by one negative, $1+\frac13-\frac12+\frac15+\frac17-\frac14+\cdots$, it converges to $\frac32\ln2$.</p>
+<figure class="lab" data-lab="rearr">
+<h4>Same terms, different sum</h4>
+<p>Rearrange the alternating harmonic series by taking $p$ positive terms, then $q$ negative terms, and repeating. Or ask for any target and let a greedy rule pick the order.</p>
+<p class="note">Every term $\pm\frac1n$ is still used exactly once, yet the limit moves: with $p$ positives per $q$ negatives it is $\ln2+\frac12\ln\frac pq$. The positive terms alone sum to $\infty$ and so do the negative ones, which lets you steer the total anywhere. (The target mode goes a little beyond the notes.)</p>
+</figure>
+<div class="b def"><b class="t">Definition 23 · unconditional convergence <span class="ad">Additional</span></b>A <b>permutation</b> of $\mathbb N$ is a bijection $\pi:\mathbb N\to\mathbb N$. $\sum a_i$ is <b>unconditionally convergent</b> if it converges and every permuted series $\sum a_{\pi(i)}$ converges to the same limit.</div>
+<div class="b def"><b class="t">Definition 24 · absolute convergence</b>$\sum a_i$ is <b>absolutely convergent</b> if $\sum|a_i|$ converges.</div>
+<p>For real series the two notions coincide, and the second is far easier to check. The alternating harmonic series is not absolutely convergent (its absolute values form the harmonic series), which is why rearranging it changes the sum.</p>
+<div class="b thm"><b class="t">Theorem 29 · absolute value comparison test</b>If $b_i\ge0$, $\sum b_i$ converges, and $|a_i|\le b_i$ for all $i$, then $\sum a_i$ converges.</div>
+<details class="pf" open><summary>Proof</summary><div><p>Let $S_n,S'_n$ be the partial sums of $\sum a_i,\sum b_i$. $(S'_n)$ is Cauchy, so for $m\ge n\gt N$: $|S_m-S_n|=\bigl|\sum_{i=n+1}^ma_i\bigr|\le\sum_{i=n+1}^m|a_i|\le\sum_{i=n+1}^mb_i=S'_m-S'_n\lt\epsilon$. So $(S_n)$ is Cauchy, hence convergent (Theorem 18).</p></div></details>
+<div class="b thm"><b class="t">Corollary 1</b>Absolutely convergent $\Rightarrow$ convergent (take $b_n=|a_n|$). Moreover an absolutely convergent series is unconditionally convergent: every rearrangement has the same sum (proof omitted in the notes).</div>
+<div class="b ex"><b class="t">Example 31</b>$\sum(-1)^{n+1}/n^2=1-\frac1{2^2}+\frac1{3^2}-\cdots$ is absolutely convergent, since $\sum1/n^2$ converges. Every rearrangement converges to the same limit.</div>
+<div class="b thm"><b class="t">Theorem 30 · limit absolute value ratio test</b>For $\sum a_i$ with $a_i\ne0$, let $L=\lim_{n\to\infty}\left|\dfrac{a_{n+1}}{a_n}\right|$.
+<ol><li>If $L\lt1$, the series converges absolutely (hence converges).</li><li>If $L\gt1$, the series diverges.</li><li>If $L=1$, it may converge or diverge ($\sum\frac1n$ and $\sum\frac1{n^2}$ both have $L=1$).</li></ol></div>
+<details class="pf" open><summary>Proof</summary><div><p>(1) With $\epsilon=\frac{1-L}2$ the ratio is eventually below $c=\frac{1+L}2\lt1$, so $|a_{m+N+2}|\lt c^m|a_{N+1}|$: compare with a geometric series. (2) With $\epsilon=\frac{L-1}2$ the ratio is eventually above $c=\frac{1+L}2\gt1$, so $|a_i|\to\infty$ and the series diverges by Lemma 2.</p></div></details>
+
+<h3>Limit superior and the nth-root test</h3>
+<p>The ratio test needs $\lim|a_{n+1}/a_n|$ to exist. When it does not, the root test still works, using the <b>limit superior</b>.</p>
+<div class="b def"><b class="t">Definitions 25, 26 · lim sup and lim inf</b>For a sequence $(a_n)$ put $b_n=\sup\{a_m\mid m\ge n\}$ and $c_n=\inf\{a_m\mid m\ge n\}$. Then $(b_n)$ is non-increasing and $(c_n)$ is non-decreasing, and
+$$\limsup_{n\to\infty}a_n=\lim_{n\to\infty}b_n,\qquad\liminf_{n\to\infty}a_n=\lim_{n\to\infty}c_n,$$
+each a real number or $\pm\infty$. They always exist.</div>
+<div class="b ex"><b class="t">Examples 32, 33</b>$a_n=(-1)^n$: $\limsup=1$, $\liminf=-1$. &nbsp; $a_n=\sin(n\pi/2)$ runs $1,0,-1,0,\dots$: $\limsup=1$, $\liminf=-1$.</div>
+<figure class="lab" data-lab="limsup">
+<h4>The upper and lower envelopes of the tail</h4>
+<p>$b_n$ is the supremum of everything from $a_n$ onward, and $c_n$ is the infimum. They are computed over a long horizon.</p>
+<p class="note">$b_n$ can only step down and $c_n$ can only step up, so both have limits even when $a_n$ itself keeps oscillating. The sequence converges exactly when the two envelopes meet.</p>
+</figure>
+<ul>
+<li><b>Proposition 31.</b> $\limsup(a_n+b_n)\le\limsup a_n+\limsup b_n$. Strict inequality is possible: $a_n=(-1)^n$, $b_n=(-1)^{n+1}$ gives $0\lt1+1$.</li>
+<li><b>Exercises 22, 23.</b> Some subsequence converges to $\limsup a_n$ and some to $\liminf a_n$; and every convergent subsequence has its limit in $[\liminf a_n,\limsup a_n]$. So that interval contains all subsequential limits, and if $\lim a_n$ exists then $\liminf=\limsup=\lim$.</li>
+</ul>
+<div class="b thm"><b class="t">Proposition 32 · nth-root test</b>Let $\rho=\limsup_{n\to\infty}|a_n|^{1/n}$. If $\rho\lt1$, $\sum a_n$ converges absolutely. If $\rho\gt1$, it diverges. If $\rho=1$ it can converge absolutely, converge conditionally, or diverge.</div>
+<details class="pf" open><summary>Proof</summary><div><p>If $\rho\lt1$, let $c=\frac{\rho+1}2\lt1$; beyond some $N$, $|a_n|^{1/n}\lt c$, i.e. $|a_n|\lt c^n$: compare with $\sum c^n$. If $\rho\gt1$, a subsequence has $|a_{n_i}|^{1/n_i}\gt c=\frac{\rho+1}2\gt1$, so $|a_{n_i}|\gt1$ and the terms do not tend to $0$.</p></div></details>
+<div class="b ex"><b class="t">Example 34 · root test succeeds where ratio test fails</b>$1+1+\frac12+\frac13+\frac1{2^2}+\frac1{3^2}+\frac1{2^3}+\frac1{3^3}+\cdots$ with $a_{2n}=\frac1{2^n}$, $a_{2n+1}=\frac1{3^n}$. Here $\limsup a_n^{1/n}=\frac1{\sqrt2}\lt1$, so the series converges. But $\liminf\frac{a_{n+1}}{a_n}=0$ and $\limsup\frac{a_{n+1}}{a_n}=\infty$: the ratio has no limit.</div>
+<figure class="lab" data-lab="rr">
+<h4>Ratio test against root test</h4>
+<p>Violet: the ratio $|a_{n+1}/a_n|$. Orange: the root $|a_n|^{1/n}$. Dashed: the critical value $1$.</p>
+<p class="note">When the ratio has a limit, the root has the same one (Proposition 33) and the tests agree. In Example 34 the ratio jumps between tiny and huge while the root settles between $1/\sqrt3$ and $1/\sqrt2$, safely below $1$. For Exercise 25 the root is $4\bigl(\frac n{n+1}\bigr)^n\to\frac4e\gt1$: divergence in one line.</p>
+</figure>
+<div class="b thm"><b class="t">Proposition 33</b>$$\liminf\left|\frac{a_{n+1}}{a_n}\right|\le\liminf|a_n|^{1/n}\le\limsup|a_n|^{1/n}\le\limsup\left|\frac{a_{n+1}}{a_n}\right|.$$ So if $\lim|a_{n+1}/a_n|$ exists, all four coincide and the ratio test is as good as the root test. If it does not, the root test gives the sharper information.</div>
+<details class="exr"><summary>Exercises 24, 25, 26</summary><div>
+<p><b>24.</b> $\sum1/n^2$, $\sum(-1)^{n+1}/n$, $\sum1/n$ all have $\limsup|a_n|^{1/n}=1$ (because $n^{1/n}\to1$), yet they converge absolutely, converge conditionally, and diverge.</p>
+<p><b>25.</b> $a_n=\bigl(\frac n{n+1}\bigr)^{n^2}4^n$ has $a_n^{1/n}=4\bigl(1+\frac1n\bigr)^{-n}\to4/e\approx1.47\gt1$: diverges.</p>
+<p><b>26.</b> Take $a_n=2^{-n+(-1)^n}$: then $a_n^{1/n}\to\frac12$, while $a_{n+1}/a_n$ alternates between $\frac18$ and $2$ and has no limit. (It is one of the choices in the lab above.)</p></div></details>
+</section>
+<section class="ch" id="ch-differentiation" data-t="Differentiation">
+<header>
+<p class="eyebrow">Chapter 9 · Part II Foundations of analysis</p>
+<h2>Differentiation</h2>
+<p class="lede">Continuity says a small change in input gives a small change in output. Differentiation asks for more: the <i>rate</i> at which the output changes, as the change in input shrinks to nothing. It is the inverse operation of integration, but is defined on its own, as a limit.</p>
+</header>
+
+<h3>The derivative</h3>
+<div class="b def"><b class="t">Definition 27 · differentiation</b>
+<ol><li><b>Newton's difference quotient</b> of $f$ at $x$, for a step $h$: $\ \dfrac{\Delta f(x)}{\Delta x}=\dfrac{f(x+h)-f(x)}{h}$.</li>
+<li>$f$ is <b>differentiable at</b> $x$ iff $\displaystyle\lim_{h\to0}\frac{f(x+h)-f(x)}h$ exists and is a real number. That limit is the <b>derivative</b>, written $f'(x)$ or $\frac{dy}{dx}$ for $y=f(x)$.</li></ol></div>
+<p>The limit must be the same for <b>every</b> way of sending $h$ to $0$: from above, from below, or jumping about. Geometrically the difference quotient is the slope of a secant line, and $f'(x)$ is the slope of the tangent.</p>
+<div class="b ex"><b class="t">Example 35 · $|x|$</b>At $x=-2$, for small $h$ the point $x+h$ is still negative, so the quotient is $\frac{(-x-h)-(-x)}h=-1$. The same holds at every negative $x$; at every positive $x$ the derivative is $1$. At $x=0$: letting $h=-\frac1n\to0$ gives $-1$, letting $h=\frac1n\to0$ gives $+1$. The limit is not the same along all sequences, so <b>$|x|$ has no derivative at $0$</b>.</div>
+<div class="b ex"><b class="t">Example 36 · $x^2$</b>$\dfrac{(x+h)^2-x^2}h=\dfrac{2xh+h^2}h=2x+h\to2x$. In general
+$$(a_0+a_1x+a_2x^2+\dots+a_nx^n)'=a_1+2a_2x+\dots+na_nx^{n-1}.$$</div>
+<figure class="lab" data-lab="secant">
+<h4>From secant to tangent</h4>
+<p>The orange line passes through $(x,f(x))$ and $(x+h,f(x+h))$. Its slope is the difference quotient. Send $h$ to $0$ from either side.</p>
+<p class="note">For smooth functions the slope settles to one value whichever side $h$ comes from, and that value traces out $f'$ (tick the box to see it). For $|x|$ at $0$ the slope is stuck at $-1$ for $h\lt0$ and at $+1$ for $h\gt0$: no single limit, no derivative.</p>
+</figure>
+
+<h3>Properties of derivatives</h3>
+<div class="b thm"><b class="t">Theorem 34</b>Let $f,g:(a,b)\to\mathbb R$.
+<ol>
+<li>Polynomials are differentiable everywhere, by the formula above.</li>
+<li>If $f$ is differentiable at $x$, then $f$ is continuous at $x$.</li>
+<li>If $f$ is differentiable in $(a,b)$, then $f'(x_0)=0$ at any point $x_0$ where $f$ has a maximum or minimum.</li>
+<li><b>Product rule:</b> $(f\cdot g)'(x)=f'(x)g(x)+f(x)g'(x)$.</li>
+<li><b>Chain rule:</b> $(f\circ g)'(x)=f'(g(x))\cdot g'(x)$.</li>
+<li><b>Linearity:</b> $(af+bg)'(x)=af'(x)+bg'(x)$. Differentiation $f\mapsto f'$ is a linear map.</li>
+</ol>Also $\sin'(x)=\cos(x)$.</div>
+<details class="pf" open><summary>Proof of 3</summary><div><p>If $f'(x_0)\gt0$ there is $\delta\gt0$ with $\frac{f(x)-f(x_0)}{x-x_0}\gt0$ for $0\lt|x-x_0|\lt\delta$. So $f(x)\gt f(x_0)$ just to the right and $f(x)\lt f(x_0)$ just to the left: $f$ is increasing at $x_0$, and $x_0$ is neither a max nor a min. Similarly if $f'(x_0)\lt0$. So at an extremum, $f'(x_0)=0$.</p></div></details>
+<details class="exr"><summary>Exercise 27 — integration by parts</summary><div><p>By the product rule $(uv)'=u'v+uv'$. Integrate from $a$ to $b$ and use the Fundamental Theorem: $u(b)v(b)-u(a)v(a)=\int_a^bu'v+\int_a^buv'$. Rearranged: $$\int_a^bu(x)v'(x)\,dx=u(b)v(b)-u(a)v(a)-\int_a^bu'(x)v(x)\,dx.$$</p></div></details>
+
+<h3>Mean value theorem</h3>
+<div class="b thm"><b class="t">Rolle's theorem (Exercise 28)</b>If $f$ is continuous on $[a,b]$, differentiable on $(a,b)$ and $f(a)=f(b)$, then there is $c\in(a,b)$ with $f'(c)=0$.</div>
+<details class="pf" open><summary>Proof</summary><div><p>$f$ attains a max and a min on $[a,b]$ (Theorem 22). If one of them is inside $(a,b)$, $f'=0$ there by Theorem 34(3). If both are at the end-points then, since $f(a)=f(b)$, max = min, $f$ is constant, and $f'=0$ everywhere.</p></div></details>
+<div class="b thm"><b class="t">Theorem 35 · mean value theorem</b>If $f$ is continuous on $[a,b]$ and differentiable on $(a,b)$, there exists $c\in(a,b)$ with $$\frac{f(b)-f(a)}{b-a}=f'(c),\qquad\text{i.e.}\qquad f(b)=f(a)+(b-a)f'(c).$$</div>
+<details class="pf" open><summary>Proof</summary><div><p>Let $g(x)=f(x)-sx$ and choose the constant $s$ so that $g(a)=g(b)$, namely $s=\frac{f(b)-f(a)}{b-a}$. Rolle gives $c$ with $g'(c)=0$, i.e. $f'(c)=s$.</p></div></details>
+<figure class="lab" data-lab="mvt">
+<h4>Somewhere the tangent is parallel to the chord</h4>
+<p>The chord joins $(a,f(a))$ and $(b,f(b))$. The lab finds every $c$ in between where the tangent has the same slope.</p>
+<p class="note">Average rate of change over $[a,b]$ equals the instantaneous rate at some interior point. Set $f(a)=f(b)$ (a horizontal chord) and you get Rolle's theorem: a point with a horizontal tangent.</p>
+</figure>
+
+<h3>Taylor's theorem</h3>
+<p>The tangent at $x_0$ is $y=f(x_0)+f'(x_0)(x-x_0)$, so near $x_0$ we expect $f(x)=f(x_0)+f'(x_0)(x-x_0)+E$ with a small error $E$. Taylor's theorem extends this to higher derivatives and says exactly how big $E$ is. Write $f^{(n)}$ for the $n$th derivative.</p>
+<div class="b thm"><b class="t">Theorem 36 · Taylor's theorem</b>If $f$ is $n$ times differentiable in $(a,b)$ and $x_0,x\in(a,b)$, then
+$$f(x)=f(x_0)+\frac{(x-x_0)}{1!}f'(x_0)+\frac{(x-x_0)^2}{2!}f''(x_0)+\dots+\frac{(x-x_0)^{n-1}}{(n-1)!}f^{(n-1)}(x_0)+E_n,$$
+$$E_n=\frac{(x-x_0)^n}{n!}f^{(n)}(x^*)\quad\text{for some }x^*\text{ between }x\text{ and }x_0.$$
+$E_n$ is the <b>Lagrange error term</b>. For $n=1$ this is the mean value theorem.</div>
+<details class="pf" open><summary>Proof</summary><div><p>For $y$ between $x$ and $x_0$ let $F(y)=f(x)-f(y)-(x-y)f'(y)-\dots-\frac{(x-y)^{n-1}}{(n-1)!}f^{(n-1)}(y)$. Then $F(x)=0$ and the derivative telescopes to $F'(y)=-\frac{(x-y)^{n-1}}{(n-1)!}f^{(n)}(y)$. Put $G(y)=F(y)-\bigl(\frac{x-y}{x-x_0}\bigr)^nF(x_0)$, so $G(x_0)=G(x)=0$. By Rolle there is $x^*$ with $G'(x^*)=0$, which rearranges to $F(x_0)=\frac{(x-x_0)^n}{n!}f^{(n)}(x^*)$. And $F(x_0)$ is exactly the error $E_n$.</p></div></details>
+<p>We know $x^*$ exists but not where it is. In practice use the worst case over the interval:</p>
+$$|E_n|\le\max_{y\text{ between }x_0\text{ and }x}\left|\frac{f^{(n)}(y)}{n!}\right||x-x_0|^n .$$
+<figure class="lab" data-lab="taylorerr">
+<h4>Taylor polynomial and its error bound</h4>
+<p>The polynomial uses derivatives up to order $n-1$ at $x_0$. The shaded band is the worst-case Lagrange bound on the error; the readout compares it with the actual error at the probe point $x$.</p>
+<p class="note">The true curve always stays inside the band. Raising $n$ or moving $x$ towards $x_0$ tightens it dramatically, because of the factor $|x-x_0|^n/n!$. For $\ln x$ the bound blows up as the interval approaches the singularity at $0$.</p>
+</figure>
+
+<h3>L'Hôpital's rule</h3>
+<p>The quotient rule for limits needed $\lim g\ne0$. When numerator and denominator both vanish, derivatives can decide the limit.</p>
+<div class="b thm"><b class="t">Proposition 37</b>Let $f,g:(a,b)\to\mathbb R$ have continuous derivatives. If $f(c)=g(c)=0$ and $g'(c)\ne0$, then $$\lim_{x\to c}\frac{f(x)}{g(x)}=\frac{f'(c)}{g'(c)}=\lim_{x\to c}\frac{f'(x)}{g'(x)}.$$</div>
+<details class="pf" open><summary>Proof</summary><div><p>$\dfrac{f(x)}{g(x)}=\dfrac{f(x)-f(c)}{g(x)-g(c)}=\dfrac{\frac{f(x)-f(c)}{x-c}}{\frac{g(x)-g(c)}{x-c}}\to\dfrac{f'(c)}{g'(c)}$, and by continuity of $f',g'$ this equals $\lim f'(x)/g'(x)$.</p></div></details>
+<div class="b thm"><b class="t">Proposition 38 · iterated rule</b>If $f,g$ have continuous derivatives up to order $n$, with $f(x_0)=f'(x_0)=\dots=f^{(n-1)}(x_0)=0$, the same for $g$, and $g^{(n)}(x_0)\ne0$, then $$\lim_{x\to x_0}\frac{f(x)}{g(x)}=\frac{f^{(n)}(x_0)}{g^{(n)}(x_0)}.$$ (Proof: by Taylor's theorem both $f$ and $g$ reduce to their remainder terms $\frac{(x-x_0)^n}{n!}f^{(n)}(c)$ and $\frac{(x-x_0)^n}{n!}g^{(n)}(d)$ with $c,d\to x_0$.)</div>
+<div class="b ex"><b class="t">Exercise 29</b>$\displaystyle\lim_{x\to0}\frac{e^x-1}{-x^3+x}=\frac{e^0}{-0+1}=1$. &nbsp; $\displaystyle\lim_{x\to0}\frac{2\sin x-\sin2x}{x-\sin x}$ needs three applications: $\frac{2\cos x-2\cos2x}{1-\cos x}\to\frac00$, $\frac{-2\sin x+4\sin2x}{\sin x}\to\frac00$, $\frac{-2\cos x+8\cos2x}{\cos x}\to\frac{-2+8}1=6$.</div>
+<p><b>Extensions.</b> For $|f|,|g|\to\infty$ write $\frac fg=\frac{1/g}{1/f}$. For $x\to\infty$ write $\lim_{x\to\infty}\frac{f(x)}{g(x)}=\lim_{y\to0}\frac{f(1/y)}{g(1/y)}$.</p>
+<figure class="lab" data-lab="lhop">
+<h4>Zero over zero</h4>
+<p>Left: $f$ and $g$, both passing through $0$ at the same point. Right: the quotient $f/g$ (undefined exactly at that point) together with $f'/g'$.</p>
+<p class="note">Zoom in: near the point each function looks like its first non-vanishing Taylor term, so the quotient is the ratio of those leading coefficients. The quotient has a hole at the point, yet heads to a definite value.</p>
+</figure>
+
+<h3>Fundamental theorem of calculus <span class="ad">Additional material</span></h3>
+<div class="b thm"><b class="t">Theorem 39</b>If $f:[a,b]\to\mathbb R$ is continuous and $F(y)=\int_a^yf(x)\,dx$, then $F$ is uniformly continuous on $[a,b]$ and $F'(x)=f(x)$ for $x\in(a,b)$.</div>
+<details class="pf" open><summary>Proof</summary><div>
+<p><b>Uniform continuity.</b> $f$ is bounded, $|f|\lt K$. For $0\lt h\lt\epsilon/K$: $|F(y+h)-F(y)|=\bigl|\int_y^{y+h}f\bigr|\le\int_y^{y+h}|f|\le Kh\lt\epsilon$.</p>
+<p><b>Derivative.</b> Given $\epsilon$, continuity of $f$ at $x$ gives $\delta$ with $f(x)-\epsilon\lt f(y)\lt f(x)+\epsilon$ for $|y-x|\lt\delta$. For $0\lt h\lt\delta$, integrating over $[x,x+h]$: $h(f(x)-\epsilon)\lt F(x+h)-F(x)\lt h(f(x)+\epsilon)$, i.e. $\bigl|\frac{F(x+h)-F(x)}h-f(x)\bigr|\lt\epsilon$. The same works from the left.</p></div></details>
+<div class="b thm"><b class="t">Corollary 2 · change of variable</b>If $g:[a,b]\to[c,d]$ is differentiable with $g'$ continuous, $f:[c,d]\to\mathbb R$ is continuous and $y=g(x)$, then $$\int_a^bf(g(x))\,g'(x)\,dx=\int_{g(a)}^{g(b)}f(y)\,dy.$$</div>
+<figure class="lab" data-lab="ftc">
+<h4>The area function and its slope</h4>
+<p>Top: $f$, with the area from $a$ to $y$ shaded and a thin extra strip of width $h$. Bottom: the area function $F(y)$.</p>
+<p class="note">The extra strip has area about $f(y)\cdot h$, so $\frac{F(y+h)-F(y)}h\approx f(y)$: the slope of the bottom curve at $y$ equals the height of the top curve at $y$. Where $f$ is negative, $F$ goes down.</p>
+</figure>
+</section>
+<section class="ch" id="ch-power-series" data-t="Power series">
+<header>
+<p class="eyebrow">Chapter 10 · Part II Foundations of analysis</p>
+<h2>Power series</h2>
+<p class="lede">Taylor's theorem approximates a function by a polynomial plus an error. If the function has derivatives of every order, can we let the polynomial run on forever and represent the function exactly, as a series in $x$?</p>
+</header>
+
+<h3>Basics</h3>
+<div class="b def"><b class="t">Definition 28 · power series</b>A <b>power series</b> is a series of the form $\displaystyle\sum_{i=0}^\infty a_i(x-c)^i$, where $x$ is a real variable, $c\in\mathbb R$ is a constant (the centre) and $(a_n)_{n\ge0}$ is a sequence of real coefficients. The index starts at $0$ to match the exponent.</div>
+<p>This generalises the geometric series: shift the argument by $c$ and weight each power with $a_n$. With $c=0$, $a_0=0$ and $a_n=1$ for $n\ge1$ it <i>is</i> the geometric series. Three questions drive the chapter:</p>
+<ul>
+<li><b>Q1</b> For which $x$ does a given power series converge?</li>
+<li><b>Q2</b> If it converges on an interval $(a,b)$, what properties does the resulting function have?</li>
+<li><b>Q3</b> Given $f:(a,b)\to\mathbb R$, what does $f$ need in order to be representable by a power series on all of $(a,b)$?</li>
+</ul>
+<div class="b ex"><b class="t">A polynomial, two ways</b>$f(x)=1+2x+x^2=(x-(-1))^2$. As a power series about $c=0$: $a_0=1,a_1=2,a_2=1$, the rest $0$. About $c=-1$: $a_2=1$, the rest $0$. Every polynomial $p(x)=a_0+a_1x+\dots+a_nx^n$ is a power series with only finitely many non-zero coefficients, and converges for all $x$.</div>
+
+<h3>Radius of convergence</h3>
+<p>A power series always converges at $x=c$ (every term but the first is $0$). Remarkably, the set where it converges is always an interval centred at $c$.</p>
+<div class="b def"><b class="t">Definition 29 · radius of convergence</b>The series $\sum a_i(x-c)^i$ has <b>radius of convergence</b> $r\in[0,\infty)\cup\{\infty\}$ if it converges for all $x$ with $|x-c|\lt r$ and diverges for all $x$ with $|x-c|\gt r$. If $r=\infty$ it converges for all $x$. (At the two points $|x-c|=r$ anything can happen.)</div>
+<div class="b thm"><b class="t">Theorem 40 · formula for the radius</b>Every power series $\sum a_n(x-c)^n$ has a radius of convergence $r$, given by $$r^{-1}=\limsup_{n\to\infty}|a_n|^{1/n},$$ with the conventions $r=\infty$ if the lim sup is $0$ and $r=0$ if it is $\infty$.</div>
+<details class="pf" open><summary>Proof</summary><div><p>Apply the $n$th-root test (Proposition 32) with $l=\limsup|a_n|^{1/n}$: $\limsup\bigl(|a_n||x-c|^n\bigr)^{1/n}=l|x-c|$. The series converges absolutely if $l|x-c|\lt1$, i.e. $|x-c|\lt1/l$, and diverges if $l|x-c|\gt1$. If the lim sup is $\infty$, then for any $x\ne c$ the terms do not tend to $0$, so the series converges only at $x=c$.</p></div></details>
+<div class="b thm"><b class="t">Lemma 8 · ratio test for the radius</b>If $\dfrac{|a_{n+1}|}{|a_n|}$ has a limit $l$, then the radius of convergence is $l^{-1}$.</div>
+<div class="b ex"><b class="t">Example 37</b>$1+x+\frac12x^2+\frac13x^3+\frac1{2^2}x^4+\frac1{3^2}x^5+\cdots$ with $a_{2n}=\frac1{2^n}$, $a_{2n+1}=\frac1{3^n}$. Then $\liminf a_n^{1/n}=\frac1{\sqrt3}$ and $\limsup a_n^{1/n}=\frac1{\sqrt2}$, so $r=\sqrt2$. (The ratio has no limit, so Lemma 8 cannot be used.)</div>
+<div class="b ex"><b class="t">Example 38</b>$S=\sum_{n\ge1}n^2x^n$. Treating $x$ as a formal variable: $\left|\dfrac{(n+1)^2x^{n+1}}{n^2x^n}\right|=|x|\bigl(1+\frac1n\bigr)^2\to|x|$. The series converges when $|x|\lt1$: radius $1$.</div>
+<figure class="lab" data-lab="radius">
+<h4>Finding the radius, then testing it</h4>
+<p>Left: $|a_n|^{1/n}$ (and the ratio where it exists) for the chosen coefficients. Right: the size of the terms $|a_nx^n|$ on a log scale for your choice of $x$.</p>
+<p class="note">Inside the radius the terms shrink geometrically (the right-hand plot slopes down) and the series converges. Outside they grow (it slopes up) and the series diverges. Exactly at $|x|=r$ the plot is roughly level, and the theorem says nothing.</p>
+</figure>
+
+<h3>Adding and multiplying power series</h3>
+<p>Let $f(x)=\sum a_nx^n$ and $g(x)=\sum b_nx^n$ have radii $r_1,r_2$. Writing each as a partial sum plus a remainder that tends to $0$ for $|x|\lt\min\{r_1,r_2\}$ gives:</p>
+<div class="b thm"><b class="t">Proposition 41</b>Two power series can be <b>added term by term</b>: $f(x)+g(x)=\sum(a_n+b_n)x^n$, absolutely convergent with radius $r\ge\min\{r_1,r_2\}$. The radius can be strictly larger: $g=-f$ gives the zero series with $r=\infty$.</div>
+<div class="b thm"><b class="t">Exercise 30 · product</b>For $|x|\lt\min\{r_1,r_2\}$: $$f(x)g(x)=a_0b_0+(a_0b_1+a_1b_0)x+\dots+(a_0b_n+a_1b_{n-1}+\dots+a_nb_0)x^n+\cdots$$</div>
+<div class="b ex"><b class="t">Exercise 31</b>
+<p><b>(i)</b> $\dfrac{3x}{1+x^2}=3x\cdot\dfrac1{1-(-x^2)}=3x\bigl(1-x^2+x^4-\cdots\bigr)=3x-3x^3+3x^5-\cdots$ for $|x|\lt1$.</p>
+<p><b>(ii)</b> $\dfrac1{(x-1)(x-3)}=\dfrac{-1/2}{x-1}+\dfrac{1/2}{x-3}=\dfrac12\cdot\dfrac1{1-x}-\dfrac16\cdot\dfrac1{1-x/3}=\sum_{n\ge0}\Bigl(\dfrac12-\dfrac1{6\cdot3^n}\Bigr)x^n$, radius $\min\{1,3\}=1$.</p></div>
+<figure class="lab" data-lab="cauchyprod">
+<h4>Coefficients of a sum and a product</h4>
+<p>Pick two series. The table computes the first coefficients of $f+g$ and of the product $f\cdot g$ by the formula above.</p>
+<p class="note">Each product coefficient is a sum along an anti-diagonal: all the ways the exponents can add up to $n$. Multiplying $\frac1{1-x}$ by itself gives $1,2,3,4,\dots$, the series of $\frac1{(1-x)^2}$.</p>
+</figure>
+
+<h3>Maclaurin series</h3>
+<div class="b def"><b class="t">Definition 30 · smooth</b>$f$ is <b>smooth at</b> $x_0$ if the $k$th derivative $f^{(k)}(x_0)$ exists for all $k\ge1$, where $f^{(1)}=f'$ and $f^{(k+1)}=(f^{(k)})'$.</div>
+<p>Suppose $f(x)=a_0+a_1x+a_2x^2+\cdots$. Setting $x=0$ gives $a_0=f(0)$. Differentiating: $f'(x)=a_1+2a_2x+3a_3x^2+\cdots$, so $a_1=f'(0)$. Again: $f''(x)=2\cdot1\,a_2+3\cdot2\,a_3x+\cdots$, so $a_2=\frac{f''(0)}{2!}$. In general $f^{(n)}(0)=n!\,a_n$:</p>
+<div class="b thm"><b class="t">Maclaurin series</b>$$f(x)=\sum_{n=0}^\infty f^{(n)}(0)\frac{x^n}{n!},\qquad a_n=\frac{f^{(n)}(0)}{n!},\qquad r^{-1}=\limsup_{n\to\infty}\left|\frac{f^{(n)}(0)}{n!}\right|^{1/n}.$$ Its partial sums are $f_n(x)=\sum_{i=0}^n\frac{f^{(i)}(0)}{i!}x^i$. A power series with $c=0$ is called a Maclaurin series.</div>
+<p>If this series has positive radius and agrees with $f$ inside it, $f$ is called <b>real analytic</b>. Smooth does not imply analytic:</p>
+<div class="b warn"><b class="t">Example 39 · smooth but not analytic</b>$f(x)=e^{-1/x^2}$ for $x\ne0$, $f(0)=0$. Every derivative tends to $0$ as $x\to0$, so $f^{(n)}(0)=0$ for all $n$ and $f$ is smooth. Its Maclaurin series is $0+0+0+\cdots$, which is not $f$. The Taylor remainder $E_n(x)$ equals $f(x)$ for every $n$ and never shrinks.</div>
+<div class="b ex"><b class="t">Examples 40–42</b>
+<ul>
+<li>$(1+x)^3$: $f(0)=1$, $f'(0)=3$, $f''(0)=6$, $f'''(0)=6$, higher derivatives $0$. So $(1+x)^3=1+3x+3x^2+x^3$, a finite series with $r=\infty$. Partial sums $f_0=1$, $f_1=1+3x$, $f_2=1+3x+3x^2$ improve step by step near $0$.</li>
+<li>$\dfrac1{1-x}$: $f^{(n)}(x)=n!(1-x)^{-(n+1)}$, so $a_n=1$ and $\frac1{1-x}=\sum_{i\ge0}x^i$. Ratio test: $|x|\lt1$, radius $1$.</li>
+<li>$\ln(1+x)$: $f^{(n)}(x)=\dfrac{(-1)^{n-1}(n-1)!}{(1+x)^n}$, so $a_n=\dfrac{(-1)^{n-1}}n$: $$\ln(1+x)=x-\frac{x^2}2+\frac{x^3}3-\frac{x^4}4+\cdots,\qquad\text{radius }1.$$ At the boundary: $x=-1$ gives $-\sum\frac1n$, divergent (and $\ln0=-\infty$). $x=1$ gives the alternating harmonic series: $\ln2=\sum_{n\ge1}\frac{(-1)^{n-1}}n$. The two end-points behave differently.</li>
+</ul></div>
+
+<h3>Taylor series</h3>
+<p>Expanding about a general point $c$ instead of $0$:</p>
+$$f(x)=f(c)+\frac{f^{(1)}(c)}{1!}(x-c)+\frac{f^{(2)}(c)}{2!}(x-c)^2+\cdots=\sum_{n=0}^\infty\frac{f^{(n)}(c)}{n!}(x-c)^n .$$
+<div class="b ex"><b class="t">Example 43</b>
+<ul>
+<li>$\sin x$ at $0$: derivatives cycle $\cos,-\sin,-\cos,\sin$, so at $0$ they are $1,0,-1,0,\dots$: $$\sin x=x-\frac{x^3}{3!}+\frac{x^5}{5!}-\frac{x^7}{7!}+\cdots$$</li>
+<li>$\ln x$ has no Maclaurin series ($\ln0$ is undefined). About $c=2$: $f^{(n)}(x)=\frac{(-1)^{n-1}(n-1)!}{x^n}$, so $$\ln x=\ln2+\sum_{n=1}^\infty\frac{(-1)^{n-1}}{n2^n}(x-2)^n.$$ Ratio test: $\frac{|x-2|}2\cdot\frac n{n+1}\to\frac{|x-2|}2\lt1$, so the radius is $2$.</li>
+</ul>
+In general <b>the radius of convergence is limited by the nearest singularity</b> of the function, here $x=0$.</div>
+<figure class="lab" data-lab="taylor">
+<h4>Partial sums closing in on the function</h4>
+<p>The orange curve is the partial sum $f_n$ of the Taylor series about the marked centre. The shaded strip is the interval of convergence.</p>
+<p class="note">Inside the strip, more terms always help. Outside it, more terms make things worse: the partial sums swing away ever more violently. For $\ln x$ move the centre and watch the strip stretch exactly as far as the singularity at $0$. For $e^{-1/x^2}$ every partial sum is the zero function.</p>
+</figure>
+
+<h3>Differentiating and integrating term by term</h3>
+<div class="b thm"><b class="t">Theorem 42</b>Let $f(x)=\sum_{n\ge0}a_n(x-x_0)^n$ with radius $r\gt0$. Then for $|x-x_0|\lt r$, $f$ is continuous, differentiable and integrable, with $$f'(x)=\sum_{n\ge1}na_n(x-x_0)^{n-1},\qquad\int_{x_0}^xf(t)\,dt=\sum_{n\ge0}\frac{a_n}{n+1}(x-x_0)^{n+1}.$$</div>
+<div class="b thm"><b class="t">Corollary 3 · uniqueness</b>Differentiating $n$ times gives $f^{(n)}(x_0)=n!\,a_n$. So the power series of $f$ about $x_0$ is unique: it <i>is</i> the Taylor series. Two power series are equal iff all their coefficients are equal.</div>
+
+<h3>Solving a differential equation with a series</h3>
+<p>Solve $\dfrac{dy}{dx}=ky$ with $y=1$ when $x=0$. Look for $y=\sum_{i\ge0}a_ix^i$. The boundary condition gives $a_0=1$. Differentiate term by term and shift the index:</p>
+$$\frac{dy}{dx}=\sum_{i\ge1}ia_ix^{i-1}=\sum_{i\ge0}(i+1)a_{i+1}x^i\quad\text{must equal}\quad ky=\sum_{i\ge0}ka_ix^i .$$
+<p><b>Match coefficients</b> (Corollary 3): $(i+1)a_{i+1}=ka_i$ for all $i\ge0$. Unwinding the recurrence, $a_i=\frac kia_{i-1}=\dots=\frac{k^i}{i!}a_0$, so</p>
+$$y=\sum_{i=0}^\infty\frac{(kx)^i}{i!}=e^{kx}.$$
+<figure class="lab" data-lab="ode">
+<h4>Building the solution of y′ = ky coefficient by coefficient</h4>
+<p>The recurrence $(i+1)a_{i+1}=ka_i$ generates the coefficients from $a_0$. The orange curve is the partial sum; the blue curve is $a_0e^{kx}$.</p>
+<p class="note">Without the boundary condition, $a_0$ is free: one <b>degree of freedom</b>, and each choice gives a different solution. Once $a_0$ is fixed, every other coefficient is forced.</p>
+</figure>
+<p>These are <b>ordinary</b> differential equations (ODEs). <b>Partial</b> differential equations (PDEs) involve partial derivatives of functions of several variables; this method does not really work for them, and some PDEs (for example in general relativity) have very few known explicit solutions.</p>
+</section>
+<section class="ch" id="ch-multivariate" data-t="Multivariate calculus">
+<header>
+<p class="eyebrow">Chapter 11 · Part II Foundations of analysis</p>
+<h2>Multivariate calculus</h2>
+<p class="lede">Now the function has several inputs: $f:\mathbb R^n\to\mathbb R$. Such functions are the loss functions of machine learning, sometimes with thousands of variables. The derivative becomes a vector, the gradient, and the second derivative becomes a matrix, the Hessian.</p>
+</header>
+
+<h3>Surfaces</h3>
+<ul>
+<li><b>Paraboloid</b> $f_1(x,y)=x^2+y^2$. A horizontal section $z=c\ge0$ is the circle $x^2+y^2=c$; a vertical section $y=c$ is the parabola $z=x^2+c^2$.</li>
+<li><b>Hyperboloid</b> (a saddle) $f_2(x,y)=\dfrac{x^2}{a^2}-\dfrac{y^2}{b^2}$. Each horizontal plane $z=c$ cuts it in a hyperbola.</li>
+</ul>
+
+<h3>Partial derivatives and the gradient</h3>
+<div class="b def"><b class="t">Partial derivative</b>For $f(x_1,\dots,x_n)$, $\dfrac{\partial f}{\partial x_i}$ is the ordinary derivative with respect to $x_i$, <b>with all other variables held fixed</b>.</div>
+<div class="b ex"><b class="t">Examples 44–46</b>
+$f=x^2+y^2$: $\ \frac{\partial f}{\partial x}=2x,\ \frac{\partial f}{\partial y}=2y$. &nbsp;
+$f=\frac{x^2}{a^2}-\frac{y^2}{b^2}$: $\ \frac{\partial f}{\partial x}=\frac{2x}{a^2},\ \frac{\partial f}{\partial y}=-\frac{2y}{b^2}$. &nbsp;
+$f=x^3y^2$: $\ \frac{\partial f}{\partial x}=3x^2y^2,\ \frac{\partial f}{\partial y}=2x^3y$.</div>
+<div class="b def"><b class="t">Definition 31 · gradient</b>$\nabla f=\Bigl(\dfrac{\partial f}{\partial x_1},\dfrac{\partial f}{\partial x_2},\dots,\dfrac{\partial f}{\partial x_n}\Bigr)$. It generalises the derivative and <b>points in the direction of greatest growth</b> of $f$. Example 47: $\nabla(x^2+y^2)=(2x,2y)$, $\ \nabla(x^3y^2)=(3x^2y^2,2x^3y)$.</div>
+<figure class="lab" data-lab="surf">
+<h4>Slices, slopes and the gradient</h4>
+<p>Left: the surface $z=f(x,y)$ (drag to rotate). The violet curve is the slice with $y$ held fixed, the green one with $x$ held fixed. Right: the same function seen from above as level curves; click or drag there to move the point. The arrow is $\nabla f$.</p>
+<p class="note">$\partial f/\partial x$ is the slope of the violet slice and $\partial f/\partial y$ the slope of the green one. On the map the gradient arrow always crosses the level curves at right angles and points uphill; where it shrinks to nothing you are at a critical point.</p>
+</figure>
+
+<h3>Second partial derivatives</h3>
+<p>Differentiate again, with respect to the same or the other variable. For $f=x^3y^2$:</p>
+$$\frac{\partial^2f}{\partial x^2}=6xy^2,\qquad\frac{\partial^2f}{\partial y^2}=2x^3,\qquad\frac{\partial^2f}{\partial x\,\partial y}=\frac{\partial}{\partial x}\bigl(2x^3y\bigr)=6x^2y,\qquad\frac{\partial^2f}{\partial y\,\partial x}=\frac{\partial}{\partial y}\bigl(3x^2y^2\bigr)=6x^2y .$$
+<p>Here the two <b>mixed</b> derivatives agree. That is not automatic:</p>
+<div class="b warn"><b class="t">Exercise 32 · mixed partials that differ</b>$f(x,y)=\dfrac{xy(x^2-y^2)}{x^2+y^2}$ for $(x,y)\ne(0,0)$, $f(0,0)=0$. One finds $\frac{\partial f}{\partial x}(0,y)=-y$ and $\frac{\partial f}{\partial y}(x,0)=x$, so $\frac{\partial^2f}{\partial y\partial x}(0,0)=-1$ but $\frac{\partial^2f}{\partial x\partial y}(0,0)=1$. (This surface is one of the choices in the lab above.)</div>
+<div class="b thm"><b class="t">Proposition 43</b>If the first partials $\frac{\partial f}{\partial x_i},\frac{\partial f}{\partial x_j}$ exist in an open disk around $y$ and the second partials $\frac{\partial^2f}{\partial x_i\partial x_j}$, $\frac{\partial^2f}{\partial x_j\partial x_i}$ are <b>continuous</b> at $y$, then they are equal at $y$. From here on all functions are assumed to be this well behaved.</div>
+
+<h3>Taylor series in several variables <span class="ad">Additional material</span></h3>
+<p>In one variable the remainder is bounded by a constant times $|y-x|^n$, written $O(|y-x|^n)$ (<b>big O</b>: there is $K\gt0$ with $|\text{remainder}|\le K|y-x|^n$). For $f(x_1,x_2)$ near a point $x$, to second order:</p>
+$$f(y)=f(x)+(y-x)\cdot\nabla f(x)+\frac12\Bigl[(y_1-x_1)^2\frac{\partial^2f}{\partial x_1^2}+(y_2-x_2)^2\frac{\partial^2f}{\partial x_2^2}+2(y_1-x_1)(y_2-x_2)\frac{\partial^2f}{\partial x_2\partial x_1}\Bigr]+O(|y-x|^3).$$
+<p>The first-order part is the scalar product of the displacement with the gradient. The second-order part is what classifies critical points below.</p>
+
+<h3>Chain rule in higher dimensions</h3>
+<div class="b thm"><b class="t">Multivariate chain rule</b>If $z=f(x_1,x_2)$ with $x_1=x_1(u_1,u_2)$, $x_2=x_2(u_1,u_2)$, then $$\frac{\partial z}{\partial u_1}=\frac{\partial f}{\partial x_1}\frac{\partial x_1}{\partial u_1}+\frac{\partial f}{\partial x_2}\frac{\partial x_2}{\partial u_1},\qquad\frac{\partial z}{\partial u_2}=\frac{\partial f}{\partial x_1}\frac{\partial x_1}{\partial u_2}+\frac{\partial f}{\partial x_2}\frac{\partial x_2}{\partial u_2}.$$ Add up the contributions along every route from the output back to the variable.</div>
+<div class="b ex"><b class="t">Example 48</b>$z=\sin(3u_1+5u_2)+6\cos(2u_1-u_2)$. Put $x_1=3u_1+5u_2$, $x_2=2u_1-u_2$, $z=\sin x_1+6\cos x_2$. Then $\frac{\partial z}{\partial x_1}=\cos x_1$, $\frac{\partial z}{\partial x_2}=-6\sin x_2$, and $\frac{\partial x_1}{\partial u_1}=3,\frac{\partial x_1}{\partial u_2}=5,\frac{\partial x_2}{\partial u_1}=2,\frac{\partial x_2}{\partial u_2}=-1$. So
+$$\frac{\partial z}{\partial u_1}=3\cos(3u_1+5u_2)-12\sin(2u_1-u_2),\qquad\frac{\partial z}{\partial u_2}=5\cos(3u_1+5u_2)+6\sin(2u_1-u_2).$$</div>
+<figure class="lab" data-lab="chain">
+<h4>Check the chain rule numerically</h4>
+<p>Example 48 at a point of your choice. The chain-rule formulas are compared with a direct finite-difference estimate $\frac{z(u_1+h,u_2)-z(u_1-h,u_2)}{2h}$.</p>
+<p class="note">Two routes lead from $u_1$ to $z$ (through $x_1$ and through $x_2$). The table shows each route's product of rates and their sum, which matches the direct estimate to many digits.</p>
+</figure>
+
+<h3>Critical points in one variable, revisited</h3>
+<p>A <b>critical point</b> of $f:\mathbb R^n\to\mathbb R$ is a point with $\nabla f(x)=0$ (for $n=1$: $f'(x)=0$). For an analytic function of one variable, let $n$ be the smallest integer with $f^{(n)}(x)\ne0$. Near $x$,</p>
+$$f(y)-f(x)\approx\frac{(y-x)^nf^{(n)}(x)}{n!}.$$
+<ul>
+<li>$n$ even, $f^{(n)}(x)\gt0$: the term is positive on both sides, so $x$ is a <b>minimum</b>.</li>
+<li>$n$ even, $f^{(n)}(x)\lt0$: a <b>maximum</b>.</li>
+<li>$n$ odd: the term changes sign, like $\pm(y-x)^3$: a <b>point of inflection</b>.</li>
+</ul>
+<figure class="lab" data-lab="crit1">
+<h4>The first non-zero derivative decides</h4>
+<p>$f(y)=\pm\,y^n$ has a critical point at $0$ whose first non-vanishing derivative is the $n$th.</p>
+<p class="note">Even $n$ gives a bowl or a dome, according to the sign. Odd $n$ always gives an inflection: lower on one side, higher on the other.</p>
+</figure>
+
+<h3>Classifying critical points in two variables</h3>
+<p>In higher dimensions a <i>non-degenerate</i> critical point is a minimum, a maximum, or a <b>saddle</b>: a minimum along one direction and a maximum along another. At a critical point $x$ the gradient term vanishes, so with the three numbers</p>
+$$a:=\frac{\partial^2f}{\partial x_1^2},\qquad b:=\frac{\partial^2f}{\partial x_2\partial x_1},\qquad c:=\frac{\partial^2f}{\partial x_2^2}\qquad\text{(evaluated at }x\text{)}$$
+<p>the Taylor expansion reads $f(y)-f(x)\approx\frac12\bigl[a(y_1-x_1)^2+2b(y_1-x_1)(y_2-x_2)+c(y_2-x_2)^2\bigr]$. Dividing by $(y_2-x_2)^2/2\gt0$ and writing $t=\frac{y_1-x_1}{y_2-x_2}$, the sign of $f(y)-f(x)$ is the sign of the quadratic</p>
+$$at^2+2bt+c .$$
+<div class="b thm"><b class="t">Proposition 44</b>
+<ol type="i">
+<li>$b^2-ac\lt0$ and $a\gt0$ (equivalently $c\gt0$, or $a+c\gt0$): $f(y)-f(x)$ is strictly positive, so $x$ is a <b>minimum</b>.</li>
+<li>$b^2-ac\lt0$ and $a\lt0$ (equivalently $c\lt0$, or $a+c\lt0$): a <b>maximum</b>.</li>
+<li>$b^2-ac\gt0$: the quadratic changes sign, so $x$ is a <b>saddle point</b>.</li>
+</ol>If $b^2-ac=0$ the critical point is <b>degenerate</b> and second derivatives cannot decide.</div>
+<div class="b ex"><b class="t">Examples 49, 50</b>$f=3x_1^2+7x_1x_2+5x_2^2$: $a=6$, $c=10$, $b=7$, $b^2-ac=49-60\lt0$, $a\gt0$: minimum at $(0,0)$. &nbsp; $f=3x_1^2+8x_1x_2+5x_2^2$: $b=8$, $b^2-ac=64-60\gt0$: saddle.</div>
+<div class="b warn"><b class="t">Example 51 · degenerate</b>$f_1=x_1^2+x_2^4$ has a minimum at $(0,0)$; $f_2=x_1^2-x_2^4$ has a saddle there. Both have $a=2$, $b=0$, $c=0$, so $b^2-ac=0$. Same second derivatives, different behaviour: the test breaks down.</div>
+<figure class="lab" data-lab="quad">
+<h4>Minimum, maximum or saddle?</h4>
+<p>The surface $\frac12(ax_1^2+2bx_1x_2+cx_2^2)$, its level curves, and the quadratic $at^2+2bt+c$ that controls its sign.</p>
+<p class="note">If the parabola in $t$ stays on one side of the axis, every direction away from the critical point goes the same way: a bowl or a dome. If it crosses the axis, some directions go up and others down: a saddle. The crossing happens exactly when $b^2-ac\gt0$, i.e. when the eigenvalues have opposite signs. Start from Example 49 and raise $b$ from $7$ to $8$.</p>
+</figure>
+
+<h3>The Hessian matrix</h3>
+<div class="b def"><b class="t">Hessian</b>$$H(x_1,x_2)=\begin{pmatrix}\dfrac{\partial^2f}{\partial x_1^2}&\dfrac{\partial^2f}{\partial x_1\partial x_2}\\[2mm]\dfrac{\partial^2f}{\partial x_1\partial x_2}&\dfrac{\partial^2f}{\partial x_2^2}\end{pmatrix}=\begin{pmatrix}a&b\\b&c\end{pmatrix},\qquad f(y)-f(x)=\frac12(y-x)^{\mathsf T}H\,(y-x)+O(|y-x|^3).$$ For $f:\mathbb R^n\to\mathbb R$ it is the $n\times n$ matrix with entries $H_{ij}=\dfrac{\partial^2f}{\partial x_i\partial x_j}$. This generalises $f(y)-f(x)=\frac12f''(x)(y-x)^2+\cdots$.</div>
+<p>Now $ac-b^2=\det H$ and $a+c=\operatorname{tr}H$. The eigenvalues $r_1,r_2$ of $H$ are the roots of $\lambda^2-(a+c)\lambda+(ac-b^2)=0$, so $r_1+r_2=\operatorname{tr}H$ and $r_1r_2=\det H$. Proposition 44 becomes:</p>
+<div class="b thm"><b class="t">Propositions 45, 46</b>At a critical point of $f:\mathbb R^n\to\mathbb R$:
+<ol type="i"><li>all eigenvalues of $H$ positive: <b>minimum</b>;</li><li>all eigenvalues negative: <b>maximum</b>;</li><li>both positive and negative eigenvalues, none zero: <b>saddle</b>.</li></ol></div>
+<div class="b ex"><b class="t">Example 52</b>$f=x_1^3-12x_1+x_2^3-3x_2$. $\ \nabla f=(3x_1^2-12,\ 3x_2^2-3)=0$ at $x_1=\pm2$, $x_2=\pm1$. $\ H=\begin{pmatrix}6x_1&0\\0&6x_2\end{pmatrix}$. So $(2,1)$ is a minimum (eigenvalues $12,6$), $(-2,-1)$ a maximum ($-12,-6$), and $(-2,1)$, $(2,-1)$ are saddles. Choose this function in the first lab of the chapter and jump between its four critical points.</div>
+</section>
+<section class="ch" id="ch-numerical" data-t="Numerical methods">
+<header>
+<p class="eyebrow">Chapter 12 · Part II Foundations of analysis</p>
+<h2>Numerical methods</h2>
+<p class="lede">Most equations cannot be solved in closed form, and nobody can write down the optimal weights of a neural network. Numerical methods replace the exact answer with a sequence of approximations, and calculus tells us whether, and how fast, that sequence converges.</p>
+</header>
+
+<h3>Analytic and numerical solutions</h3>
+<p>$5x^2+6x+1=0$ can be solved <b>analytically</b>: the quadratic formula $x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}$ gives $x=\frac{-6\pm4}{10}$, so $x_1=-1$, $x_2=-0.2$. A computer algebra system does the same:</p>
+<pre><code>import sympy
+x = sympy.symbols('x')
+sympy.solve(5.*x**2 + 6.*x + 1., x)     # [-1.0, -0.2]</code></pre>
+<p>Cubics and quartics have (unwieldy) formulas too. Galois theory shows there is <b>no general formula in radicals for the quintic</b>. When closed forms run out we use numerical methods, on which much of industrial computing relies.</p>
+
+<h3>Iteration of functions <span class="ad">Additional material</span></h3>
+<p>Let $f$ be continuously differentiable with a <b>fixed point</b> $x^*$, $f(x^*)=x^*$. Start near it and iterate: $x_0,\ f(x_0),\ f(f(x_0)),\dots,f^n(x_0),\dots$ (here $f^n$ means $f$ applied $n$ times). <b>Graphical analysis</b> draws this orbit:</p>
+<ol>
+<li>Draw the diagonal $y=x$ on the graph of $F$. Its intersections with the graph are the fixed points.</li>
+<li>Start at $(x_0,x_0)$ on the diagonal. Go vertically to the graph, reaching $(x_0,F(x_0))$.</li>
+<li>Go horizontally to the diagonal, reaching $(F(x_0),F(x_0))$. Repeat.</li>
+</ol>
+<div class="b thm"><b class="t">Attractors and repellors</b>If $|f'(x^*)|\lt1$, iterates starting near $x^*$ converge to it: $x^*$ is a (hyperbolic) <b>attractor</b>. If $|f'(x^*)|\gt1$ they run away: a <b>repellor</b>. If $|f'(x^*)|=1$ nearby points may be attracted, repelled, stay put or oscillate. (Exercises 34, 35: by the mean value theorem $|f(x)-x^*|=|f'(c)||x-x^*|$, and near $x^*$ the factor $|f'(c)|$ is below, respectively above, $1$.)</div>
+<figure class="lab" data-lab="cobweb">
+<h4>Cobweb diagram</h4>
+<p>The staircase or spiral is the orbit of $x_0$ under repeated application of $F$.</p>
+<p class="note">For $F(x)=ax$: $|a|\lt1$ pulls every orbit into $0$, $|a|\gt1$ throws it out; negative $a$ makes the orbit spiral instead of stepping. $\cos x$ has one fixed point, about $0.739$, with slope of size $0.67$ there, so every orbit spirals in. $x^3$ (Exercise 33) has three fixed points: $0$ attracts ($F'=0$), $\pm1$ repel ($F'=3$).</p>
+</figure>
+
+<h3>Root finding: Newton's method</h3>
+<p>To solve $f(x)=0$, start from a guess $x_0$ and improve it. The tangent at $x_0$ is $y=f(x_0)+f'(x_0)(x-x_0)$. It crosses the $x$-axis closer to the root than $x_0$ was; call that crossing $x_1$. Setting $y=0$: $0=f(x_0)+f'(x_0)(x_1-x_0)$.</p>
+<div class="b thm"><b class="t">Newton's method</b>If $x_n$ approximates a solution of $f(x)=0$ and $f'(x_n)\ne0$, the next approximation is $$x_{n+1}=x_n-\frac{f(x_n)}{f'(x_n)}.$$</div>
+<p><b>As function iteration</b> <span class="ad">Additional</span>: Newton's method iterates $G_f(x)=x-\frac{f(x)}{f'(x)}$. $G_f(x)=x$ iff $f(x)=0$, and $G_f'(x)=\frac{f(x)f''(x)}{(f'(x))^2}$, which is $0$ at a root. So every root (with $f'\ne0$) is an attracting fixed point of $G_f$, with the strongest possible attraction.</p>
+<pre><code>def newton(f, f_dash, x0, epsilon, max_iter=None):
+    xns = [x0]
+    iter_count = 0
+    while True:
+        if iter_count == max_iter: return xns
+        f_xn = f(xns[-1])
+        if abs(f_xn) &lt; epsilon: return xns        # converged: |f(x)| &lt; ε
+        f_dash_xn = f_dash(xns[-1])
+        if f_dash_xn == 0: return None            # flat tangent: give up
+        xns.append(xns[-1] - f_xn / f_dash_xn)</code></pre>
+<div class="b ex"><b class="t">Runs from the notes ($\epsilon=10^{-12}$)</b>
+<ul>
+<li>$\cos x-x=0$ from $1.5$: <span class="nums">1.5, 0.78447…, 0.73951…, 0.7390851747…, 0.739085133215…</span></li>
+<li>$x^2-2=0$ from $1.5$: <span class="nums">1.5, 1.41666…, 1.4142156…, 1.41421356237468…, 1.4142135623730951</span>. Only approximate: $\sqrt2$ is irrational.</li>
+<li>Exercise 1: $x^3-3x^2+3=0$. From $x_0=1$ the method finds $1.34729\ldots$; from $x_0=\frac14$ it finds a different root, $2.53208\ldots$, because the tangent at $\frac14$ lands at $2.40$, next to the other root.</li>
+<li>Exercise 2: $\pi$ is a root of $\cos\frac x2$. The notes report 261 iterations from $1.5$. (The lab shows why it is so slow.)</li>
+<li>Exercise 3: bond yield (see the finance lab below).</li>
+</ul></div>
+<figure class="lab" data-lab="newton">
+<h4>Newton's method, one tangent at a time</h4>
+<p>Each orange line is a tangent; where it meets the axis is the next guess. The table lists the iterates and how far each is from the root.</p>
+<p class="note">Near a root the error is roughly squared at each step, so correct digits double: $10^{-2},10^{-4},10^{-8}$. Move $x_0$ for the cubic between $1$ and $0.25$ and watch the limit switch roots. With the damping $\gamma\lt1$ the same iteration only crawls; for $\cos(x/2)$ the derivative in the notes' code is typed as $-5\sin(x/2)$ instead of $-0.5\sin(x/2)$, which is exactly $\gamma=0.1$ and explains the 261 iterations.</p>
+</figure>
+
+<h3>Why Newton's method converges so fast</h3>
+<p>Let $\alpha$ be the root. Taylor's theorem about $x_n$, with Lagrange remainder:</p>
+$$0=f(\alpha)=f(x_n)+f'(x_n)(\alpha-x_n)+\tfrac12f''(\xi_n)(\alpha-x_n)^2,\qquad\xi_n\text{ between }x_n\text{ and }\alpha.$$
+<p>Divide by $f'(x_n)$ and use the definition of $x_{n+1}$:</p>
+$$\underbrace{\alpha-x_{n+1}}_{\epsilon_{n+1}}=\frac{-f''(\xi_n)}{2f'(x_n)}\underbrace{(\alpha-x_n)^2}_{\epsilon_n^2}\qquad\Longrightarrow\qquad|\epsilon_{n+1}|\le M\epsilon_n^2 .$$
+<div class="b thm"><b class="t">Quadratic convergence</b>The rate of convergence is at least quadratic if (1) $f'(x)\ne0$ on $I=[\alpha-r,\alpha+r]$ for some $r\ge|\alpha-x_0|$; (2) $f''$ is continuous on $I$; (3) $x_0$ is sufficiently close to $\alpha$. Here $M=M_1M_2$ with $M_1$ a bound for $|f''|/2$ and $M_2$ a bound for $1/|f'|$ on $I$.</div>
+
+<h3>Optimisation with Newton's method</h3>
+<p>To minimise $f(x)$ instead, use the fact that $f'=0$ at a minimum and find a root of $f'$:</p>
+$$x_{n+1}=x_n-\frac{f'(x_n)}{f''(x_n)}.$$
+<p>For $f(x)=x^2$: $f'=2x$, $f''=2$, so from $x_0=1.5$ the next iterate is $1.5-\frac{3}{2}=0$: exact in one step, because $f'$ is linear and its tangent is itself.</p>
+<p><b>Modifications</b> <span class="ad">Additional</span>. When derivatives are unavailable or expensive, replace $f'(x_n)$ by the finite difference $\frac{f(x_n)-f(x_{n-1})}{x_n-x_{n-1}}$. This gives the <b>secant method</b>, the simplest <b>quasi-Newton</b> method:</p>
+$$x_{n+1}=x_n-f(x_n)\frac{x_n-x_{n-1}}{f(x_n)-f(x_{n-1})}.$$
+<p>Higher-dimensional quasi-Newton methods include BFGS, Broyden, DFP and SR1. A step size $0\lt\gamma\le1$ gives the <b>relaxed</b> or <b>damped</b> Newton method $x_{n+1}=x_n-\gamma\frac{f'(x_n)}{f''(x_n)}$.</p>
+
+<h3>Gradient descent</h3>
+<p>By Taylor, $f(x+\epsilon)=f(x)+\epsilon f'(x)+O(\epsilon^2)$. Choose the step against the slope, $\epsilon=-\eta f'(x)$ with a fixed <b>step size</b> $\eta\gt0$:</p>
+$$f\bigl(x-\eta f'(x)\bigr)=f(x)-\eta f'(x)^2+O\bigl(\eta^2f'(x)^2\bigr).$$
+<p>If $f'(x)\ne0$ then $\eta f'(x)^2\gt0$, and for small enough $\eta$ the higher-order terms do not matter, so $f(x-\eta f'(x))\le f(x)$. Iterate</p>
+$$x\leftarrow x-\eta f'(x)$$
+<p>until a stop condition is met: $|f'(x)|$ small enough, or a maximum number of iterations.</p>
+<div class="b rem"><b class="t">As a dynamical system <span class="ad">Additional</span></b>Gradient descent iterates $G_f(x)=x-\eta f'(x)$. Its fixed points are the points with $f'(x^*)=0$, and $G_f'(x^*)=1-\eta f''(x^*)$. So $x^*$ is an attractor iff $|1-\eta f''(x^*)|\lt1$, i.e. iff $f''(x^*)\gt0$ <b>and</b> $\eta f''(x^*)\lt2$. Too large a step makes even a true minimum repel.</div>
+<figure class="lab" data-lab="gd1">
+<h4>Gradient descent in one variable</h4>
+<p>Left: the iterates sliding down the graph. Right: $x_n$ against $n$, with Newton's method for comparison.</p>
+<p class="note">Exercise 6 in the notes: on $x^2$, $\eta=0.1$ converges much faster than $\eta=0.01$, and Newton lands in one step. On $x^4-3x^3+1$ from $x_0=2$, $\eta=0.01$ needs about 130 steps, Newton 6, and $\eta=0.1$ never settles: at the minimum $x^*=2.25$, $f''=20.25$, so $\eta f''=2.025\gt2$ and the minimum repels. The orbit oscillates around it.</p>
+</figure>
+<h4>Higher dimensions</h4>
+<p>For $f:\mathbb R^n\to\mathbb R$: $\ x_{n+1}=x_n-\eta\nabla f(x_n)$. The <b>level sets</b> are the surfaces $f(x)=c$.</p>
+<div class="b ex"><b class="t">Example 53</b>$f(x,y)=x^2+y^2$ has circular level sets and $\nabla f=2(x,y)^{\mathsf T}$, so $(x_{n+1},y_{n+1})^{\mathsf T}=(1-2\eta)(x_n,y_n)^{\mathsf T}$: every step shrinks the point towards the origin by the factor $1-2\eta$.</div>
+<div class="b thm"><b class="t">The gradient is normal to level curves</b>$\nabla f(x,y)$ is perpendicular to the level curve through $(x,y)$. Hence $\nabla f$ is the direction of greatest ascent, and $-\nabla f$ the direction of <b>steepest descent</b>.</div>
+<details class="pf" open><summary>Proof</summary><div><p>Parametrise the level curve $f(x,y)=z_0$ as $x=g(t),y=h(t)$. Then $f(g(t),h(t))$ is constant, so by the chain rule $0=\frac{df}{dt}=\frac{\partial f}{\partial x}g'(t)+\frac{\partial f}{\partial y}h'(t)=\nabla f\cdot(g'(t),h'(t))$. The vector $(g'(t),h'(t))$ is tangent to the level curve, and its scalar product with $\nabla f$ vanishes.</p></div></details>
+<figure class="lab" data-lab="gd2">
+<h4>Steepest descent on a landscape</h4>
+<p>Click or drag on the map to place the starting point. Each segment of the path is one step $-\eta\nabla f$.</p>
+<p class="note">Every step leaves at right angles to the level curve it starts on. On the round bowl the path is a straight line to the centre, scaled by $1-2\eta$ each time (it overshoots and flips sides once $\eta\gt\frac12$, and diverges for $\eta\gt1$). On the narrow valley the steep direction limits $\eta$ while the shallow direction crawls: the path zigzags.</p>
+</figure>
+
+<h3>Worked exercises from finance</h3>
+<p><b>Exercise 3 · bond yield.</b> The internal rate of return is the rate $r$ solving $\frac{F_1}{1+r}+\frac{F_2}{(1+r)^2}+\dots+\frac{F_N}{(1+r)^N}-C=0$. For a 4-year bond with a 10% annual coupon and par 1000 (cash flows 100, 100, 100, 1100) selling at 900, Newton's method needs $f'(r)=-\sum_t\frac{tF_t}{(1+r)^{t+1}}$.</p>
+<p><b>Exercise 5 · implied volatility.</b> The Black–Scholes–Merton price of a European call is $C(K,T)=S_0\Phi(d_1)-Ke^{-rT}\Phi(d_2)$ with $d_1=\frac{\ln(S_0/K)+(r+\sigma^2/2)T}{\sigma\sqrt T}$, $d_2=d_1-\sigma\sqrt T$, and $\Phi$ the standard normal distribution function. The <b>implied volatility</b> is the $\sigma$ that reproduces a market price. For $S_0=20$, $K=18$, $T=\frac14$, $r=0$, price $2.20$, the secant method needs no derivative.</p>
+<figure class="lab" data-lab="finance">
+<h4>Two root-finding problems, solved live</h4>
+<p>The iterations below are computed in your browser with the same algorithms as in the notes.</p>
+<p class="note">Newton from the poor guess $r=1$ first jumps to a meaningless negative rate and then recovers, reaching $13.39\%$. The secant method from $0.1$ and $0.2$ reaches the implied volatility $22.49\%$ in a handful of steps. Change the market price and both answers move.</p>
+</figure>
+<pre><code>def secant(f, x0, x1, epsilon, max_iter=None):
+    xns = [x0, x1]
+    iter_count = 0
+    while True:
+        if iter_count == max_iter: return xns
+        f_xn = f(xns[-1])
+        if abs(f_xn) &lt; epsilon: return xns
+        xns.append(xns[-1] - f_xn * (xns[-1] - xns[-2]) / (f_xn - f(xns[-2])))
+        iter_count += 1
+
+def gradient_descent(f_dash, eta, x0, epsilon, max_iter=None):
+    xns = [x0]
+    iter_count = 0
+    while True:
+        if iter_count == max_iter: return xns
+        f_dash_at_xn = f_dash(xns[-1])
+        if abs(f_dash_at_xn) &lt; epsilon: return xns
+        xns.append(xns[-1] - eta * f_dash_at_xn)
+        iter_count += 1</code></pre>
+<p>Secant on $x^2-2$ from $1.5$ and $2$: <span class="nums">1.5, 2, 1.42857, 1.41667, 1.4142259, 1.41421357, 1.414213562373</span>. Slightly slower than Newton, with no derivative needed.</p>
+<p><b>History.</b> The name comes from Newton's description of a special case in <i>De analysi</i> (written 1669, published 1711) and <i>Method of Fluxions</i> (written 1671, published 1736).</p>
+</section>
+<section class="ch" id="ch-metric" data-t="Metric spaces">
+<header>
+<p class="eyebrow">Chapter 13 · Part II Foundations of analysis</p>
+<h2>Metric spaces</h2>
+<p class="lede">Every definition so far (limit of a sequence, limit of a function, continuity) used one thing: a number $|x-y|$ saying how far apart two points are. Isolate that idea, and the whole theory transfers to any set where distance makes sense.</p>
+</header>
+
+<h3>What is distance?</h3>
+<p>In $\mathbb R$ the distance between $x$ and $y$ is $|x-y|$; between $-3$ and $5$ it is $8$. To generalise, look for the essential properties. A mileage chart shows them:</p>
+<div class="tw"><table><tr><th></th><th>London</th><th>Manchester</th><th>Sheffield</th></tr><tr><th>London</th><td>0</td><td>190</td><td>160</td></tr><tr><th>Manchester</th><td>190</td><td>0</td><td>40</td></tr><tr><th>Sheffield</th><td>160</td><td>40</td><td>0</td></tr></table></div>
+<ol>
+<li>Zeros down the diagonal and nowhere else.</li>
+<li>The chart is symmetric.</li>
+<li>Going via a third place is never shorter: London to Manchester is 190, but via Sheffield it is $160+40=200$. This is the <b>triangle inequality</b>: distance $x$ to $z$ $\le$ (distance $x$ to $y$) + (distance $y$ to $z$).</li>
+</ol>
+<div class="b def"><b class="t">Definition 34 · metric space</b>A pair $(X,d)$ of a non-empty set $X$ and a function $d:X\times X\to\mathbb R$ is a <b>metric space</b> if for all $x,y,z\in X$:
+<ul><li>$d(x,y)=0$ iff $x=y$ (<b>identity of indiscernibles</b>);</li><li>$d(x,y)=d(y,x)$ (<b>symmetry</b>);</li><li>$d(x,z)\le d(x,y)+d(y,z)$ (<b>subadditivity</b>, the <b>triangle inequality</b>).</li></ul>
+$d$ is the <b>distance function</b> or <b>metric</b>, and $X$ the underlying set.</div>
+<p>The triangle inequality expresses the transitivity of closeness: if $x$ is close to $y$ and $y$ is close to $z$, then $x$ is close to $z$. This move, from intuition to a short list of statements, is <b>axiomatisation</b>. Axioms say how a concept behaves and sidestep what it "is" (Kolmogorov did the same for probability in 1933).</p>
+<details class="exr"><summary>Exercises 1, 2 — distances are never negative; scaling a metric</summary><div><p><b>1.</b> $0=d(x,x)\le d(x,y)+d(y,x)=2d(x,y)$, so $d(x,y)\ge0$. Non-negativity need not be an axiom. <b>2.</b> $d_k=k\cdot d$ with $k\gt0$: each axiom for $d$ is multiplied through by the positive number $k$ and still holds.</p></div></details>
+<figure class="lab" data-lab="miles">
+<h4>Is it a metric?</h4>
+<p>Three towns and the three "distances" between them. Change the numbers.</p>
+<p class="note">The triangle can be drawn only while each side is at most the sum of the other two. Raise London–Manchester above $200$ and the chart stops being a metric: the detour through Sheffield would be shorter than the direct road.</p>
+</figure>
+
+<h3>Examples of metric spaces</h3>
+<div class="b ex"><b class="t">Examples 54–58</b>
+<ul>
+<li><b>Discrete metric</b> on any set: $d(x,y)=0$ if $x=y$, $1$ if $x\ne y$. No two distinct points are "close"; a space of isolated points.</li>
+<li><b>Subspace</b>: if $(X,d)$ is a metric space and $S\subseteq X$, then $(S,d)$ is one too. So $(\mathbb Q,|x-y|)$ is a metric subspace of $(\mathbb R,|x-y|)$.</li>
+<li><b>Euclidean</b> metric on $\mathbb R^2$: $d_2(x,y)=\sqrt{(x_1-y_1)^2+(x_2-y_2)^2}$. This is the usual metric; "the metric space $\mathbb R^2$" means this one.</li>
+<li><b>Maximum</b> metric: $d_\infty(x,y)=\max(|x_1-y_1|,|x_2-y_2|)$.</li>
+<li><b>Taxi-cab</b> metric: $d_1(x,y)=|x_1-y_1|+|x_2-y_2|$.</li>
+</ul></div>
+<p>In $\mathbb R^n$: $\ d_2(x,y)=\sqrt{\sum_i(x_i-y_i)^2}$, $\ d_1(x,y)=\sum_i|x_i-y_i|$, $\ d_\infty(x,y)=\max_i|x_i-y_i|$. All three are <b>translation invariant</b>, $d(x+z,y+z)=d(x,y)$, and come from <b>norms</b>:</p>
+<div class="b def"><b class="t">Norm</b>A map $\|\cdot\|:\mathbb R^n\to\mathbb R$ with $\|x\|\ge0$; $\ \|rx\|=|r|\|x\|$; $\ \|x+y\|\le\|x\|+\|y\|$. The distance is then $d(x,y)=\|x-y\|$.</div>
+<div class="b thm"><b class="t">Exercises 37, 38</b>For all $x\in\mathbb R^n$: $$\|x\|_\infty\le\|x\|_2\le\|x\|_1\qquad\text{and}\qquad\|x\|_1\le\sqrt n\,\|x\|_2\le n\,\|x\|_\infty .$$</div>
+<div class="b def"><b class="t">Definition 35 · equivalent metrics</b>$d_1$ and $d_2$ on $X$ are <b>equivalent</b> if there are $p,q\gt0$ with $d_1(x,y)\le p\,d_2(x,y)$ and $d_2(x,y)\le q\,d_1(x,y)$ for all $x,y$. By the inequalities above, $\|\cdot\|_1,\|\cdot\|_2,\|\cdot\|_\infty$ are pairwise equivalent.</div>
+<figure class="lab" data-lab="balls">
+<h4>Three ways to measure the plane</h4>
+<p>The set of points at distance exactly $r$ from the centre, for each metric. Click or drag to move the probe point.</p>
+<p class="note">The "circle" is a diamond for the taxi-cab metric, a round circle for the Euclidean one and a square for the maximum metric, nested in that order. That nesting <i>is</i> the inequality $\|x\|_\infty\le\|x\|_2\le\|x\|_1$. Each shape fits inside a scaled copy of the others, which is what equivalence means.</p>
+</figure>
+<div class="b ex"><b class="t">Example 59 · a metric on infinite bit strings</b>On $\{0,1\}^{\mathbb N}$, sequences $b=b_0b_1b_2\ldots$, define $d(b,b')=0$ if $b=b'$ and otherwise $d(b,b')=\dfrac1{2^n}$ where $n$ is the smallest index with $b_n\ne b'_n$. Two strings are close when they agree on a long prefix.</div>
+<figure class="lab" data-lab="bits">
+<h4>Distance between bit strings</h4>
+<p>Click any bit to flip it. The distance between two strings depends only on the first place they differ.</p>
+<p class="note">Changing a late bit moves a string only slightly; changing bit 0 moves it as far as possible. The triangle inequality holds in a strong form: $d(b,b'')\le\max\{d(b,b'),d(b',b'')\}$.</p>
+</figure>
+
+<h3>Continuity in metric spaces <span class="ad">Additional material</span></h3>
+<div class="b def"><b class="t">Definition 36</b>Let $(X,d)$ and $(Y,d')$ be metric spaces. $f:X\to Y$ is <b>continuous at</b> $a\in X$ if for every $\epsilon\gt0$ there is $\delta\gt0$ such that $d(x,a)\lt\delta\Rightarrow d'(f(x),f(a))\lt\epsilon$. It is <b>continuous</b> if continuous at every point.</div>
+<ul>
+<li><b>Proposition 47.</b> Constant functions are continuous (any $\delta$ works: $d'(c,c)=0\lt\epsilon$).</li>
+<li><b>Proposition 48.</b> The identity $i:X\to X$ is continuous (take $\delta=\epsilon$; any $\delta\le\epsilon$ would do, as $\delta$ only has to "do the job").</li>
+<li><b>Theorem 49.</b> If $f$ is continuous at $a$ and $g$ is continuous at $f(a)$, then $g\circ f$ is continuous at $a$. <i>Proof:</i> given $\epsilon$, continuity of $g$ gives $\eta$ with $d'(y,f(a))\lt\eta\Rightarrow d''(g(y),g(f(a)))\lt\epsilon$; continuity of $f$ gives $\delta$ with $d(x,a)\lt\delta\Rightarrow d'(f(x),f(a))\lt\eta$. Chain the two.</li>
+<li><b>Exercises 39, 40.</b> Replacing the metrics by equivalent ones does not change which functions are continuous. So continuity between $\mathbb R^n$ and $\mathbb R^m$ does not depend on which of the norms $1,2,\infty$ is used.</li>
+</ul>
+
+<h3>Open balls and neighbourhoods <span class="ad">Additional material</span></h3>
+<div class="b def"><b class="t">Definitions 37, 38</b>The <b>open ball</b> about $a$ of radius $\delta$ is $B(a;\delta)=\{x\in X: d(a,x)\lt\delta\}$. A set $N\subseteq X$ is a <b>neighbourhood</b> of $a$ if $B(a;\delta)\subseteq N$ for some $\delta\gt0$. The collection $\mathcal N_a$ of all neighbourhoods of $a$ is its complete system of neighbourhoods.</div>
+<div class="b thm"><b class="t">Proposition 50 and Corollary 5</b>$f$ is continuous at $a$ iff for every $\epsilon\gt0$ there is $\delta\gt0$ with $f(B(a;\delta))\subseteq B(f(a);\epsilon)$; equivalently $B(a;\delta)\subseteq f^{-1}(B(f(a);\epsilon))$. (Because $f(U)\subseteq V$ iff $U\subseteq f^{-1}(V)$.)</div>
+<div class="b thm"><b class="t">Theorem 51</b>An open ball $B(a;\delta)$ is a neighbourhood of each of its points.</div>
+<details class="pf" open><summary>Proof</summary><div><p>Let $b\in B(a;\delta)$, so $d(a,b)\lt\delta$. Choose $\eta\lt\delta-d(a,b)$. If $x\in B(b;\eta)$ then $d(a,x)\le d(a,b)+d(b,x)\lt d(a,b)+\eta\lt\delta$. So $B(b;\eta)\subseteq B(a;\delta)$.</p></div></details>
+<figure class="lab" data-lab="nbhd">
+<h4>Room to move inside an open ball</h4>
+<p>The large shape is $B(a;\delta)$. Click or drag to place $b$ inside it. The small shape is $B(b;\eta)$ with $\eta=\delta-d(a,b)$.</p>
+<p class="note">However close $b$ gets to the edge, there is still a little ball around it that stays inside, because the edge itself is not part of the ball. The picture works identically in all three metrics: only the triangle inequality is used.</p>
+</figure>
+
+<h3>Limits</h3>
+<div class="b def"><b class="t">Definition 39</b>In a metric space $(X,d)$, a point $x$ is the <b>limit</b> of the sequence $x_1,x_2,\dots$ if $\lim_{n\to\infty}d(x,x_n)=0$. We write $\lim_{n\to\infty}x_n=x$.</div>
+<p>Convergence of points has been reduced to convergence of a sequence of real numbers, the distances, which Chapter 5 already handles.</p>
+<figure class="lab" data-lab="mconv">
+<h4>A sequence of points converging in the plane</h4>
+<p>Left: the points $x_n$ spiralling towards the limit. Right: the distances $d(x,x_n)$ in each of the three metrics.</p>
+<p class="note">The three distance sequences differ term by term but go to zero together. Equivalent metrics always agree about which sequences converge. The discrete metric does not: there $d(x,x_n)=1$ for every $n$, and this sequence does not converge at all.</p>
+</figure>
+
+<h3>Topology and levels of abstraction</h3>
+<p>Butler Lampson's "fundamental theorem of software engineering" says all problems in computer science can be solved by another level of indirection. Mathematics works the same way. Axiomatising distance gave metric spaces. One level up, a <b>topological space</b> keeps only a notion of closeness, with no numbers attached. Every metric space is a topological space, but not conversely. Topological spaces are outside this course.</p>
+<p><b>History.</b> Maurice Fréchet introduced metric spaces in his 1906 doctoral thesis, to study limits and continuity in an abstract setting; the name is due to Felix Hausdorff. Polish mathematicians (Sierpiński, Kuratowski) developed the theory in the 1920s.</p>
+</section>
+<section class="ch" id="ch-vectors" data-t="Vector derivatives">
+<header>
+<p class="eyebrow">Chapter 14 · Part II Foundations of analysis</p>
+<h2>Vector derivatives</h2>
+<p class="lede">Data science is full of functions of many variables, above all loss functions. Packing the variables into vectors and matrices keeps the calculus manageable, and leads straight to linear regression and to backpropagation, the algorithm that trains neural networks.</p>
+</header>
+
+<h3>Vectors and matrices</h3>
+<p>$\mathbb R^n$ is the set of columns $x=(x_1,\dots,x_n)^{\mathsf T}$ of real numbers, its <b>coordinates</b> or <b>components</b>. These are <b>vectors</b>; ordinary real numbers are <b>scalars</b>.</p>
+<ul>
+<li><b>Addition</b> and <b>scalar multiplication</b> are componentwise: $(x+y)_i=x_i+y_i$, $(\alpha x)_i=\alpha x_i$.</li>
+<li>A <b>matrix</b> $M\in\mathbb R^{m\times n}$ is a rectangular array $M_{ij}$; its <b>transpose</b> has $(M^{\mathsf T})_{ji}=M_{ij}$. It acts on $u\in\mathbb R^n$ by $(Mu)_i=\sum_jM_{ij}u_j$, and $(MN)_{it}=\sum_jM_{ij}N_{jt}$. Multiplication is associative: $(MN)P=M(NP)$.</li>
+<li>The <b>scalar (dot) product</b>: $x\cdot y=x^{\mathsf T}y=y^{\mathsf T}x=\sum_ix_iy_i=\|x\|_2\|y\|_2\cos\theta$, with $\theta$ the angle between $x$ and $y$.</li>
+</ul>
+<figure class="lab" data-lab="vec">
+<h4>Adding, scaling and the dot product</h4>
+<p>Click or drag near the tip of $u$ or $v$ to move it.</p>
+<p class="note">$u+v$ is the diagonal of the parallelogram and $cu$ stretches $u$ along its own line. The dot product is positive when the angle is acute, zero when the vectors are perpendicular and negative when it is obtuse. That is why "gradient $\cdot$ tangent $=0$" meant perpendicular in Chapter 12.</p>
+</figure>
+<div class="b def"><b class="t">Definitions 40, 41 · linear and affine maps</b>$f:\mathbb R^n\to\mathbb R$ is <b>linear</b> if $f(x+y)=f(x)+f(y)$ and $f(rx)=rf(x)$. Equivalently $f(x)=s\cdot x=\sum_is_ix_i$ for some $s\in\mathbb R^n$ (for $n=1$: $f(x)=sx$). $f$ is <b>affine</b> if $f(x)=s\cdot x+b$: linear plus a constant.</div>
+<div class="b thm"><b class="t">Two gradients to remember</b>Write $\nabla f=\dfrac{\partial f}{\partial x}$.
+<ul><li>Affine: $f(x)=r+c^{\mathsf T}x\ \Rightarrow\ \dfrac{\partial f}{\partial x}=c$.</li>
+<li>Quadratic: $f(x)=x^{\mathsf T}Mx$ with $M$ symmetric $\ \Rightarrow\ \dfrac{\partial f}{\partial x}=2Mx$. (Exercise 41: for $n=2$, $f=ax_1^2+2bx_1x_2+cx_2^2$, so $\nabla f=(2ax_1+2bx_2,\ 2bx_1+2cx_2)=2Mx$.)</li></ul>
+These are the vector versions of $(cx)'=c$ and $(mx^2)'=2mx$.</div>
+
+<h3>Linear regression through the origin</h3>
+<p>Given points $(x_i,y_i)$, find the line $y=mx$ that fits best. Each point has an <b>error</b> $e_i=mx_i-y_i$, giving a vector $e\in\mathbb R^n$. How should $n$ errors be combined into one number?</p>
+<ol type="i">
+<li>$\|e\|_1=\sum|mx_i-y_i|$: the absolute value is not differentiable at $0$ and the signs must be tracked; awkward to minimise.</li>
+<li>$\|e\|_\infty=\max|mx_i-y_i|$: a single outlier dictates the line.</li>
+<li>$\|e\|_2=\sqrt{\sum(mx_i-y_i)^2}$: the best choice. Minimise its square, which has the same minimiser.</li>
+</ol>
+$$L(D,m)=\|e\|_2^2=\sum_{i=1}^n(mx_i-y_i)^2,\qquad\frac{dL}{dm}=2\sum_ix_i(mx_i-y_i)=0\iff m=\frac{x\cdot y}{x\cdot x},\qquad\frac{d^2L}{dm^2}=2\,x\cdot x\gt0 .$$
+<p>The second derivative is positive, so this critical point is a minimum.</p>
+
+<h3>Line of best fit with an intercept</h3>
+<p>For $y=c+mx$ there are two unknowns and $L(D,m,c)=\sum(c+mx_i-y_i)^2$. Setting both partial derivatives to zero:</p>
+$$\frac{\partial L}{\partial m}=2\sum x_i(c+mx_i-y_i)=0,\qquad\frac{\partial L}{\partial c}=2\sum(c+mx_i-y_i)=0\ \Rightarrow\ c=\bar y-m\bar x,$$
+<p>where $\bar x,\bar y$ are the means. Solving the pair (Exercise 42):</p>
+$$m=\frac{\sum_i(x_i-\bar x)(y_i-\bar y)}{\sum_i(x_i-\bar x)^2}=\frac{\bigl(\sum x_iy_i\bigr)-n\bar x\bar y}{\bigl(\sum x_i^2\bigr)-n\bar x^2}.$$
+<p>The second derivatives are $\frac{\partial^2L}{\partial m^2}=2\sum x_i^2$, $\frac{\partial^2L}{\partial c^2}=2n$, $\frac{\partial^2L}{\partial m\partial c}=2\sum x_i$, and</p>
+$$\frac14\Bigl[\Bigl(\frac{\partial^2L}{\partial c\,\partial m}\Bigr)^2-\frac{\partial^2L}{\partial m^2}\frac{\partial^2L}{\partial c^2}\Bigr]=\Bigl(\sum x_i\Bigr)^2-n\sum x_i^2=-\sum_{i\lt j}(x_i-x_j)^2\lt0,$$
+<p>so by Proposition 44 ($b^2-ac\lt0$, $a\gt0$) the critical point is a minimum, provided the $x_i$ are not all equal.</p>
+<figure class="lab" data-lab="reg">
+<h4>Fit the line yourself</h4>
+<p>Click or drag in the left plot to move a point (click empty space to move the nearest one). Set the slope by hand and watch the loss; then jump to the optimum. Right: the loss $L$ as a function of $m$.</p>
+<p class="note">The squared-error loss is a parabola in $m$, so it has exactly one lowest point, where $dL/dm=0$. Drag one point far away: the least-squares line follows it somewhat, the max-error ($\infty$-norm) line chases it, and the absolute-error (1-norm) line barely moves. The squares are the errors $e_i^2$ drawn to scale.</p>
+</figure>
+
+<h3>General linear regression</h3>
+<p>With $n$ observations, each a target $y_i$ and $p$ features $x_{i1},\dots,x_{ip}$, the model is $y_i=\beta_0+\beta_1x_{i1}+\dots+\beta_px_{ip}+\epsilon_i$, or in matrix form</p>
+$$y=X\beta+\epsilon,$$
+<p>where $X$ is the $n\times(p+1)$ <b>data matrix</b> whose first column is all ones and whose $i$th row then lists the features of observation $i$; $\beta\in\mathbb R^{p+1}$ are the unknown parameters; $\epsilon$ collects the errors. <b>Ordinary least squares</b> (OLS) picks $\hat\beta$ to minimise the <b>residual sum of squares</b></p>
+$$L(D,\hat\beta)=\hat\epsilon^{\mathsf T}\hat\epsilon=(y-X\hat\beta)^{\mathsf T}(y-X\hat\beta),\qquad\hat y:=X\hat\beta,\quad\hat\epsilon=y-\hat y .$$
+<div class="b thm"><b class="t">Theorem 52</b>$$\hat\beta=(X^{\mathsf T}X)^{-1}X^{\mathsf T}y .$$</div>
+<details class="pf" open><summary>Proof</summary><div>
+<p>Expand: $L=y^{\mathsf T}y-2y^{\mathsf T}X\hat\beta+\hat\beta^{\mathsf T}X^{\mathsf T}X\hat\beta$. Using the two gradient rules above (affine and quadratic, with $M=X^{\mathsf T}X$ symmetric):</p>
+$$\frac{\partial L}{\partial\hat\beta}=-2X^{\mathsf T}y+2X^{\mathsf T}X\hat\beta=0\iff X^{\mathsf T}X\hat\beta=X^{\mathsf T}y\quad\text{(the \textbf{normal equation})}.$$
+<p><b>It is a minimum.</b> The Hessian is $2X^{\mathsf T}X$. For $\hat\beta'$ near $\hat\beta$, with $z=X(\hat\beta'-\hat\beta)$, the second-order term is $2(\hat\beta'-\hat\beta)^{\mathsf T}X^{\mathsf T}X(\hat\beta'-\hat\beta)=2z^{\mathsf T}z\ge0$.</p></div></details>
+
+<h3>Backpropagation <span class="ad">Additional material</span></h3>
+<p>Take two nested functions: $z=\sin(3x)$, i.e. $y=g(x)=3x$ and $z=f(y)=\sin y$. The chain rule gives</p>
+$$\frac{dz}{dx}=\frac{dz}{dy}\cdot\frac{dy}{dx}=(\cos y)(3)=3\cos3x .$$
+<p>Draw this as a <b>computational graph</b>: nodes are operations, $x\to[3x]\to y\to[\sin y]\to z$. The forward pass computes values left to right. The chain rule then runs <b>backwards</b> along the graph, multiplying local derivatives.</p>
+<p>For $g:\mathbb R^p\to\mathbb R^n$, $b=g(a)$, the partial derivative $\frac{\partial b_i}{\partial a_j}$ is the rate at which $b_i$ changes with $a_j$: nudging $a_j$ by $\delta$ moves $b_i$ by about $\frac{\partial b_i}{\partial a_j}\delta$. Compose with $f:\mathbb R^n\to\mathbb R^m$, $c=f(b)$. A change in $a_j$ may affect every $b_k$, and each $b_k$ may affect $c_i$:</p>
+<div class="b thm"><b class="t">Multivariable chain rule</b>$$\frac{\partial c_i}{\partial a_j}=\sum_{k=1}^n\frac{\partial c_i}{\partial b_k}\cdot\frac{\partial b_k}{\partial a_j}.$$ The net change is the <b>sum over every path</b> from $a_j$ to $c_i$ of the product of the derivatives along the path.</div>
+<details class="pf" open><summary>Proof</summary><div><p>Fix $a=a_j$, $c=c_i$. By Taylor, $c(a+\Delta)=c(a)+\Delta\frac{dc}{da}+O(\Delta^2)$. Also $c(a+\Delta)=f\bigl(b_1(a)+\Delta\frac{db_1}{da},\dots,b_n(a)+\Delta\frac{db_n}{da}\bigr)+O(\Delta^2)=c(a)+\Delta\bigl[\nabla f\cdot\bigl(\frac{db_1}{da},\dots,\frac{db_n}{da}\bigr)\bigr]+O(\Delta^2)$. Compare the coefficients of $\Delta$.</p></div></details>
+<div class="b ex"><b class="t">Example · two paths</b>$g:a\mapsto(\sin a,\cos a)=(b_1,b_2)$ and $f:(b_1,b_2)\mapsto4b_1^2+3b_2^2=c$. Then $$\frac{dc}{da}=\frac{\partial c}{\partial b_1}\frac{db_1}{da}+\frac{\partial c}{\partial b_2}\frac{db_2}{da}=(8b_1)(\cos a)+(6b_2)(-\sin a)=8\sin a\cos a-6\cos a\sin a=2\sin a\cos a .$$</div>
+<figure class="lab" data-lab="graph">
+<h4>A computational graph with two paths</h4>
+<p>Forward values are written in the nodes. The numbers on the edges are the local derivatives the backward pass multiplies.</p>
+<p class="note">One input feeds two intermediate values, so its influence on the output is the sum of two products. Check the total against the closed form $2\sin a\cos a$, for any $a$.</p>
+</figure>
+
+<h4>Regression by steepest descent</h4>
+<p>Approximate each $y_i$ by $\hat y_i=w^{\mathsf T}x_i+b$ with weights $w$ and bias $b$, and take the loss for one observation $\ell_i(w,b)=[(w^{\mathsf T}x_i+b)-y_i]^2$. Steepest descent updates $w_j\leftarrow w_j-\eta\frac{\partial\ell_i}{\partial w_j}$, $\ b\leftarrow b-\eta\frac{\partial\ell_i}{\partial b}$. The graph is</p>
+<p style="text-align:center;font-family:var(--mono);font-size:14px">(w, b, x<sub>i</sub>) → [ w<sup>T</sup>x<sub>i</sub> + b ] → ŷ<sub>i</sub> → [ y<sub>i</sub> − ŷ<sub>i</sub> ] → r<sub>i</sub> → [ r<sub>i</sub><sup>2</sup> ] → ℓ<sub>i</sub></p>
+<p>and working backwards from the output:</p>
+<ul>
+<li>$\dfrac{\partial\ell_i}{\partial r_i}=2r_i$</li>
+<li>$\dfrac{\partial\ell_i}{\partial\hat y_i}=\dfrac{\partial\ell_i}{\partial r_i}\cdot\dfrac{\partial r_i}{\partial\hat y_i}=(2r_i)(-1)=-2r_i$</li>
+<li>$\dfrac{\partial\ell_i}{\partial w_j}=\dfrac{\partial\ell_i}{\partial\hat y_i}\cdot\dfrac{\partial\hat y_i}{\partial w_j}=-2r_i(x_i)_j$</li>
+<li>$\dfrac{\partial\ell_i}{\partial b}=\dfrac{\partial\ell_i}{\partial\hat y_i}\cdot\dfrac{\partial\hat y_i}{\partial b}=-2r_i$</li>
+</ul>
+<p>There is no summation here because there is only one path through this graph.</p>
+<figure class="lab" data-lab="backprop">
+<h4>Train a line by backpropagation</h4>
+<p>Top: the data and the current line $\hat y=wx+b$. Bottom: the loss after each update. Each step runs the forward pass, then the backward pass above, averaged over all points, then updates $w$ and $b$.</p>
+<p class="note">The readout shows the forward and backward numbers for one observation. Gradient descent walks to the same line that the formula $(X^{\mathsf T}X)^{-1}X^{\mathsf T}y$ gives in one shot; with too large an $\eta$ the loss goes up instead of down.</p>
+</figure>
+
+<h4>From a line to a neural network</h4>
+<p>Backpropagation is how deep networks are trained, for instance to recognise handwritten digits. Consider a network with three input units, two hidden units and one output unit. Each hidden unit computes $u^{(1,k)}=(w^{(1,k)})^{\mathsf T}x_i+b^{(1,k)}$ and passes it through an activation, $v^{(1,k)}=\sigma(u^{(1,k)})$. The output unit computes $u^{(2)}=(w^{(2)})^{\mathsf T}v+b^{(2)}$, $\hat y_i=\sigma(u^{(2)})$, and then $r_i=y_i-\hat y_i$, $\ell_i=r_i^2$ as before. It is the same computational graph, only wider and deeper, and now the gradient with respect to an input-layer weight sums over paths through the hidden layer.</p>
+<figure class="lab" data-lab="nn">
+<h4>A 3–2–1 network, forwards and backwards</h4>
+<p>A tiny network with sigmoid activations and one training example. Edge thickness shows the size of a weight, colour its sign. Press Step to do one update of every weight by gradient descent.</p>
+<p class="note">The forward pass fills in the nodes from left to right. The backward pass sends $\partial\ell/\partial(\cdot)$ from right to left, reusing each node's result for everything upstream of it. That reuse is what makes backpropagation cheap. The loss falls step by step as the output approaches the target.</p>
+</figure>
+<details class="exr"><summary>Exercise 1 — polar coordinates</summary><div><p>$g:(r,\theta)\mapsto(r\cos\theta,r\sin\theta)=(x,y)$, $f:(x,y)\mapsto x^2-y^2=c$. Chain rule: $\frac{\partial c}{\partial r}=2x\cos\theta-2y\sin\theta=2r(\cos^2\theta-\sin^2\theta)=2r\cos2\theta$. $\ \frac{\partial c}{\partial\theta}=2x(-r\sin\theta)-2y(r\cos\theta)=-4r^2\sin\theta\cos\theta=-2r^2\sin2\theta$. Check: $c=r^2\cos2\theta$.</p></div></details>
+</section>
+
+<section class="ch" id="ch-epilogue" data-t="Epilogue">
+<header>
+<p class="eyebrow">Chapter 15</p>
+<h2>Epilogue</h2>
+<p class="lede">The two stories from Chapter 2, finished.</p>
+</header>
+<p>In Seoul the game's fortunes turned. A less confident Sedol made questionable moves at stones 119 and 123, then a losing move at 129. <b>AlphaGo won.</b> Of the five games played between 9 and 15 March 2016, Sedol won only one. He remains the only human ever to have beaten AlphaGo. On 27 November 2019 the BBC reported that he had decided to retire because of the rise of AI that "cannot be defeated": "I'm not at the top even if I become the number one."</p>
+<p>And the Navy was wrong about its 1958 perceptron. In the 1960s Marvin Minsky published a proof of its theoretical limits: a single perceptron can only learn to classify data that is <b>linearly separable</b>. But when many perceptrons are combined, so that the outputs of some become the inputs of others, the result is a <b>neural network</b>, which does not have that limitation. Such networks are now producing machines that do the things the Navy promised, only long after the one-year deadline and at a far higher cost. The principles behind Rosenblatt's perceptron helped spark the modern AI revolution: deep learning classifies images and translates languages.</p>
+<p>What trains those networks is the content of this course. A loss function of many variables (<a href="#multivariate">Chapter 11</a>), a sequence of iterates that we need to converge (<a href="#sequences">Chapter 5</a>), steps taken down the gradient (<a href="#numerical">Chapter 12</a>), and derivatives computed by the chain rule along a graph (<a href="#vectors">Chapter 14</a>).</p>
+<blockquote>"Why should that apple always descend perpendicularly to the ground," thought he to himself… "Assuredly, the reason is, that the earth draws it. There must be a drawing power in matter."</blockquote>
+</section>
+</main></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
